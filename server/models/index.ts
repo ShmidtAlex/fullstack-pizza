@@ -1,4 +1,4 @@
-const sequelize = require('../db');
+const sequelize = require('../db.ts');
 const { DataTypes } = require('sequelize');
 
 const User = sequelize.define('user', {
@@ -18,11 +18,9 @@ const Pizza = sequelize.define('pizza', {
   name: { type: DataTypes.STRING, allowNull: false },
   img: { type: DataTypes.STRING, allowNull: false },
 })
-const Size = sequelize.define('size', {
-  id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
-  name: {
-    type: DataTypes.INTEGER
-  }
+
+const AvailableSize = sequelize.define('size', {
+  id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true }
 })
 const Price = sequelize.define('price', {
   id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
@@ -37,18 +35,17 @@ const Pastry = sequelize.define('pastry', {
 })
 const Nutrition = sequelize.define('nutrition', {
   id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
-  // pizza_id: { type: DataTypes.INTEGER, primaryKey: false } we don't need external keys, because sequelize do it itself, when we set relations
   protein: { type: DataTypes.INTEGER, allowNull: false },
   fats: { type: DataTypes.INTEGER, allowNull: false },
   carbohydrates: { type: DataTypes.INTEGER, allowNull: false },
   energy: { type: DataTypes.INTEGER, allowNull: false }
 })
-const Set = sequelize.define('set', {
+const IngredientsSet = sequelize.define('set', {
   id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true }
 })
 const Ingredient = sequelize.define('ingredient', {
   id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
-  name: { type: DataTypes.STRING, allowNull: true }
+  name: { type: DataTypes.STRING, allowNull: false }
 })
 const PastryPizza = sequelize.define('pastry_pizza', {
   id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true }
@@ -56,11 +53,32 @@ const PastryPizza = sequelize.define('pastry_pizza', {
 const SetIngredient = sequelize.define('set_ingredient', {
   id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true }
 })
+const PizzaSize = sequelize.define('pizza_size', {
+  id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true }
+});
+const PizzaSizePrice = sequelize.define('pizza_size_price', {
+  id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true }
+});
+
+User.hasOne(Cart)
+Cart.belongsTo(User)
+
 Pizza.hasMany(Price);
 Price.belongsTo(Pizza);
 
-Size.hasMany(Price);
-Price.belongsTo(Size);
+Pizza.hasMany(AvailableSize);
+
+Pizza.belongsToMany(AvailableSize, { through: PizzaSize });
+AvailableSize.belongsToMany(Pizza, { through: PizzaSize });
+
+Pizza.belongsToMany(AvailableSize, { through: PizzaSizePrice });
+AvailableSize.belongsToMany(Pizza, { through: PizzaSizePrice });
+
+Pizza.belongsToMany(Price, { through: PizzaSizePrice });
+Price.belongsToMany(Pizza, { through: PizzaSizePrice });
+
+AvailableSize.hasMany(Price);
+Price.belongsTo(AvailableSize);
 
 Cart.hasMany(CartPizza);
 CartPizza.belongsTo(Cart);
@@ -74,12 +92,12 @@ Pastry.belongsToMany(Pizza, { through: PastryPizza });
 Pizza.hasOne(Nutrition);
 Nutrition.belongsTo(Pizza);
 
-Pizza.hasOne(Set);
-Set.belongsTo(Pizza)
+Pizza.hasOne(IngredientsSet);
+IngredientsSet.belongsTo(Pizza)
 
-Set.hasMany(Ingredient);
-Ingredient.belongsToMany(Set, { through: SetIngredient })
+IngredientsSet.hasMany(Ingredient);
+Ingredient.belongsToMany(IngredientsSet, { through: SetIngredient })
 
 module.exports = {
-  Pizza, Size, Price, User, Cart, Nutrition, CartPizza, Set, Ingredient
+  Pizza, AvailableSize, Price, User, Cart, Nutrition, CartPizza, IngredientsSet, Ingredient
 }
