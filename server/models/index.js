@@ -19,8 +19,9 @@ const Pizza = sequelize.define('pizza', {
   img: { type: DataTypes.STRING, allowNull: false },
 })
 
-const AvailableSize = sequelize.define('size', {
-  id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true }
+const Size = sequelize.define('size', {
+  id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
+  value: { type: DataTypes.INTEGER, allowNull: false }
 })
 const Price = sequelize.define('price', {
   id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
@@ -54,7 +55,8 @@ const SetIngredient = sequelize.define('set_ingredient', {
   id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true }
 })
 const PizzaSize = sequelize.define('pizza_size', {
-  id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true }
+  id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
+  value: { type: DataTypes.INTEGER, allowNull: false}
 });
 const PizzaSizePrice = sequelize.define('pizza_size_price', {
   id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true }
@@ -66,19 +68,19 @@ Cart.belongsTo(User)
 Pizza.hasMany(Price);
 Price.belongsTo(Pizza);
 
-Pizza.hasMany(AvailableSize);
+Pizza.hasMany(Size);
 
-Pizza.belongsToMany(AvailableSize, { through: PizzaSize });
-AvailableSize.belongsToMany(Pizza, { through: PizzaSize });
+Pizza.belongsToMany(Size, { through: PizzaSize });
+Size.belongsToMany(Pizza, { through: PizzaSize });
 
-Pizza.belongsToMany(AvailableSize, { through: PizzaSizePrice });
-AvailableSize.belongsToMany(Pizza, { through: PizzaSizePrice });
+Pizza.belongsToMany(Size, { through: PizzaSizePrice });
+Size.belongsToMany(Pizza, { through: PizzaSizePrice });
 
 Pizza.belongsToMany(Price, { through: PizzaSizePrice });
 Price.belongsToMany(Pizza, { through: PizzaSizePrice });
 
-AvailableSize.hasMany(Price);
-Price.belongsTo(AvailableSize);
+Size.hasMany(Price);
+Price.belongsTo(Size);
 
 Cart.hasMany(CartPizza);
 CartPizza.belongsTo(Cart);
@@ -99,5 +101,5 @@ IngredientsSet.hasMany(Ingredient);
 Ingredient.belongsToMany(IngredientsSet, { through: SetIngredient })
 
 module.exports = {
-  Pizza, AvailableSize, Price, User, Cart, Nutrition, CartPizza, IngredientsSet, Ingredient
+  Pizza, Size, Price, User, Cart, Nutrition, CartPizza, IngredientsSet, Ingredient
 }
