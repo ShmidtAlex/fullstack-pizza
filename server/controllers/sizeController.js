@@ -3,10 +3,7 @@ const { Size } = require('../models/index')
 
 class SizeController {
   async createSize(req, res) {
-
     const { value } = req.body
-    console.log(value)
-    console.log(Size.tableName);
     const size = await Size.create({ value })
     return res.json(size)
   }
