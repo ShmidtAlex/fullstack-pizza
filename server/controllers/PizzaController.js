@@ -6,7 +6,6 @@ const {
   Price,
   Nutrition,
   Pastry,
-  IngredientsSet,
   Ingredient,
   PizzaSizePrice,
   PizzaSize,
@@ -81,10 +80,8 @@ class PizzaController {
       }
       if (!!ingredients) {
         ingredients = JSON.parse(ingredients);
-        console.log('INGREDIENTS',ingredients)
-        const ingredientsSet = await IngredientsSet.create({});
-
         for (const ingredient of ingredients) {
+          console.log('INGREDIENT', ingredient)
           await Ingredient.create({
             name: ingredient.value,
             price: ingredient.price,
@@ -92,8 +89,6 @@ class PizzaController {
           });
         }
 
-        // Assign the ingredientsSetId to the pizza
-        pizza.ingredientsSetId = ingredientsSet.id;
         await pizza.save();
       }
       res.json(pizza)
@@ -124,7 +119,7 @@ class PizzaController {
   }
 
   async getAllPizzas (req, res) {
-    const pizzas = await Pizza.findAll({ include: { all: true}})
+    const pizzas = await Pizza.findAll({ include: { all: true }})
     return res.json(pizzas)
   }
 }
