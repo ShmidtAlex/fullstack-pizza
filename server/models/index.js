@@ -15,6 +15,11 @@ const Cart = sequelize.define('cart', {
     unique: true,
   },
 })
+const Order = sequelize.define('order', {
+  id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
+  totalPrice: { type: DataTypes.FLOAT, allowNull: false },
+  status: { type: DataTypes.STRING, allowNull: false, defaultValue: 'pending' }, // You can add more status values like 'completed', 'cancelled', etc.
+});
 const CartPizza = sequelize.define('cart_pizza', {
   id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
 })
@@ -49,9 +54,6 @@ const Nutrition = sequelize.define('nutrition', {
   carbohydrates: { type: DataTypes.INTEGER, allowNull: false },
   energy: { type: DataTypes.INTEGER, allowNull: false }
 })
-const IngredientsSet = sequelize.define('set', {
-  id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true }
-})
 const Ingredient = sequelize.define('ingredient', {
   id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
   name: { type: DataTypes.STRING, allowNull: false },
@@ -59,9 +61,6 @@ const Ingredient = sequelize.define('ingredient', {
   pizzaId: { type: DataTypes.INTEGER, allowNull: false }
 })
 const PastryPizza = sequelize.define('pastry_pizza', {
-  id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true }
-})
-const SetIngredient = sequelize.define('set_ingredient', {
   id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true }
 })
 const PizzaSize = sequelize.define('pizza_size', {
@@ -73,6 +72,12 @@ const PizzaSizePrice = sequelize.define('pizza_size_price', {
 
 User.hasOne(Cart)
 Cart.belongsTo(User)
+
+User.hasMany(Order);
+Order.belongsTo(User);
+
+Cart.hasMany(Order);
+Order.belongsTo(Cart);
 
 Pizza.hasMany(Price);
 Price.belongsTo(Pizza);
@@ -94,7 +99,6 @@ Price.belongsTo(Size);
 Cart.hasMany(CartPizza);
 CartPizza.belongsTo(Cart);
 
-Pizza.hasMany(CartPizza);
 CartPizza.belongsTo(Pizza);
 
 Pizza.hasMany(Pastry, { as: 'pastryTypes'});
@@ -102,12 +106,6 @@ Pastry.belongsToMany(Pizza, { through: PastryPizza });
 
 Pizza.hasOne(Nutrition, { as: 'nutrition', foreignKey: 'pizzaId'});
 Nutrition.belongsTo(Pizza, { foreignKey: 'pizzaId' });
-
-Pizza.hasOne(IngredientsSet);
-IngredientsSet.belongsTo(Pizza)
-
-Ingredient.belongsToMany(IngredientsSet, { through: 'IngredientIngredientsSet' });
-IngredientsSet.belongsToMany(Ingredient, { through: 'IngredientIngredientsSet' });
 
 module.exports = {
   Pizza,
@@ -117,10 +115,10 @@ module.exports = {
   Cart,
   Nutrition,
   CartPizza,
-  IngredientsSet,
   Ingredient,
   Pastry,
   PizzaSizePrice,
   PizzaSize,
-  PastryPizza
+  PastryPizza,
+  Order
 }
