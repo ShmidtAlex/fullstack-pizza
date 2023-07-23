@@ -9,7 +9,8 @@ const {
   Ingredient,
   PizzaSizePrice,
   PizzaSize,
-  PastryPizza
+  PastryPizza,
+  PizzaIngredient
 } = require("../models");
 const ApiError = require('../error/ApiError');
 
@@ -81,11 +82,18 @@ class PizzaController {
       if (!!ingredients) {
         ingredients = JSON.parse(ingredients);
         for (const ingredient of ingredients) {
-          console.log('INGREDIENT', ingredient)
-          await Ingredient.create({
-            name: ingredient.value,
-            price: ingredient.price,
-            pizzaId: pizza.id
+          let existingIngredient = await Ingredient.findOne({ where: { name: ingredient.value } });
+
+          if (!existingIngredient) {
+            existingIngredient = await Ingredient.create({
+
+              name: ingredient.value,
+              price: ingredient.price,
+            });
+          }
+          await PizzaIngredient.create({
+            pizzaId: pizza.id,
+            ingredientId: existingIngredient.id,
           });
         }
 
