@@ -12,9 +12,6 @@ class UserController {
     if (!email || !password) {
       return next(ApiError.badRequest('Wrong email or password'));
     }
-   
-   
-
     const defaultRoleId = 1
     const assignedRoles = [defaultRoleId]
     if (role) {
@@ -36,7 +33,6 @@ class UserController {
     // add all roles to UserRole table
     await Promise.all(
       assignedRoles.map( async (roleId) => {
-        console.log('ROLE_ID', roleId)
         await UserRole.create({ userId: user.id, roleId: roleId })
       })
     )
@@ -44,27 +40,33 @@ class UserController {
     const cart = await Cart.create({ userId: user.id })
     const token = generateJWT({ id: user.id, email: user.email, role }, process.env.SECRET_KEY, { expiresIn: '24h' }, (err, token) => {
       if (err) {
-        // Handle the error
-        console.error('Error creating token:', err);
-        // ...
+        return next(ApiError.internal(`token have not been generated ${err}`))
       } else {
-        // Use the generated token
-        console.log('Generated token:', token);
         return res.json({ token })
-        // ...
       }
     })
-
   }
-  async login(req, res) {
-
+  async login(req, res, next) {
+    const { email, password } = req.body
+    const userExists = await User.findOne({ where: { email }})
+    if (!userExists) {
+      return next(ApiError.badRequest('No user with such an email'));
+    }
+    let comparePassword = bcrypt.compareSync(password, userExists.password)
+    if (!comparePassword) {
+      return next(ApiError.badRequest('Wrong password'));
+    }
+    const token = generateJWT({ id: userExists.id, email: userExists.email }, process.env.SECRET_KEY, { expiresIn: '24h' }, (err, token) => {
+      if (err) {
+        return next(ApiError.internal(`token have not been generated ${err}`))
+      } else {
+        return res.json({ token })
+      }
+    })
   }
   async checkIsAuth(req, res, next) {
-      const {id} = req.query
-      if (!id) {
-        return next(ApiError.badRequest('no  id found'))
-      }
-      res.json(id)
+      const token = generateJWT(req.user.id, req.user.email, req.user.role)
+      return res.json({ token })
   }
   async deleteUser(req, res) {
 
