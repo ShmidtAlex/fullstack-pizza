@@ -7,3 +7,5 @@ router.delete('/', cartController.removeCart);
 router.get('/:id', cartController.getCart); // ??????
 
 module.exports = router
+
+// Todo: There should be only methods to get statistics

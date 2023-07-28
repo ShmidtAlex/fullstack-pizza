@@ -8,3 +8,5 @@ router.get('/', ingredientController.getAllIngredients)
 router.get('/:id', ingredientController.getIngredient);
 
 module.exports = router
+
+// Todo: There should be only patches for existed ingredients
