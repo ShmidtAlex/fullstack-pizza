@@ -56,7 +56,7 @@ class UserController {
     if (!comparePassword) {
       return next(ApiError.badRequest('Wrong password'));
     }
-    const token = generateJWT({ id: userExists.id, email: userExists.email }, process.env.SECRET_KEY, { expiresIn: '24h' }, (err, token) => {
+    const token = generateJWT({ id: userExists.id, email: userExists.email, role: userExists.role }, process.env.SECRET_KEY, { expiresIn: '24h' }, (err, token) => {
       if (err) {
         return next(ApiError.internal(`token have not been generated ${err}`))
       } else {
