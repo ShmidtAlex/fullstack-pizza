@@ -16,7 +16,7 @@ class UserController {
     const assignedRoles = [defaultRoleId]
     if (role) {
       const specifiedRole = await Role.findOne({ where: { name: role }})
-      console.log('SPECIFIED_ROLE', specifiedRole.id)
+
       if (specifiedRole) {
        assignedRoles.push(specifiedRole.id)
       }
