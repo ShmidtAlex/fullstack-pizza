@@ -8,3 +8,5 @@ router.get('/:id', priceController.getPrice);
 router.get('/', priceController.getAllPrices); // for management only ?
 
 module.exports = router
+
+// Todo: There should be only patches for existed prices
