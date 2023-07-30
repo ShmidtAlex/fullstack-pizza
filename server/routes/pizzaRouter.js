@@ -3,7 +3,7 @@ const router = new Router();
 const pizzaController = require('../controllers/PizzaController');
 const checkRoleMiddleware = require('../middleware/checkRoleMiddleware')
 
-router.post('/', checkRoleMiddleware('ADMIN'), pizzaController.updatePizza.createPizza);
+router.post('/', checkRoleMiddleware('ADMIN'), pizzaController.createPizza);
 
 router.get('/:id', pizzaController.getPizza); // there are concerns if we really need it, rather for item management
 router.delete('/:id', checkRoleMiddleware('ADMIN'), pizzaController.removePizza);
