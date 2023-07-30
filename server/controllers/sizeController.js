@@ -7,6 +7,9 @@ class SizeController {
     const size = await Size.create({ value })
     return res.json(size)
   }
+  async updateSize(req, res) {
+
+  }
   async removeSize(req, res) {
 
   }

@@ -107,6 +107,9 @@ class PizzaController {
   async removePizza(req, res) {
 
   }
+  async updatePizza(req, res) {
+
+  }
   async getPizza(req, res, next) {
     try {
       const { id } = req.params;

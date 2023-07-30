@@ -9,6 +9,9 @@ class PriceController {
   async removePrice(req, res) {
 
   }
+  async updatePrice(req, res) {
+
+  }
   async getPrice(req, res) {
 
   }

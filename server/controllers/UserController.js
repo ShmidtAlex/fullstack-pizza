@@ -68,6 +68,9 @@ class UserController {
       const token = generateJWT(req.user.id, req.user.email, req.user.role)
       return res.json({ token })
   }
+  async updateUser(req, res) {
+
+  }
   async deleteUser(req, res) {
 
   }

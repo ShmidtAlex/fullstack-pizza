@@ -9,6 +9,9 @@ class IngredientController {
   async removeIngredient(req, res) {
 
   }
+  async updateIngredient(req, res) {
+
+  }
   async getIngredient(req, res) {
 
   }
