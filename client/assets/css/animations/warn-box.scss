@@ -1,0 +1,29 @@
+@keyframes warn-text {
+  0% {
+    border: 1px solid white;
+  }
+  12.5% {
+    border: 2px solid crimson;
+  }
+  25% {
+    border: 1px solid white;
+  }
+  37.5% {
+    border: 2px solid crimson;
+  }
+  50% {
+    border: 1px solid white;
+  }
+  62.5% {
+    border: 2px solid crimson;
+  }
+  75% {
+    border: 1px solid white;
+  }
+  87.5% {
+    border: 2px solid crimson;
+  }
+  100% {
+    border: 1px solid white;
+  }
+}

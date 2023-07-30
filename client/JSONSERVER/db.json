@@ -1,0 +1,519 @@
+{
+  "pizzasData": [
+    {
+      "id": 0,
+      "name": "Mozzarella and pepperoni",
+      "addons": [
+        { "id": 1, "value": "mushrooms", "price": 1 },
+        { "id": 2, "value": "pepperoni", "price": 1 },
+        { "id": 3, "value": "mozzarella", "price": 0.5 }
+      ],
+      "description": "Traditional Italian recipe with two types of cheese: grated Mozzarella and classic chillegini; spicy pepperoni, mushrooms and blend of seasonings",
+      "nutrition": {
+        "protein": 13,
+        "fats": 9,
+        "carbohydrates": 37,
+        "energy": [280, 1170]
+      },
+      "types": [
+        {
+          "id": 1,
+          "value": "Traditional"
+        },
+        {
+          "id": 2,
+          "value": "Thin"
+        }
+      ],
+      "sizes": [
+        {
+          "id": 1,
+          "value": 23
+        },
+        {
+          "id": 2,
+          "value": 30
+        },
+        {
+          "id": 3,
+          "value": 35
+        },
+        {
+          "id": 4,
+          "value": 40
+        }
+      ],
+      "prices": [
+        {
+          "id": 1,
+          "value": 5
+        },
+        {
+          "id": 2,
+          "value": 7
+        },
+        {
+          "id": 3,
+          "value": 8.5
+        },
+        {
+          "id": 4,
+          "value": 10.5
+        }
+      ],
+      "imgSrc": "/italian-mozzarela-pepperoni.jpg"
+    },
+    {
+      "id": 1,
+      "name": "Lent Bruschetta",
+      "addons": [],
+      "description": "Large bruschetta with fresh vegetables: tomatoes, sweet peppers, olives, onions, garlic and green basil on a crispy dough",
+      "nutrition": {
+        "protein": 13,
+        "fats": 9,
+        "carbohydrates": 37,
+        "energy": [280, 1170]
+      },
+      "types": [
+        {
+          "id": 1,
+          "value": "Thin"
+        }
+      ],
+      "sizes": [
+        {
+          "id": 3,
+          "value": 35
+        }
+      ],
+      "prices": [
+        {
+          "id": 3,
+          "value": 7.5
+        }
+      ],
+      "imgSrc": "/brusketa.jpg"
+    },
+    {
+      "id": 2,
+      "name": "Salmon",
+      "addons": [
+        { "id": 4, "value": "tomatoes", "price": 0.5 },
+        { "id": 3, "value": "mozzarella", "price": 0.5 }
+      ],
+      "description": "The long-awaited pizza! Fresh taste! Bold mix of salmon fish with mozzarella cheese, cream cheese and tomatoes",
+      "nutrition": {
+        "protein": 14,
+        "fats": 10,
+        "carbohydrates": 42,
+        "energy": [310, 1300]
+      },
+      "types": [
+        {
+          "id": 1,
+          "value": "Traditional"
+        },
+        {
+          "id": 2,
+          "value": "Thin"
+        }
+      ],
+      "sizes": [
+        {
+          "id": 2,
+          "value": 30
+        },
+        {
+          "id": 3,
+          "value": 35
+        }
+      ],
+      "prices": [
+        {
+          "id": 2,
+          "value": 10
+        },
+        {
+          "id": 3,
+          "value": 12
+        }
+      ],
+      "imgSrc": "/red-fish.jpg"
+    },
+    {
+      "id": 3,
+      "name": "Chicken blue cheese",
+      "addons": [{ "id": 8, "value": "chicken", "price": 1 }],
+      "description": "Perfect combination: tender chicken fillet with blue cheese crumbles, Parmeggiano sauce, mix of Italian cheeses and Mozzarella cheese.",
+      "nutrition": {
+        "protein": 13,
+        "fats": 13,
+        "carbohydrates": 36,
+        "energy": [310, 1300]
+      },
+      "types": [
+        {
+          "id": 1,
+          "value": "Traditional"
+        },
+        {
+          "id": 2,
+          "value": "Thin"
+        }
+      ],
+      "sizes": [
+        {
+          "id": 1,
+          "value": 23
+        },
+        {
+          "id": 2,
+          "value": 30
+        },
+        {
+          "id": 3,
+          "value": 35
+        },
+        {
+          "id": 4,
+          "value": 40
+        }
+      ],
+      "prices": [
+        {
+          "id": 1,
+          "value": 6
+        },
+        {
+          "id": 2,
+          "value": 7.5
+        },
+        {
+          "id": 3,
+          "value": 9.5
+        },
+        {
+          "id": 4,
+          "value": 11.5
+        }
+      ],
+      "imgSrc": "/chicken-blue-cheese.png"
+    },
+    {
+      "id": 4,
+      "name": "Favorite Carbonara",
+      "addons": [
+        { "id": 4, "value": "tomatoes", "price": 0.5 },
+        { "id": 6, "value": "onion", "price": 0.5 },
+        { "id": 5, "value": "bacon", "price": 1 },
+        { "id": 3, "value": "mozzarella", "price": 0.5 }
+      ],
+      "description": "Classic favorite recipe: crispy bacon, cream cheese, juicy tomatoes, onions, Mozzarella and Italian herbs blend.\n",
+      "nutrition": {
+        "protein": 11,
+        "fats": 8,
+        "carbohydrates": 35,
+        "energy": [260, 1090]
+      },
+      "types": [
+        {
+          "id": 1,
+          "value": "Traditional"
+        },
+        {
+          "id": 2,
+          "value": "Thin"
+        }
+      ],
+      "sizes": [
+        {
+          "id": 1,
+          "value": 23
+        },
+        {
+          "id": 2,
+          "value": 30
+        },
+        {
+          "id": 3,
+          "value": 35
+        },
+        {
+          "id": 4,
+          "value": 40
+        }
+      ],
+      "prices": [
+        {
+          "id": 1,
+          "value": 6.7
+        },
+        {
+          "id": 2,
+          "value": 7.5
+        },
+        {
+          "id": 3,
+          "value": 9.7
+        },
+        {
+          "id": 4,
+          "value": 12.5
+        }
+      ],
+      "imgSrc": "/carbonara.png"
+    },
+    {
+      "id": 5,
+      "name": "Chicken BBQ",
+      "addons": [
+        { "id": 6, "value": "onion", "price": 0.5 },
+        { "id": 5, "value": "bacon", "price": 1 },
+        { "id": 3, "value": "mozzarella", "price": 0.5 },
+        { "id": 8, "value": "chicken", "price": 1 }
+      ],
+      "description": "Juicy chicken fillet and crispy bacon combined with signature tomato sauce, Mozzarella and onion.",
+      "nutrition": {
+        "protein": 11,
+        "fats": 7,
+        "carbohydrates": 37,
+        "energy": [260, 1090]
+      },
+      "types": [
+        {
+          "id": 1,
+          "value": "Traditional"
+        },
+        {
+          "id": 2,
+          "value": "Thin"
+        }
+      ],
+      "sizes": [
+        {
+          "id": 1,
+          "value": 23
+        },
+        {
+          "id": 2,
+          "value": 30
+        },
+        {
+          "id": 3,
+          "value": 35
+        },
+        {
+          "id": 4,
+          "value": 40
+        }
+      ],
+      "prices": [
+        {
+          "id": 1,
+          "value": 5.5
+        },
+        {
+          "id": 2,
+          "value": 6.5
+        },
+        {
+          "id": 3,
+          "value": 8.5
+        },
+        {
+          "id": 4,
+          "value": 11.5
+        }
+      ],
+      "imgSrc": "/Chicken-BBQ-traditional.jpg"
+    },
+    {
+      "id": 6,
+      "name": "Pepperoni",
+      "addons": [
+        { "id": 2, "value": "pepperoni", "price": 1 },
+        { "id": 3, "value": "mozzarella", "price": 0.5 }
+      ],
+      "description": "American classic with spicy pepperoni, Mozzarella and signature tomato sauce.",
+      "nutrition": {
+        "protein": 15,
+        "fats": 12,
+        "carbohydrates": 43,
+        "energy": [340, 1470]
+      },
+      "types": [
+        {
+          "id": 1,
+          "value": "Traditional"
+        },
+        {
+          "id": 2,
+          "value": "Thin"
+        }
+      ],
+      "sizes": [
+        {
+          "id": 1,
+          "value": 23
+        },
+        {
+          "id": 2,
+          "value": 30
+        },
+        {
+          "id": 3,
+          "value": 35
+        },
+        {
+          "id": 4,
+          "value": 40
+        }
+      ],
+      "prices": [
+        {
+          "id": 1,
+          "value": 6.5
+        },
+        {
+          "id": 2,
+          "value": 8
+        },
+        {
+          "id": 3,
+          "value": 9.5
+        },
+        {
+          "id": 4,
+          "value": 13
+        }
+      ],
+      "imgSrc": "/Pepperoni-traditional.jpg"
+    },
+    {
+      "id": 7,
+      "name": "Margherita",
+      "addons": [
+        { "id": 9, "value": "oregano", "price": 0.5 },
+        { "id": 4, "value": "tomatoes", "price": 0.5 },
+        { "id": 3, "value": "mozzarella", "price": 0.5 }
+      ],
+      "description": "Traditional recipe with signature tomato sauce, Mozzarella, oregano and juicy tomatoes.",
+      "nutrition": {
+        "protein": 13,
+        "fats": 9,
+        "carbohydrates": 37,
+        "energy": [280, 1170]
+      },
+      "types": [
+        {
+          "id": 1,
+          "value": "Traditional"
+        },
+        {
+          "id": 2,
+          "value": "Thin"
+        }
+      ],
+      "sizes": [
+        {
+          "id": 1,
+          "value": 23
+        },
+        {
+          "id": 2,
+          "value": 30
+        },
+        {
+          "id": 3,
+          "value": 35
+        },
+        {
+          "id": 4,
+          "value": 40
+        }
+      ],
+      "prices": [
+        {
+          "id": 1,
+          "value": 4.5
+        },
+        {
+          "id": 2,
+          "value": 6
+        },
+        {
+          "id": 3,
+          "value": 8
+        },
+        {
+          "id": 4,
+          "value": 10.5
+        }
+      ],
+      "imgSrc": "/Margherita-traditional.jpg"
+    },
+    {
+      "id": 8,
+      "name": "Hawaiian",
+      "addons": [
+        { "id": 10, "value": "ham", "price": 1 },
+        { "id": 7, "value": "pineapples", "price": 1 },
+        { "id": 3, "value": "mozzarella", "price": 0.5 }
+      ],
+      "description": "Tropical classic with flavorful ham, tomato sauce and Mozzarella combined with pineapple bits.",
+      "nutrition": {
+        "protein": 11,
+        "fats": 6,
+        "carbohydrates": 39,
+        "energy": [250, 1070]
+      },
+      "types": [
+        {
+          "id": 1,
+          "value": "Traditional"
+        },
+        {
+          "id": 2,
+          "value": "Thin"
+        }
+      ],
+      "sizes": [
+        {
+          "id": 1,
+          "value": 23
+        },
+        {
+          "id": 2,
+          "value": 30
+        },
+        {
+          "id": 3,
+          "value": 35
+        },
+        {
+          "id": 4,
+          "value": 40
+        }
+      ],
+      "prices": [
+        {
+          "id": 1,
+          "value": 6
+        },
+        {
+          "id": 2,
+          "value": 8
+        },
+        {
+          "id": 3,
+          "value": 10
+        },
+        {
+          "id": 4,
+          "value": 13.5
+        }
+      ],
+      "imgSrc": "/Hawai-traditional.jpg"
+    }
+  ]
+}
