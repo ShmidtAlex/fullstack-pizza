@@ -8,6 +8,7 @@ router.post('/registration', userController.registration);
 router.post('/login', userController.login);
 router.get('/auth', authMiddleware, userController.checkIsAuth);
 router.get('/', userController.getAllUsers);
-router.delete('/delete', checkRoleMiddleware('ADMIN'), userController.deleteUser)
+router.delete('/delete/:id', checkRoleMiddleware('ADMIN'), userController.deleteUser)
+router.patch('/delete/:id', userController.updateUser)
 
 module.exports = router

@@ -1,11 +1,14 @@
 const Router = require('express');
 const router = new Router();
 const sizeController = require('../controllers/sizeController')
+const checkRoleMiddleware = require("../middleware/checkRoleMiddleware");
 
-router.post('/', sizeController.createSize);
-router.delete('/', sizeController.removeSize);
+router.post('/', checkRoleMiddleware('ADMIN'), sizeController.createSize);
+
 router.get('/:id', sizeController.getSize);
-router.get('/', sizeController.getAllSizes);
-module.exports = router
+router.delete('/:id', checkRoleMiddleware('ADMIN'), sizeController.removeSize);
+router.patch('/:id', checkRoleMiddleware(['ADMIN', 'REDACTOR']), sizeController.updateSize)
 
-// Todo: There should be only patches for existed sizes or delete it
+router.get('/', sizeController.getAllSizes);
+
+module.exports = router

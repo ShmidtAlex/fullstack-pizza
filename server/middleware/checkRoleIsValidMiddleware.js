@@ -8,9 +8,9 @@ async function isValidUserRole(userId, role) {
       // User not found, role is not valid
       return false;
     }
-
-    // Check if the user's role matches the expected role
-    console.log('CHECK_ROLE_IS_VALID', user.role, role)
+    if (Array.isArray(role)) {
+      return role.includes(user.role)
+    }
     return user.role === role;
   } catch (error) {
     // Handle database errors appropriately
