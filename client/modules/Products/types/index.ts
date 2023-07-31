@@ -59,7 +59,7 @@ export interface IPizzaData {
   types: IPizzaSubObjectUnit[];
   sizes: IPizzaSubObjectUnit[];
   prices: IPizzaSubObjectUnit[];
-  imgSrc: string;
+  img: string;
 }
 export interface IFinalObjectForCart {
   id?: number;
