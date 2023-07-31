@@ -41,7 +41,8 @@ const CartPizza = sequelize.define('cart_pizza', {
 const Pizza = sequelize.define('pizza', {
   id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
   name: { type: DataTypes.STRING, allowNull: false, unique: true },
-  img: { type: DataTypes.STRING, allowNull: false }
+  img: { type: DataTypes.STRING, allowNull: false },
+  description: { type: DataTypes.STRING, allowedNull: false }
 })
 
 const Size = sequelize.define('size', {
@@ -59,7 +60,7 @@ const Price = sequelize.define('price', {
 
 const Pastry = sequelize.define('pastry', {
   id: { type:  DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
-  name: { type: DataTypes.STRING, allowNull: true },
+  value: { type: DataTypes.STRING, allowNull: true },
 })
 
 const Nutrition = sequelize.define('nutrition', {

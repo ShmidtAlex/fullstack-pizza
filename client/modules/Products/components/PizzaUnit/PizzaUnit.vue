@@ -1,17 +1,17 @@
 <template>
   <div class="pizza-unit">
-<!--    <div v-if="showAddons" class="pizza-unit__appeared-addons">-->
-<!--      <AddonsBlock-->
-<!--        :is-addons-shown="showAddons"-->
-<!--        :is-addon-elements-list-shown="addonElementsListShown"-->
-<!--        :addons="pizzaData.addons"-->
-<!--        :removed-and-applied-addons="finalObject.excludedIngredients"-->
-<!--        :opted-addons="finalObject.extraAddons"-->
-<!--        @change-ingredients-list="changeIngredientsList"-->
-<!--        @show-addon-elements-list="toggleAddonElementList"-->
-<!--        @show-addon="showAddonInUnit"-->
-<!--      />-->
-<!--    </div>-->
+    <div v-if="showAddons" class="pizza-unit__appeared-addons">
+      <AddonsBlock
+        :is-addons-shown="showAddons"
+        :is-addon-elements-list-shown="addonElementsListShown"
+        :addons="pizzaData.ingredients"
+        :removed-and-applied-addons="finalObject.excludedIngredients"
+        :opted-addons="finalObject.extraAddons"
+        @change-ingredients-list="changeIngredientsList"
+        @show-addon-elements-list="toggleAddonElementList"
+        @show-addon="showAddonInUnit"
+      />
+    </div>
     <div class="pizza-unit__picture">
       <img
         class="pizza-unit__picture--img"
@@ -36,30 +36,30 @@
         </button>
       </div>
       <!--   Todo: should be hidden by default in mobile   -->
-<!--      <div class="pizza-unit__information&#45;&#45;description">-->
-<!--        {{ pizzaData.description }}-->
-<!--      </div>-->
+      <div class="pizza-unit__information--description">
+        {{ pizzaData.description }}
+      </div>
       <NutritionPopup
         :is-nutrition-shown="isNutritionShown"
         :nutrition="pizzaData.nutrition"
       />
 
       <div class="pizza-unit__information--options">
-<!--        <Slider-->
-<!--          :data="pizzaData.types"-->
-<!--          :unit-key="typeKeyValue"-->
-<!--          @change-option="changeType"-->
-<!--        />-->
-<!--        <Slider-->
-<!--          :data="pizzaData.sizes"-->
-<!--          :unit-key="sizeKeyValue"-->
-<!--          unit-of-measure="sm"-->
-<!--          @change-option="changeSize"-->
-<!--        />-->
-<!--        <PizzaPrices-->
-<!--          :running-price="cTotalPrice"-->
-<!--          @add-pizza-to-cart="addPizzaToCart"-->
-<!--        />-->
+        <Slider
+          :data="pizzaData.pastryTypes"
+          :unit-key="typeKeyValue"
+          @change-option="changeType"
+        />
+        <Slider
+          :data="pizzaData.itemSizes"
+          :unit-key="sizeKeyValue"
+          unit-of-measure="sm"
+          @change-option="changeSize"
+        />
+        <PizzaPrices
+          :running-price="cTotalPrice"
+          @add-pizza-to-cart="addPizzaToCart"
+        />
       </div>
     </div>
     <div v-if="addonElementsListShown" class="pizza-unit__showed-addons-list">
@@ -116,8 +116,8 @@ const priceKeyValue = ref<number>(0);
 
 const finalObject = reactive<IFinalObjectForCart>({
   pizzaName: props.pizzaData?.name,
-  // pizzaSize: props.pizzaData?.sizes[0].value as number,
-  // pizzaType: props.pizzaData?.types[0].value as string,
+  pizzaSize: props.pizzaData?.itemSizes[0].value as number,
+  pizzaType: props.pizzaData?.itemSizes[0].value as string,
   extraAddons: {},
   excludedIngredients: [],
   quantity: 1,
