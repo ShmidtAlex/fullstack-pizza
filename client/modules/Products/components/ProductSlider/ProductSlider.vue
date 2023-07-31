@@ -23,7 +23,7 @@
 
 <script lang="ts" setup>
 // Todo: add unit tests
-import { PropType } from "vue";
+import {computed, PropType, ref} from "vue";
 import { IPizzaSubObjectsArray } from "~/modules/Products/types";
 const props = defineProps({
   data: {

@@ -1,7 +1,7 @@
 <template>
   <div class="addon-item">
     <div :class="{ 'addon-item__removed-addon': removedAddon }">
-      {{ addon.value }}
+      {{ addon.name }}
     </div>
     <div
       :class="{ 'addon-item__remove-button': removedAddon }"
