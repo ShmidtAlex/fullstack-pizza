@@ -1,6 +1,6 @@
 <template>
   <div id="pizzas" class="pizzas-list-container">
-    <div v-for="pizza in pizzaData" :key="pizza.id" class="pizza-sort">
+    <div v-for="pizza in data" :key="pizza.id" class="pizza-sort">
       <PizzaUnit :pizza-data="pizza" @collapse-section="collapse" />
     </div>
   </div>
@@ -8,8 +8,14 @@
 <script setup lang="ts">
 import PizzaUnit from "../PizzaUnit/PizzaUnit.vue";
 import { useProductsStore } from "~/modules/Products/store/ProductsStore";
+import {useFetch, useRuntimeConfig} from "#app";
 const { collapse } = useProductsStore();
-const { data: pizzaData } = await useFetch(`http://localhost:3404/pizzasData`);
+const config = useRuntimeConfig();
+// TODO: able to receive data from server, but the problem is in parsing the data in PizzaUnit component (supposing because of data's type)
+const { data }= await useFetch(`${config.public.API_BASE_URL}/pizza`);
+
+console.log(config.public.API_BASE_URL, data, data.value[0])
+
 </script>
 <style scoped>
 .pizzas-list-container {

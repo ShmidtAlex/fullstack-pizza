@@ -1,25 +1,25 @@
 <template>
   <div class="pizza-unit">
-    <div v-if="showAddons" class="pizza-unit__appeared-addons">
-      <AddonsBlock
-        :is-addons-shown="showAddons"
-        :is-addon-elements-list-shown="addonElementsListShown"
-        :addons="pizzaData.addons"
-        :removed-and-applied-addons="finalObject.excludedIngredients"
-        :opted-addons="finalObject.extraAddons"
-        @change-ingredients-list="changeIngredientsList"
-        @show-addon-elements-list="toggleAddonElementList"
-        @show-addon="showAddonInUnit"
-      />
-    </div>
+<!--    <div v-if="showAddons" class="pizza-unit__appeared-addons">-->
+<!--      <AddonsBlock-->
+<!--        :is-addons-shown="showAddons"-->
+<!--        :is-addon-elements-list-shown="addonElementsListShown"-->
+<!--        :addons="pizzaData.addons"-->
+<!--        :removed-and-applied-addons="finalObject.excludedIngredients"-->
+<!--        :opted-addons="finalObject.extraAddons"-->
+<!--        @change-ingredients-list="changeIngredientsList"-->
+<!--        @show-addon-elements-list="toggleAddonElementList"-->
+<!--        @show-addon="showAddonInUnit"-->
+<!--      />-->
+<!--    </div>-->
     <div class="pizza-unit__picture">
       <img
         class="pizza-unit__picture--img"
         :alt="pizzaData.name"
-        :src="pizzaData.imgSrc"
+        :src="`${config.public.SERVER_BASE_URL}/${pizzaData.img}`"
       />
       <ShowAddonsButton
-        v-if="pizzaData.addons.length"
+        v-if="pizzaData.ingredients.length"
         @show-addon="showAddonInUnit"
       />
     </div>
@@ -36,45 +36,45 @@
         </button>
       </div>
       <!--   Todo: should be hidden by default in mobile   -->
-      <div class="pizza-unit__information--description">
-        {{ pizzaData.description }}
-      </div>
+<!--      <div class="pizza-unit__information&#45;&#45;description">-->
+<!--        {{ pizzaData.description }}-->
+<!--      </div>-->
       <NutritionPopup
         :is-nutrition-shown="isNutritionShown"
         :nutrition="pizzaData.nutrition"
       />
 
       <div class="pizza-unit__information--options">
-        <Slider
-          :data="pizzaData.types"
-          :unit-key="typeKeyValue"
-          @change-option="changeType"
-        />
-        <Slider
-          :data="pizzaData.sizes"
-          :unit-key="sizeKeyValue"
-          unit-of-measure="sm"
-          @change-option="changeSize"
-        />
-        <PizzaPrices
-          :running-price="cTotalPrice"
-          @add-pizza-to-cart="addPizzaToCart"
-        />
+<!--        <Slider-->
+<!--          :data="pizzaData.types"-->
+<!--          :unit-key="typeKeyValue"-->
+<!--          @change-option="changeType"-->
+<!--        />-->
+<!--        <Slider-->
+<!--          :data="pizzaData.sizes"-->
+<!--          :unit-key="sizeKeyValue"-->
+<!--          unit-of-measure="sm"-->
+<!--          @change-option="changeSize"-->
+<!--        />-->
+<!--        <PizzaPrices-->
+<!--          :running-price="cTotalPrice"-->
+<!--          @add-pizza-to-cart="addPizzaToCart"-->
+<!--        />-->
       </div>
     </div>
     <div v-if="addonElementsListShown" class="pizza-unit__showed-addons-list">
-      <AddonElementsList
-        :addons-list="pizzaData.addons"
-        :previously-opted="finalObject.extraAddons"
-        @summarize-opted-addons="nestOptedAddons"
-        @toggle-addons-list="toggleAddonElementList"
-      />
+<!--      <AddonElementsList-->
+<!--        :addons-list="pizzaData.addons"-->
+<!--        :previously-opted="finalObject.extraAddons"-->
+<!--        @summarize-opted-addons="nestOptedAddons"-->
+<!--        @toggle-addons-list="toggleAddonElementList"-->
+<!--      />-->
     </div>
   </div>
 </template>
 <script setup lang="ts">
 // Todo: add unit-tests
-import { PropType } from "vue";
+import {computed, PropType, reactive, ref} from "vue";
 import AddonsBlock from "../AddonsBlock/AddonsBlock.vue";
 import AddonElementsList from "../AddonElementsList/AddonElementsList.vue";
 import NutritionPopup from "../NutritionPopup/NutritionPopup.vue";
@@ -93,7 +93,12 @@ import {
   IPizzaSubObjectUnit,
   ISliderOutput,
 } from "~/modules/Products/types";
+import {useRuntimeConfig} from "#app";
+
+
 const { addToOrder } = useProductsStore();
+
+const config = useRuntimeConfig();
 
 const props = defineProps({
   pizzaData: {
@@ -110,15 +115,15 @@ const sizeKeyValue = ref<number>(0);
 const priceKeyValue = ref<number>(0);
 
 const finalObject = reactive<IFinalObjectForCart>({
-  pizzaName: props.pizzaData.name,
-  pizzaSize: props.pizzaData.sizes[0].value as number,
-  pizzaType: props.pizzaData.types[0].value as string,
+  pizzaName: props.pizzaData?.name,
+  // pizzaSize: props.pizzaData?.sizes[0].value as number,
+  // pizzaType: props.pizzaData?.types[0].value as string,
   extraAddons: {},
   excludedIngredients: [],
   quantity: 1,
   totalPrice: 0,
   extraPrice: 0,
-  smallImg: props.pizzaData.imgSrc,
+  smallImg: props.pizzaData.img,
 });
 
 const cTotalPrice = computed((): number | string => {
