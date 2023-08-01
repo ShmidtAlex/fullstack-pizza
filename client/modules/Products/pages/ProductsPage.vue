@@ -1,14 +1,16 @@
 <template>
   <div class="products">
-    <div class="products-list" :class="{'products-list__collapsed': collapsed}">
+    <div
+      class="products-list"
+      :class="{ 'products-list__collapsed': collapsed }"
+    >
       <h1>Products Module Page</h1>
       <PizzasList />
     </div>
-    <div class="cart-wrapper" :class="{'cart-wrapper__extended': collapsed}">
+    <div class="cart-wrapper" :class="{ 'cart-wrapper__extended': collapsed }">
       <ProductCart />
     </div>
   </div>
-
 </template>
 
 <script>
@@ -53,7 +55,6 @@ export default {
         width: 75%;
       }
     }
-
   }
   .cart-wrapper {
     &__extended {

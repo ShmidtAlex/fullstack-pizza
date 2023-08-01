@@ -9,8 +9,8 @@
 </template>
 
 <script setup>
-// import UserAccount from '../components/UserAccount/UserAccount.vue'
-// import NavBar from '../components/NavBar/NavBar.vue'
+// import UserAccount from '../components/UserAccount/index.vue'
+// import NavBar from '../components/NavBar/index.vue'
 // export default {
 //   components: {
 //     UserAccount,

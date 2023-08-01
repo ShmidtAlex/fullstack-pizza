@@ -25,9 +25,8 @@ export const useProductsStore = defineStore("ProductsStore", {
     clearCart(): void {
       this.order = [];
       setTimeout(() => {
-        this.collapsed = false
-      }, 1000)
-    
+        this.collapsed = false;
+      }, 1000);
     },
     collapse(): void {
       this.collapsed = true;
@@ -35,7 +34,7 @@ export const useProductsStore = defineStore("ProductsStore", {
     removeItem(id: number): void {
       this.order = this.order.filter((elem) => elem.id !== id);
       if (!this.order.length) {
-        this.clearCart()
+        this.clearCart();
       }
     },
     increaseNumber({ id, fieldName }: IIncreaseable): void {

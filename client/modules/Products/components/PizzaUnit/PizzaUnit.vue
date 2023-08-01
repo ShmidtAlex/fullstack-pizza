@@ -74,7 +74,7 @@
 </template>
 <script setup lang="ts">
 // Todo: add unit-tests
-import {computed, PropType, reactive, ref} from "vue";
+import { computed, PropType, reactive, ref } from "vue";
 import AddonsBlock from "../AddonsBlock/AddonsBlock.vue";
 import AddonElementsList from "../AddonElementsList/AddonElementsList.vue";
 import NutritionPopup from "../NutritionPopup/NutritionPopup.vue";
@@ -93,8 +93,7 @@ import {
   IPizzaSubObjectUnit,
   ISliderOutput,
 } from "~/modules/Products/types";
-import {useRuntimeConfig} from "#app";
-
+import { useRuntimeConfig } from "#app";
 
 const { addToOrder } = useProductsStore();
 

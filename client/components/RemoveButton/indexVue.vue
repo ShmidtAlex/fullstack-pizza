@@ -20,8 +20,8 @@ const emits = defineEmits(["removeItem"]);
 const props = defineProps({
   elemId: {
     type: Number || String,
-    default: ''
-  }
+    default: "",
+  },
 });
 </script>
 

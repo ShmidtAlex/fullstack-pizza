@@ -9,7 +9,11 @@
         <div class="cart__body_header-info">
           <h3>Cart</h3>
           <div class="positions-number">({{ order.length }})</div>
-          <button class="expand-list expand-list--down" :class="{'expand-list--up': isDetailsShown}" @click="showDetails"></button>
+          <button
+            class="expand-list expand-list--down"
+            :class="{ 'expand-list--up': isDetailsShown }"
+            @click="showDetails"
+          ></button>
         </div>
         <button class="cart__body_header-clear" @click="clearCart">
           Clear
@@ -203,7 +207,7 @@ const cartHeight = computed(() => {
   color: #fff;
   border-style: solid;
   cursor: pointer;
-  &--down{
+  &--down {
     &:after {
       content: "";
       position: absolute;

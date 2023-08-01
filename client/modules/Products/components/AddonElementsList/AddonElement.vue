@@ -35,7 +35,7 @@
             />
           </svg>
         </button>
-<!--        Todo: remove block below after adding new component -->
+        <!--        Todo: remove block below after adding new component -->
         <button
           class="addon-element__options-block--increase"
           @click="increase"
@@ -67,9 +67,9 @@
 </template>
 <script setup lang="ts">
 // Todo: add unit-tests priority: low
-import {computed, PropType, ref} from "vue";
+import { computed, PropType, ref } from "vue";
 import { IOptedAddons, IPizzaSubObjectUnit } from "~/modules/Products/types";
-import {useRuntimeConfig} from "#app";
+import { useRuntimeConfig } from "#app";
 
 const props = defineProps({
   availableAddon: {

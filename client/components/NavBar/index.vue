@@ -43,6 +43,17 @@
     <div class="btn" :class="{ 'user-section-active': isAuthForm }">
       <NuxtLink class="open-button" to="/auth">Sign In</NuxtLink>
     </div>
+
+    <div
+      class="bg-[gray] text-white m-2 px-3 py-2 rounded-md text-sm text-white"
+    >
+      <NuxtLink class="open-button" to="/products">Sign Out</NuxtLink>
+    </div>
+    <div
+      class="bg-[gray] text-white m-2 px-3 py-2 rounded-md text-sm text-white"
+    >
+      <NuxtLink class="open-button" to="/registration">Register</NuxtLink>
+    </div>
   </div>
 </template>
 <script>

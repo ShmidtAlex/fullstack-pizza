@@ -1,31 +1,16 @@
 <template>
-  <NavBar></NavBar>
+  <NavBar :is-auth-form="isAuthenticated"></NavBar>
   <div class="product-container">
     <slot></slot>
   </div>
 </template>
 
-<script>
-export default {
-  setup() {
-    const isAuthenticated = true;
-    const isAuthLayout = false;
-    return {
-      isAuthLayout,
-      isAuthenticated,
-    };
-  },
-};
-// export default {
-//   name: "default.vue",
-//   components: {
-//     MainLayout,
-//     AuthLayout
-//   }
-//
-// }
+<script lang="ts" setup>
+const isAuthLayout = false;
+const isAuthenticated = false;
+
 const showAuthForm = () => {
-  isAuthLayout = true;
+  this.isAuthLayout = true;
 };
 </script>
 
