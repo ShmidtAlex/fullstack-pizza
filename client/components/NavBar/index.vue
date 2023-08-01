@@ -12,17 +12,17 @@
       <li class="navbar-container__menu-item font-bold">
         <NuxtLink to="/products">Pizza</NuxtLink>
       </li>
-      <!--<li class="navbar-container__menu-item font-bold"><NuxtLink to="/combo">Combo</NuxtLink></li>-->
-      <!--<li class="navbar-container__menu-item font-bold"><NuxtLink to="/snacks">Snacks</NuxtLink></li>-->
-      <!--<li class="navbar-container__menu-item font-bold"> <NuxtLink to="/salads">Salads</NuxtLink></li>-->
-      <!--<li class="navbar-container__menu-item font-bold"><NuxtLink to="/desserts">Desserts</NuxtLink></li>-->
-      <!--<li class="navbar-container__menu-item font-bold"><NuxtLink to="/souses">Sauces</NuxtLink></li>-->
-      <!--<li class="navbar-container__menu-item font-bold"><NuxtLink to="/hot-meals">Hot meals</NuxtLink></li>-->
+<!--      <li class="navbar-container__menu-item font-bold"><NuxtLink to="/combo">Combo</NuxtLink></li>-->
+<!--      <li class="navbar-container__menu-item font-bold"><NuxtLink to="/snacks">Snacks</NuxtLink></li>-->
+<!--      <li class="navbar-container__menu-item font-bold"> <NuxtLink to="/salads">Salads</NuxtLink></li>-->
+<!--      <li class="navbar-container__menu-item font-bold"><NuxtLink to="/desserts">Desserts</NuxtLink></li>-->
+<!--      <li class="navbar-container__menu-item font-bold"><NuxtLink to="/souses">Sauces</NuxtLink></li>-->
+<!--      <li class="navbar-container__menu-item font-bold"><NuxtLink to="/hot-meals">Hot meals</NuxtLink></li>-->
     </ul>
     <div v-else class="main-view">
       <div class="city_block">
-        <label for="city-option">{{ City }}</label>
-        <select id="city-option" v-model="City" name="city" class="region">
+        <label for="city-option">{{ city }}</label>
+        <select id="city-option" v-model="city" name="city" class="region">
           <option value="Munich">Munich</option>
           <option value="Berlin">Berlin</option>
           <option value="Frankfurt">Frankfurt</option>
@@ -40,29 +40,31 @@
       </div>
       <div class="phone-number">015 99-1234567</div>
     </div>
-    <div class="btn" :class="{ 'user-section-active': isAuthForm }">
-      <NuxtLink class="open-button" to="/auth">Sign In</NuxtLink>
-    </div>
+    <NuxtLink v-if="!signedIn" class="open-button" to="/auth">
+      <div class="bg-[#12b488] text-white m-2 px-3 py-2 rounded-md text-sm text-white">
+        Sign In
+      </div>
+    </NuxtLink>
 
-    <div
-      class="bg-[gray] text-white m-2 px-3 py-2 rounded-md text-sm text-white"
-    >
-      <NuxtLink class="open-button" to="/products">Sign Out</NuxtLink>
+      <NuxtLink v-else class="open-button" to="/products">
+        <div class="bg-[gray] text-white m-2 px-3 py-2 rounded-md text-sm text-white">
+          Sign Out
+        </div>
+      </NuxtLink>
+      <NuxtLink class="open-button" to="/registration">
+        <div class="bg-[gray] text-white m-2 px-3 py-2 rounded-md text-sm text-white">Registration</div>
+      </NuxtLink>
     </div>
-    <div
-      class="bg-[gray] text-white m-2 px-3 py-2 rounded-md text-sm text-white"
-    >
-      <NuxtLink class="open-button" to="/registration">Register</NuxtLink>
-    </div>
-  </div>
 </template>
-<script>
-// import UserAccount from "../../modules/UserAccount/components/UserAccount/UserAccount";
-export default {
-  components: {
-    // UserAccount,
-  },
-  props: {
+<script lang="ts" setup>
+
+import { ref } from "vue";
+
+// Todo: check if the page address auth, then button sign in is disabled and changed color the same for registration button
+
+  const signedIn = ref(false)
+
+  const props = defineProps({
     showMenu: {
       type: Boolean,
       default: true,
@@ -71,22 +73,10 @@ export default {
       type: Boolean,
       default: false,
     },
-  },
-  setup(props) {},
-  data() {
-    return {
-      City: "Munich",
-      isSignInFormShowed: false,
-      change: false,
-    };
-  },
-  methods: {
-    showSignInForm() {
-      ("worked 1");
-      this.$emit("toggleAuthForm");
-    },
-  },
-};
+  })
+  const city = ref("Munich");
+  const change = ref(false);
+
 </script>
 <style lang="scss">
 .navbar-container {

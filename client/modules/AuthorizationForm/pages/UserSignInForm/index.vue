@@ -2,28 +2,39 @@
   <div class="sign-in">
     User sign in form
     <div class="sign-in__form-items">
-      <input name="phone" :is-shown="registerByPhone" />
+      <input name="phone" v-if="signInByPhone" />
       <input
         label="Email"
         type="email"
         name="email"
-        :is-shown="!registerByPhone"
+        placeholder="enter email"
+        v-else
       />
-      <input name="password" :is-shown="true" />
+      <input
+        name="password"
+        placeholder="enter password"
+      />
     </div>
     <section class="action-section">
       <button
         type="button"
         class="bg-[gray] text-white m-2 px-3 py-2 rounded-md text-sm text-white"
+        @click="goToRegistrationPage"
       >
-        Cancel
+        Registration
       </button>
-      <button type="submit" class="btn">Sign In</button>
+      <button type="submit" class="bg-[#12b488] text-white m-2 px-3 py-2 rounded-md text-sm text-white">Sign In</button>
     </section>
   </div>
 </template>
 <script lang="ts" setup>
-const registerByPhone = false;
+  import {useRouter} from "vue-router";
+
+  const signInByPhone = false;
+  const router = useRouter();
+  const goToRegistrationPage = function() {
+    router.push({ name: "registration" })
+  }
 </script>
 <style lang="scss" scoped>
 * {
@@ -44,6 +55,10 @@ const registerByPhone = false;
     &-items {
       height: 200px;
       margin-bottom: 32px;
+      input {
+        border: 1px solid lightgray;
+        border-radius: 4px;
+      }
     }
   }
 }

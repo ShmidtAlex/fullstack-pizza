@@ -3,16 +3,18 @@
     <!--  Todo: add bootstrap and do all forms on bootstrap -->
     <!--  Todo: add the same form as for login -->
     <!--  Todo: adding roles should be able as separate operation from dashboard with superAdminRole-->
+    <!--  Todo: create Input component -->
     User registration form
     <div class="sign-in__form-items">
-      <input name="phone" v-show="registerByPhone" />
+      <input name="phone" v-if="registerByPhone" />
       <input
           label="Email"
           type="email"
           name="email"
-          :is-shown="!registerByPhone"
+          placeholder="enter email"
+          v-else
       />
-      <input name="password" :is-shown="true" />
+      <input name="password" placeholder="enter password 8 characters, numbers symbols and letters required" />
     </div>
     <section class="action-section">
       <button
@@ -21,7 +23,7 @@
       >
         Cancel
       </button>
-      <button type="submit" class="btn">Sign In</button>
+      <button type="submit" class="bg-[#12b488] text-white m-2 px-3 py-2 rounded-md text-sm text-white">Register</button>
     </section>
   </div>
 </template>
@@ -47,6 +49,10 @@ const registerByPhone = false;
     &-items {
       height: 200px;
       margin-bottom: 32px;
+      input {
+        border: 1px solid lightgray;
+        border-radius: 4px;
+      }
     }
   }
 }
