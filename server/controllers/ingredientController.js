@@ -2,10 +2,17 @@ const { Ingredient } = require("../models");
 
 class IngredientController {
   async createIngredient(req, res) {
-    const { id, name, img, price } = req.body
-    // Todo: complete ingredient creation in the PizzaUnit manner
-    const ingredient = await Ingredient.create({ value })
-    return res.json(ingredient)
+    const { name, img, price } = req.body
+
+    let existingIngredient = await Ingredient.findOne({ where: { name: name } });
+    if (!existingIngredient) {
+      existingIngredient = await Ingredient.create({
+        img,
+        name,
+        price,
+      });
+    }
+    return res.json(existingIngredient)
   }
   async removeIngredient(req, res) {
 

@@ -83,10 +83,11 @@ class PizzaController {
         ingredients = JSON.parse(ingredients);
         for (const ingredient of ingredients) {
           let existingIngredient = await Ingredient.findOne({ where: { name: ingredient.value } });
-
+          // Todo: redo, here should be only ingredient Id, as the ingredients themselves should already exist in db
+          // replace ingredient.value with ingredient.id, and comment/delete strings 88-94
           if (!existingIngredient) {
             existingIngredient = await Ingredient.create({
-
+              img: ingredient.img,
               name: ingredient.value,
               price: ingredient.price,
             });
