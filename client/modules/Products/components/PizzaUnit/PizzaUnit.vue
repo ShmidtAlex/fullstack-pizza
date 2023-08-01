@@ -63,12 +63,12 @@
       </div>
     </div>
     <div v-if="addonElementsListShown" class="pizza-unit__showed-addons-list">
-<!--      <AddonElementsList-->
-<!--        :addons-list="pizzaData.addons"-->
-<!--        :previously-opted="finalObject.extraAddons"-->
-<!--        @summarize-opted-addons="nestOptedAddons"-->
-<!--        @toggle-addons-list="toggleAddonElementList"-->
-<!--      />-->
+      <AddonElementsList
+        :addons-list="pizzaData.ingredients"
+        :previously-opted="finalObject.extraAddons"
+        @summarize-opted-addons="nestOptedAddons"
+        @toggle-addons-list="toggleAddonElementList"
+      />
     </div>
   </div>
 </template>

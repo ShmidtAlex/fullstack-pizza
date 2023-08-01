@@ -2,7 +2,7 @@
   <div class="item">
     <div class="item__pic--small">
       <!--      Todo: alt matching should be moved to computed -->
-      <img :src="unit.smallImg" :alt="unit.smallImg.match(/^([^.]+)/)" />
+      <img :src="`${config.public.SERVER_BASE_URL}/${unit.smallImg}`" :alt="unit.smallImg.match(/^([^.]+)/)" />
     </div>
     <div class="item__info">
       <div class="item__info_name">{{ unit.pizzaName }}</div>
@@ -28,12 +28,13 @@
 </template>
 
 <script lang="ts" setup>
-import { PropType } from "vue";
+import {computed, PropType} from "vue";
 import { IFinalObjectForCart } from "~/modules/Products/types";
 import { useProductsStore } from "~/modules/Products/store/ProductsStore";
 import CartUnitIngredients from "~/modules/Products/components/CartUnit/CartUnitIngredients.vue";
 import CartUnitAddons from "~/modules/Products/components/CartUnit/CartUnitAddons.vue";
 import RemoveButton from "~/components/RemoveButton/RemoveButton.vue";
+import {useRuntimeConfig} from "#app";
 
 const props = defineProps({
   unit: {
@@ -41,6 +42,7 @@ const props = defineProps({
     required: true,
   },
 });
+const config = useRuntimeConfig();
 const { removeItem, increaseNumber, decreaseNumber } = useProductsStore();
 const isAddons = computed(() => {
   return Object.keys(props.unit.extraAddons).length;

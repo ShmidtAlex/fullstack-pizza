@@ -74,7 +74,8 @@ const Nutrition = sequelize.define('nutrition', {
 const Ingredient = sequelize.define('ingredient', {
   id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
   name: { type: DataTypes.STRING, allowNull: false },
-  price: { type: DataTypes.FLOAT, allowNull: false }
+  price: { type: DataTypes.FLOAT, allowNull: false },
+  img: { type: DataTypes.STRING, allowNull: false }
 })
 
 const PastryPizza = sequelize.define('pastry_pizza', {
