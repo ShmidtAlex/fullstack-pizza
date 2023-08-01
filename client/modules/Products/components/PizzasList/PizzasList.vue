@@ -12,6 +12,7 @@ import {useFetch, useRuntimeConfig} from "#app";
 const { collapse } = useProductsStore();
 const config = useRuntimeConfig();
 // TODO: able to receive data from server, but the problem is in parsing the data in PizzaUnit component (supposing because of data's type)
+// Todo: make a plug for empty pizzas list
 const { data }= await useFetch(`${config.public.API_BASE_URL}/pizza`);
 
 console.log(config.public.API_BASE_URL, data, data.value[0])
