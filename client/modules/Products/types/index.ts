@@ -53,7 +53,7 @@ export interface INutrition {
 export interface IPizzaData {
   id: number;
   name: string;
-  addons: IPizzaSubObjectUnit[];
+  ingredients: IPizzaSubObjectUnit[];
   description: string;
   nutrition: INutrition;
   types: IPizzaSubObjectUnit[];

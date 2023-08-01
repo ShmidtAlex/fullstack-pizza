@@ -2,7 +2,8 @@ const { Ingredient } = require("../models");
 
 class IngredientController {
   async createIngredient(req, res) {
-    const { value } = req.body
+    const { id, name, img, price } = req.body
+    // Todo: complete ingredient creation in the PizzaUnit manner
     const ingredient = await Ingredient.create({ value })
     return res.json(ingredient)
   }

@@ -57,7 +57,7 @@
 </template>
 <script setup lang="ts">
 // Todo: add unit-tests
-import { PropType } from "vue";
+import {computed, PropType, ref} from "vue";
 import AddonBlockItem from "./AddonBlockItem.vue";
 import { IPizzaSubObjectUnit } from "~/modules/Products/types";
 

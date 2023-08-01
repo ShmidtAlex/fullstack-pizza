@@ -4,7 +4,7 @@
       <img
         class="addon-element__options-block--photo"
         :alt="availableAddon.value"
-        :src="`/${availableAddon.value}.jpg`"
+        :src="`${config.public.SERVER_BASE_URL}/${availableAddon.value}.jpg`"
       />
       <div class="addon-element__options-block--name">
         {{ availableAddon.value }}
@@ -67,8 +67,9 @@
 </template>
 <script setup lang="ts">
 // Todo: add unit-tests priority: low
-import { PropType } from "vue";
+import {computed, PropType, ref} from "vue";
 import { IOptedAddons, IPizzaSubObjectUnit } from "~/modules/Products/types";
+import {useRuntimeConfig} from "#app";
 
 const props = defineProps({
   availableAddon: {
@@ -82,6 +83,7 @@ const props = defineProps({
 });
 const emit = defineEmits(["changePrice", "amountWarning"]);
 
+const config = useRuntimeConfig();
 const totalNumber = ref<number>(0);
 const showWarning = ref<boolean>(false);
 
