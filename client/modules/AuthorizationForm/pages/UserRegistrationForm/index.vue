@@ -47,6 +47,10 @@ const registerByPhone = false;
     &-items {
       height: 200px;
       margin-bottom: 32px;
+      input {
+        border: 1px solid lightgray;
+        border-radius: 4px;
+      }
     }
   }
 }

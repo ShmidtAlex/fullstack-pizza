@@ -40,21 +40,19 @@
       </div>
       <div class="phone-number">015 99-1234567</div>
     </div>
-    <div class="btn" :class="{ 'user-section-active': isAuthForm }">
-      <NuxtLink class="open-button" to="/auth">Sign In</NuxtLink>
-    </div>
+    <NuxtLink class="open-button" to="/auth">
+      <div class="bg-[gray] text-white m-2 px-3 py-2 rounded-md text-sm text-white">
+        Sign In
+      </div>
+    </NuxtLink>
 
-    <div
-      class="bg-[gray] text-white m-2 px-3 py-2 rounded-md text-sm text-white"
-    >
-      <NuxtLink class="open-button" to="/products">Sign Out</NuxtLink>
+      <NuxtLink class="open-button" to="/products">
+        <div class="bg-[gray] text-white m-2 px-3 py-2 rounded-md text-sm text-white">Sign Out </div>
+      </NuxtLink>
+      <NuxtLink class="open-button" to="/registration">
+        <div class="bg-[gray] text-white m-2 px-3 py-2 rounded-md text-sm text-white">Register</div>
+      </NuxtLink>
     </div>
-    <div
-      class="bg-[gray] text-white m-2 px-3 py-2 rounded-md text-sm text-white"
-    >
-      <NuxtLink class="open-button" to="/registration">Register</NuxtLink>
-    </div>
-  </div>
 </template>
 <script>
 // import UserAccount from "../../modules/UserAccount/components/UserAccount/UserAccount";
