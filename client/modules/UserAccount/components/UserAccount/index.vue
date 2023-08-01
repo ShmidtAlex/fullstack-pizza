@@ -1,16 +1,11 @@
 <template>
-  <UserSignInForm />
-  <UserRegistrationForm />
+  <div>
+    user's account
+  </div>
 </template>
 <script>
-import UserSignInForm from "../../../AuthorizationForm/pages/UserSignInForm.vue";
-import UserRegistrationForm from "../../../RegistrationForm/components/Form/UserRegistrationForm.vue";
 
 export default {
-  components: {
-    UserSignInForm,
-    UserRegistrationForm,
-  },
   props: {
     isActive: {
       type: Boolean,

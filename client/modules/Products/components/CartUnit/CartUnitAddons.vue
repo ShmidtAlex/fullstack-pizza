@@ -44,7 +44,7 @@ const { increaseNumber, decreaseNumber } = useProductsStore();
 }
 @media screen and (max-width: 540px) and (min-width: 415px) and (orientation: portrait) {
   .extra {
-    width: 30%
+    width: 30%;
   }
 }
 </style>

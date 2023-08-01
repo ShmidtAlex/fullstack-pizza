@@ -1,6 +1,6 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 
-import {NuxtOptions} from "@nuxt/schema";
+import { NuxtOptions } from "@nuxt/schema";
 
 export default defineNuxtConfig({
   pages: true,
@@ -19,8 +19,8 @@ export default defineNuxtConfig({
   runtimeConfig: {
     public: {
       API_BASE_URL: process.env.API_BASE_URL,
-      SERVER_BASE_URL: process.env.SERVER_BASE_URL
-    }
+      SERVER_BASE_URL: process.env.SERVER_BASE_URL,
+    },
   },
   pinia: {
     autoImports: ["defineStore"],

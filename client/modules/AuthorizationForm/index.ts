@@ -10,7 +10,12 @@ export default defineNuxtModule({
       pages.push({
         name: "auth",
         path: "/auth",
-        file: path.resolve(__dirname, "./pages/UserSignInForm.vue"),
+        file: path.resolve(__dirname, "./pages/UserSignInForm/index.vue"),
+      });
+      pages.push({
+        name: "registration",
+        path: "/registration",
+        file: path.resolve(__dirname, "./pages/UserRegistrationForm/index.vue"),
       });
     },
 
