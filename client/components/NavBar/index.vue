@@ -40,7 +40,7 @@
       </div>
       <div class="phone-number">015 99-1234567</div>
     </div>
-    <NuxtLink v-if="!signedIn" class="open-button" to="/auth">
+    <NuxtLink v-if="!signedIn" class="open-button" to="/auth" :class="{'open-button--disabled': isSignInPage}">
       <div class="bg-[#12b488] text-white m-2 px-3 py-2 rounded-md text-sm text-white">
         Sign In
       </div>
@@ -51,19 +51,24 @@
           Sign Out
         </div>
       </NuxtLink>
-      <NuxtLink class="open-button" to="/registration">
-        <div class="bg-[gray] text-white m-2 px-3 py-2 rounded-md text-sm text-white">Registration</div>
+      <NuxtLink class="open-button" to="/registration" :class="{'open-button--disabled': isRegistrationPage }">
+        <div class="bg-[blue] text-white m-2 px-3 py-2 rounded-md text-sm text-white">Registration</div>
       </NuxtLink>
     </div>
 </template>
 <script lang="ts" setup>
 
-import { ref } from "vue";
-
-// Todo: check if the page address auth, then button sign in is disabled and changed color the same for registration button
+import {computed, ref} from "vue";
+import {useRouter} from "vue-router";
 
   const signedIn = ref(false)
-
+  const router = new useRouter()
+  const isSignInPage = computed(() => {
+    return router.currentRoute.value.name === 'auth'
+  })
+  const isRegistrationPage = computed(() => {
+    return router.currentRoute.value.name === 'registration'
+  })
   const props = defineProps({
     showMenu: {
       type: Boolean,
@@ -113,39 +118,20 @@ import { ref } from "vue";
       }
     }
   }
+  .open-button {
+    text-decoration: none;
+    &--disabled {
+     div {
+        background-color: #a69895;
+      }
+    }
+
+  }
 }
 .logo img {
   width: 100px;
   height: 40px;
 }
-//.menu-list,
-//.main-view {
-//  width: 60%;
-//  height: 100%;
-//  display: flex;
-//  justify-content: center;
-//  align-items: center;
-//}
-//#city-option {
-//  margin: 0 40px 0 10px;
-//}
-//.menu-list
-//.menu-list a {
-//  display: flex;
-//  align-items: center;
-//  height: 100%;
-//  text-decoration: none;
-//}
-//.menu-list li {
-//  list-style: none;
-//  display: flex;
-//  align-items: center;
-//  position: relative;
-//  font-weight: 700;
-//  color: #70544f;
-//  line-height: 1.33;
-//  height: 100%;
-//}
 
 .language-option {
   margin: 0 0 0 0;
