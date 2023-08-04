@@ -1,7 +1,7 @@
 <template>
   <div class="mb-3">
     <label :for="id" class="form-label">{{ label }}</label>
-    <input :type="type" class="form-control form-control-sm" :id="id" :placeholder="placeholder">
+    <input @change="changeString" :type="type" class="form-control form-control-sm" :id="id" :placeholder="placeholder">
   </div>
 </template>
 
@@ -27,6 +27,10 @@
       default: ''
     }
   })
+  const emit = defineEmits(['change'])
+  const changeString = (e) => {
+   emit('change', e.target.value)
+  }
 </script>
 
 <style lang="scss" scoped>

@@ -5,7 +5,7 @@ import { AxiosResponse, AxiosError } from 'axios'
 export default class AuthorizationService extends BaseHttpService<IAxiosConfig> {
   constructor(
     config = {
-      baseURL: `${process.env.NUXT_ENV_BASE}/`,
+      baseURL: `http://localhost:5009/`,
       headers: {},
     }
   ) {
@@ -13,11 +13,12 @@ export default class AuthorizationService extends BaseHttpService<IAxiosConfig> 
   }
   
   async registration(email: string, password: string): Promise<AxiosResponse> {
+    console.log('registration', email, password)
     return this.axiosClient.post(`api/user/registration`, {email, password})
   }
   
   async login(email: string, password: string): Promise<AxiosResponse> {
-    console.log(email, password)
+    console.log('login', email, password)
     return this.axiosClient.post(`api/user/login`, {email, password})
   }
   async check(): Promise<AxiosResponse> {
