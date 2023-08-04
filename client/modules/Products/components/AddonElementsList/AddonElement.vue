@@ -4,7 +4,7 @@
       <img
         class="addon-element__options-block--photo"
         :alt="availableAddon.value"
-        :src="`${config.public.SERVER_BASE_URL}/${availableAddon.value}.jpg`"
+        :src="`${config.public.NUXT_ENV_BASE_URL}/${availableAddon.value}.jpg`"
       />
       <div class="addon-element__options-block--name">
         {{ availableAddon.value }}

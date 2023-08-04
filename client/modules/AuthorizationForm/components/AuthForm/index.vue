@@ -10,6 +10,7 @@
           placeholder="enter phone number"
       />
       <Input
+          v-model="email"
           label="Email"
           type="email"
           id="email"
@@ -17,6 +18,7 @@
           v-else
       />
       <Input
+          v-model="password"
           id="password-registration"
           label="Password"
           type="password"
@@ -30,6 +32,7 @@
       >Cancel</button>
       <button
           type="submit"
+          @click="handleClick"
           class="bg-[#12b488] text-white m-2 px-3 py-2 rounded-md text-sm text-white"
       >{{ label }}</button>
     </div>
@@ -42,7 +45,11 @@
 
 <script lang="ts" setup>
 import Input from '@/components/Input/index.vue'
-import {computed} from "vue";
+import { computed, ref } from "vue";
+
+import {useRouter} from "vue-router";
+import {useNuxtApp} from "#app";
+const context = useNuxtApp()
   const props = defineProps({
     label: {
       required: true,
@@ -57,6 +64,24 @@ import {computed} from "vue";
       type: String
     }
   })
+  const router = new useRouter()
+  const isLogin = computed(() => {
+    return router.currentRoute.value.name === 'auth'
+  })
+  const email = ref('')
+  const password = ref('')
+
+  const handleClick = async () => {
+    console.log(context.$api)
+    if (!isLogin) {
+      const response = await context.$api.auth.registration(email, password)
+      console.log('registration', response)
+    } else {
+       const response = await context.$api.auth.login(email, password)
+      console.log('login', response)
+    }
+
+  }
   const readdressMessage = computed(() => {
     return props.label === 'registration' ? 'Already registered? ' : 'Have no account yet?';
   })

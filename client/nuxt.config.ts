@@ -14,13 +14,15 @@ export default defineNuxtConfig({
     // './modules/UserAccount',
     "./modules/AuthorizationForm",
   ],
-  plugins: ['~/plugins/http.ts'],
+  env: {
+    NUXT_ENV_BASE_URL: process.env.NUXT_ENV_BASE_URL
+  },
   css: ["bootstrap/dist/css/bootstrap.min.css"],
   build: { transpile: ["@vee-validate/rules"] },
   runtimeConfig: {
     public: {
       API_BASE_URL: process.env.API_BASE_URL,
-      SERVER_BASE_URL: process.env.SERVER_BASE_URL as string,
+      NUXT_ENV_BASE_URL: process.env.NUXT_ENV_BASE_URL as string,
     },
   },
   pinia: {
