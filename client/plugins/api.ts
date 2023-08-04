@@ -1,8 +1,7 @@
 import AuthorizationService from '~/api/auth';
 
 import { AxiosError } from 'axios'
-import { IError, IErrorData, IHttpService } from '~/models/Http/types'
-import { Inject, Context } from '@nuxt/types/app'
+import { IHttpService } from '~/models/Http/types'
 import {useNuxtApp} from "#app";
 import {defineNuxtPlugin} from "#app";
 

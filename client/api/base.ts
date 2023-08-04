@@ -8,7 +8,7 @@ export default class BaseHttpService<HttpService> {
   
   axiosConfig = {
     withCredentials: true,
-    baseURL: `${process.env.NUXT_ENV_BASE_URL}/api/`,
+    baseURL: `http://localhost:5009/api/`,
     headers: {
       'Cache-Control': 'no-cache',
     },

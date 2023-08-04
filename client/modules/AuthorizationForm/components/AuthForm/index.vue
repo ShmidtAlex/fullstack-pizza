@@ -10,19 +10,19 @@
           placeholder="enter phone number"
       />
       <Input
-          v-model="email"
           label="Email"
           type="email"
           id="email"
           placeholder="enter email"
           v-else
+          @change="(value) => assignEmail(value)"
       />
       <Input
-          v-model="password"
           id="password-registration"
           label="Password"
           type="password"
           placeholder="enter password 8 characters, numbers symbols and letters required"
+          @change="(value) => assignPassword(value)"
       />
     </div>
     <div class="action-section">
@@ -45,11 +45,12 @@
 
 <script lang="ts" setup>
 import Input from '@/components/Input/index.vue'
-import { computed, ref } from "vue";
+// import { computed, ref } from "vue";
 
 import {useRouter} from "vue-router";
 import {useNuxtApp} from "#app";
-const context = useNuxtApp()
+
+  const context = useNuxtApp()
   const props = defineProps({
     label: {
       required: true,
@@ -68,20 +69,27 @@ const context = useNuxtApp()
   const isLogin = computed(() => {
     return router.currentRoute.value.name === 'auth'
   })
-  const email = ref('')
-  const password = ref('')
+
+  const email = ref<string>('')
+  const password = ref<string>('')
 
   const handleClick = async () => {
-    console.log(context.$api)
-    if (!isLogin) {
-      const response = await context.$api.auth.registration(email, password)
+    if (!isLogin.value) {
+      const response = await context.$api.auth.registration(email.value, password.value)
       console.log('registration', response)
     } else {
-       const response = await context.$api.auth.login(email, password)
+       const response = await context.$api.auth.login(email.value, password.value)
       console.log('login', response)
     }
 
   }
+  const assignEmail = (value) => {
+    email.value = value
+  }
+  const assignPassword = (value) => {
+    password.value = value
+  }
+
   const readdressMessage = computed(() => {
     return props.label === 'registration' ? 'Already registered? ' : 'Have no account yet?';
   })
