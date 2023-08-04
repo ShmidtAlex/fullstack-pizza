@@ -19,6 +19,10 @@ export default defineNuxtConfig({
   },
   css: ["bootstrap/dist/css/bootstrap.min.css"],
   build: { transpile: ["@vee-validate/rules"] },
+  server: {
+    host: 'localhost',
+    port: 3000
+  },
   runtimeConfig: {
     public: {
       API_BASE_URL: process.env.API_BASE_URL,
