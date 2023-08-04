@@ -1,6 +1,9 @@
 import { AxiosInstance } from 'axios'
 import axios from 'axios'
 import { IAxiosConfig } from '~/models/Http/types'
+
+axios.defaults.withCredentials = true;
+
 export default class BaseHttpService<HttpService> {
   
   axiosConfig = {
