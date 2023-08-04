@@ -40,12 +40,12 @@
       </div>
       <div class="phone-number">015 99-1234567</div>
     </div>
-    <NuxtLink v-if="!isAuth" class="open-button" to="/auth" :class="{'open-button--disabled': isSignInPage}">
-      <div class="bg-[#12b488] text-white m-2 px-3 py-2 rounded-md text-sm text-white">
-        Sign In
-      </div>
-    </NuxtLink>
-
+    <div class="navbar-container__actions">
+      <NuxtLink v-if="!isAuth" class="open-button" to="/auth" :class="{'open-button--disabled': isSignInPage}">
+        <div class="bg-[#12b488] text-white m-2 px-3 py-2 rounded-md text-sm text-white">
+          Sign In
+        </div>
+      </NuxtLink>
       <NuxtLink v-else class="open-button" to="/products">
         <div class="bg-[gray] text-white m-2 px-3 py-2 rounded-md text-sm text-white">
           Sign Out
@@ -57,6 +57,8 @@
       <NuxtLink v-if="isAdmin" class="open-button" to="/dashboard">
         <div class="bg-[crimson] text-white m-2 px-3 py-2 rounded-md text-sm text-white">Dashboard</div>
       </NuxtLink>
+    </div>
+
     </div>
 </template>
 <script lang="ts" setup>
@@ -131,6 +133,13 @@ import {useUserStore} from "~/modules/AuthorizationForm/store/UserStore";
         color: inherit;
       }
     }
+  }
+  &__actions {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    width: 30%;
   }
   .open-button {
     text-decoration: none;
