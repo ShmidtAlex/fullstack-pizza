@@ -14,9 +14,6 @@ export default defineNuxtConfig({
     // './modules/UserAccount',
     "./modules/AuthorizationForm",
   ],
-  env: {
-    NUXT_ENV_BASE_URL: process.env.NUXT_ENV_BASE_URL
-  },
   css: ["bootstrap/dist/css/bootstrap.min.css"],
   build: { transpile: ["@vee-validate/rules"] },
   server: {

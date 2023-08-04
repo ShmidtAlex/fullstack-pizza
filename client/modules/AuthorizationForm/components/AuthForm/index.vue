@@ -48,7 +48,8 @@ import Input from '@/components/Input/index.vue'
 // import { computed, ref } from "vue";
 
 import {useRouter} from "vue-router";
-import {useNuxtApp} from "#app";
+import {navigateTo, useNuxtApp} from "#app";
+import {useUserStore} from "~/modules/AuthorizationForm/store/UserStore";
 
   const context = useNuxtApp()
   const props = defineProps({
@@ -66,22 +67,23 @@ import {useNuxtApp} from "#app";
     }
   })
   const router = new useRouter()
+  const { setIsAuth, setUser } = useUserStore()
   const isLogin = computed(() => {
     return router.currentRoute.value.name === 'auth'
   })
-
+  const data = ref({})
   const email = ref<string>('')
   const password = ref<string>('')
 
   const handleClick = async () => {
     if (!isLogin.value) {
-      const response = await context.$api.auth.registration(email.value, password.value)
-      console.log('registration', response)
+      data.value = await context.$api.auth.registration(email.value, password.value)
     } else {
-       const response = await context.$api.auth.login(email.value, password.value)
-      console.log('login', response)
+      data.value = await context.$api.auth.login(email.value, password.value)
     }
-
+    setUser(data.value)
+    setIsAuth(true)
+    await navigateTo({ path: '/products' })
   }
   const assignEmail = (value) => {
     email.value = value

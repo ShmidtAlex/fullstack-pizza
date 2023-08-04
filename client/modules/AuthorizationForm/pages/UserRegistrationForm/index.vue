@@ -1,5 +1,5 @@
 <template>
-    <AuthForm label="registration" link="auth"/>
+    <AuthForm label="registration" :by-phone="false" link="auth"/>
 </template>
 <script lang="ts" setup>
 import AuthForm from '../../components/AuthForm/index.vue'

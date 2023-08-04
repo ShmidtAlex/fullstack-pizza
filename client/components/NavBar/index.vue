@@ -40,7 +40,7 @@
       </div>
       <div class="phone-number">015 99-1234567</div>
     </div>
-    <NuxtLink v-if="!signedIn" class="open-button" to="/auth" :class="{'open-button--disabled': isSignInPage}">
+    <NuxtLink v-if="!isAuth" class="open-button" to="/auth" :class="{'open-button--disabled': isSignInPage}">
       <div class="bg-[#12b488] text-white m-2 px-3 py-2 rounded-md text-sm text-white">
         Sign In
       </div>
@@ -54,21 +54,34 @@
       <NuxtLink class="open-button" to="/registration" :class="{'open-button--disabled': isRegistrationPage }">
         <div class="bg-[blue] text-white m-2 px-3 py-2 rounded-md text-sm text-white">Registration</div>
       </NuxtLink>
+      <NuxtLink v-if="isAdmin" class="open-button" to="/dashboard">
+        <div class="bg-[crimson] text-white m-2 px-3 py-2 rounded-md text-sm text-white">Dashboard</div>
+      </NuxtLink>
     </div>
 </template>
 <script lang="ts" setup>
 
 import {computed, ref} from "vue";
 import {useRouter} from "vue-router";
+import {useUserStore} from "~/modules/AuthorizationForm/store/UserStore";
+  // Todo: show user icon in the very right corner of navbar (as well as ability to go to user page)
 
-  const signedIn = ref(false)
   const router = new useRouter()
+  const auth = useUserStore()
+
   const isSignInPage = computed(() => {
     return router.currentRoute.value.name === 'auth'
   })
   const isRegistrationPage = computed(() => {
     return router.currentRoute.value.name === 'registration'
   })
+  const isAdmin = computed(() => {
+    return auth.isAuth && (auth.user.role === 'ADIMIN' || 'SUPERADMIN')
+  })
+  const isAuth = computed(() => {
+    return auth.isAuth
+  })
+
   const props = defineProps({
     showMenu: {
       type: Boolean,
@@ -98,7 +111,7 @@ import {useRouter} from "vue-router";
   border-bottom: 1px solid #ededed;
   padding: 20px;
   &__menu {
-    width: 60%;
+    width: 50%;
     height: 100%;
     display: flex;
     justify-content: space-between;
@@ -115,11 +128,13 @@ import {useRouter} from "vue-router";
       height: 100%;
       a {
         text-decoration: none;
+        color: inherit;
       }
     }
   }
   .open-button {
     text-decoration: none;
+    min-width: fit-content;
     &--disabled {
      div {
         background-color: #a69895;

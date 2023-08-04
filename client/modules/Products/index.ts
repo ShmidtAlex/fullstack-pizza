@@ -1,5 +1,5 @@
 import path from "path";
-import { defineNuxtModule, addComponentsDir, useNuxt } from "@nuxt/kit";
+import { defineNuxtModule } from "@nuxt/kit";
 
 export default defineNuxtModule({
   // Default configuration options for your module
@@ -11,6 +11,11 @@ export default defineNuxtModule({
         name: "products",
         path: "/products",
         file: path.resolve(__dirname, "./pages/ProductsPage.vue"),
+      });
+      pages.push({
+        name: "root-redirect",
+        path: "/:catchAll(.*)",
+        redirect: "/products",
       });
     },
 
