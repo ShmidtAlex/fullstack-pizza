@@ -16,8 +16,6 @@ export default class BaseHttpService<HttpService> {
   axiosClient: AxiosInstance = axios.create()
   
   constructor(config: IAxiosConfig = {}) {
-    
-    console.log('axiosClient',this.axiosConfig, process.env)
     this.axiosClient = axios.create(Object.assign(this.axiosConfig, config))
     this.axiosClient.defaults.withCredentials = true
   }

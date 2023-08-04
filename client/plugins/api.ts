@@ -1,4 +1,4 @@
-import AuthorizationService from '~/api/auth';
+import AuthorizationService from '~/modules/AuthorizationForm/api/auth';
 
 import { AxiosError } from 'axios'
 import { IHttpService } from '~/models/Http/types'

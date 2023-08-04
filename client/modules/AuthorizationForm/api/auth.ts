@@ -1,6 +1,7 @@
-import BaseHttpService from '@/api/base'
+import BaseHttpService from '~/modules/AuthorizationForm/api/base'
 import { IAxiosConfig } from '~/models/Http/types'
-import { AxiosResponse, AxiosError } from 'axios'
+import { AxiosResponse } from 'axios'
+import jwt_decode from "jwt-decode"
 
 export default class AuthorizationService extends BaseHttpService<IAxiosConfig> {
   constructor(
@@ -13,13 +14,13 @@ export default class AuthorizationService extends BaseHttpService<IAxiosConfig> 
   }
   
   async registration(email: string, password: string): Promise<AxiosResponse> {
-    console.log('registration', email, password)
-    return this.axiosClient.post(`api/user/registration`, {email, password})
+    const { data } = await this.axiosClient.post(`api/user/registration`, {email, password})
+    return jwt_decode(data.token)
   }
   
   async login(email: string, password: string): Promise<AxiosResponse> {
-    console.log('login', email, password)
-    return this.axiosClient.post(`api/user/login`, {email, password})
+    const { data } = await this.axiosClient.post(`api/user/login`, {email, password})
+    return jwt_decode(data.token)
   }
   async check(): Promise<AxiosResponse> {
     return this.axiosClient.get(`api/auth/registration`)
