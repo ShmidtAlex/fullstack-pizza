@@ -3,7 +3,7 @@
     <div class="item__pic--small">
       <!--      Todo: alt matching should be moved to computed -->
       <img
-        :src="`${config.public.SERVER_BASE_URL}/${unit.smallImg}`"
+        :src="`${config.public.NUXT_ENV_BASE_URL}/${unit.smallImg}`"
         :alt="unit.smallImg.match(/^([^.]+)/)"
       />
     </div>
