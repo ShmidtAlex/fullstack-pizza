@@ -15,14 +15,18 @@ export default class AuthorizationService extends BaseHttpService<IAxiosConfig> 
   
   async registration(email: string, password: string): Promise<AxiosResponse> {
     const { data } = await this.axiosClient.post(`api/user/registration`, {email, password})
+    localStorage.setItem('token', data.token)
     return jwt_decode(data.token)
   }
   
   async login(email: string, password: string): Promise<AxiosResponse> {
     const { data } = await this.axiosClient.post(`api/user/login`, {email, password})
+    localStorage.setItem('token', data.token)
     return jwt_decode(data.token)
   }
   async check(): Promise<AxiosResponse> {
-    return this.axiosClient.get(`api/auth/registration`)
+    const { data } = this.axiosClient.get(`api/user/auth`)
+    localStorage.setItem('token', data.token)
+    return jwt_decode(data.token)
   }
 }

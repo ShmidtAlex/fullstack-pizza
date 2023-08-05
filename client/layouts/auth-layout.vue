@@ -1,11 +1,11 @@
 <template>
-  <div>
-    AuthLayout
-    <NavBar></NavBar>
-    <div class="container">
-      <slot></slot>
-    </div>
-  </div>
+<!--  <div>-->
+<!--    AuthLayout-->
+<!--    <NavBar></NavBar>-->
+<!--    <div class="container">-->
+<!--      <slot></slot>-->
+<!--    </div>-->
+<!--  </div>-->
 </template>
 
 <script setup>

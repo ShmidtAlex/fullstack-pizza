@@ -6,12 +6,12 @@
 </template>
 
 <script lang="ts" setup>
-const isAuthLayout = false;
-const isAuthenticated = false;
-
-const showAuthForm = () => {
-  this.isAuthLayout = true;
-};
+// const isAuthLayout = false;
+// const isAuthenticated = false;
+//
+// const showAuthForm = () => {
+//   this.isAuthLayout = true;
+// };
 </script>
 
 <style scoped>
