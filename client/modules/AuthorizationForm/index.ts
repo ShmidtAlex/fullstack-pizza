@@ -11,12 +11,12 @@ export default defineNuxtModule({
         {
           name: "auth",
           path: "/auth",
-          file: path.resolve(__dirname, "./pages/UserSignInForm/UserSignInForm.vue"),
+          file: path.resolve(__dirname, "./pages/UserSignInForm.vue"),
         },
         {
           name: "registration",
           path: "/registration",
-          file: path.resolve(__dirname, "./pages/UserRegistrationForm/UserRegistrationForm.vue"),
+          file: path.resolve(__dirname, "./pages/UserRegistrationForm.vue"),
         }
       );
     },
