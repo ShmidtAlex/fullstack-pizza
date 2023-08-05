@@ -137,7 +137,7 @@ import {useUserStore} from "~/modules/AuthorizationForm/store/UserStore";
   &__actions {
     display: flex;
     flex-direction: row;
-    justify-content: space-between;
+    justify-content: flex-end;
     align-items: center;
     width: 30%;
   }

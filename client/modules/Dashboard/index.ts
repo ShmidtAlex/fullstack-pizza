@@ -1,5 +1,5 @@
 import path from "path";
-import { defineNuxtModule, addComponentsDir, useNuxt } from "@nuxt/kit";
+import { defineNuxtModule } from "@nuxt/kit";
 
 export default defineNuxtModule({
   // Default configuration options for your module
@@ -9,18 +9,13 @@ export default defineNuxtModule({
     "pages:extend"(pages) {
       pages.push(
         {
-          name: "auth",
-          path: "/auth",
-          file: path.resolve(__dirname, "./pages/UserSignInForm/UserSignInForm.vue"),
+          name: "dashboard",
+          path: "/dashboard",
+          file: path.resolve(__dirname, "./pages/Dashboard.vue"),
         },
-        {
-          name: "registration",
-          path: "/registration",
-          file: path.resolve(__dirname, "./pages/UserRegistrationForm/UserRegistrationForm.vue"),
-        }
       );
     },
-
+    
     // COMPONENTS
     "components:dirs"(dirs) {
       // Add ./components dir to the list
@@ -28,7 +23,7 @@ export default defineNuxtModule({
         path: path.resolve(__dirname, "./components"),
       });
     },
-
+    
     // COMPOSABLES
     // "autoImports:dirs"(dirs) {
     //   dirs.push(path.resolve(__dirname, "./composables"));
