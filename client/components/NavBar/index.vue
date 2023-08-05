@@ -43,12 +43,12 @@
     <div class="navbar-container__actions">
       <NuxtLink v-if="!isAuth" class="open-button" to="/auth" :class="{'open-button--disabled': isSignInPage}">
         <div class="bg-[#12b488] text-white m-2 px-3 py-2 rounded-md text-sm text-white">
-          Sign In
+          LogIn
         </div>
       </NuxtLink>
       <NuxtLink v-else class="open-button" to="/products">
         <div class="bg-[gray] text-white m-2 px-3 py-2 rounded-md text-sm text-white">
-          Sign Out
+          LogOut
         </div>
       </NuxtLink>
       <NuxtLink class="open-button" to="/registration" :class="{'open-button--disabled': isRegistrationPage }">
