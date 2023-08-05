@@ -76,6 +76,7 @@ import {useUserStore} from "~/modules/AuthorizationForm/store/UserStore";
   const password = ref<string>('')
 
   const handleClick = async () => {
+    // todo: add validation for empty email/password for the both cases
     if (!isLogin.value) {
       data.value = await context.$api.auth.registration(email.value, password.value)
     } else {
