@@ -60,6 +60,7 @@ class UserController {
       if (err) {
         return next(ApiError.internal(`token have not been generated ${err}`))
       } else {
+        res.cookie('jwt', token, { httpOnly: true, maxAge: 24 * 60 * 60 * 1000 })
         return res.json({ token })
       }
     })

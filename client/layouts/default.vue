@@ -1,17 +1,37 @@
 <template>
-  <NavBar :is-auth-form="isAuthenticated"></NavBar>
+  <NavBar></NavBar>
   <div class="product-container">
     <slot></slot>
   </div>
 </template>
 
 <script lang="ts" setup>
-// const isAuthLayout = false;
-// const isAuthenticated = false;
-//
-// const showAuthForm = () => {
-//   this.isAuthLayout = true;
-// };
+import {useNuxtApp} from "#app";
+import {onMounted} from "vue";
+import {useUserStore} from "~/modules/AuthorizationForm/store/UserStore";
+import {getCookie, H3Event} from "h3";
+const { user } = useUserStore()
+const context = useNuxtApp()
+onMounted(() => {
+  const token = getCookie(H3Event, 'jwt');
+  console.log(token);
+  if (token) {
+    const config = {
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    };
+    context.$api.auth.check(config)
+        .then(response => {
+          console.log(response);
+          // Do something with the response
+        })
+        .catch(error => {
+          console.error(error);
+        });
+  }
+})
+
 </script>
 
 <style scoped>

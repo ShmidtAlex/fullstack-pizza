@@ -4,6 +4,10 @@ import { NuxtOptions } from "@nuxt/schema";
 
 export default defineNuxtConfig({
   pages: true,
+  axios: {
+    baseURL: 'http://localhost:5009',
+    withCredentials: true
+  },
   modules: [
     "@nuxtjs/tailwindcss",
     "@pinia/nuxt",

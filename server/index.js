@@ -3,6 +3,7 @@ const sequelize = require('./db');
 const models = require('./models/index');
 const express = require('express');
 const router = require('./routes/index');
+const cookieParser = require('cookie-parser');
 const path = require('path');
 
 const errorHandler = require('./middleware/ErrorHandlingMiddleware');
@@ -19,6 +20,7 @@ app.use(cors({
   credentials: true, //
 }))
 app.use(express.json())
+app.use(cookieParser())
 app.use(express.static(path.resolve(__dirname, 'static')))
 app.use(fileUpload({}))
 app.use('/api', router)
