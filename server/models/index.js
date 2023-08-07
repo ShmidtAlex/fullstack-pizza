@@ -1,15 +1,25 @@
 const sequelize = require('../db.js');
 const { DataTypes } = require('sequelize');
 
+// TOdo: may be make sense to add field isActivated: boolean (confirmation that user activated account through the email)
+// Todo: and activationLink: string - the link for activation itself (see advanced JWT authorization UlbTv)
 const User = sequelize.define('user', {
   id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
   email: { type: DataTypes.STRING, unique: true },
   password: { type: DataTypes.STRING },
+  isActivated: { type: DataTypes.BOOLEAN, defaultValue: false },
+  activationLink: { type: DataTypes.STRING },
   role: {
-  type: DataTypes.ENUM('ADMIN', 'USER', 'VISITOR', 'REDACTOR', 'SUPERADMIN'),
+    type: DataTypes.ENUM('ADMIN', 'USER', 'VISITOR', 'REDACTOR', 'SUPERADMIN'),
     defaultValue: 'VISITOR',
   }
 })
+// for keeping refresh token, IP address, fingerPrint of browser, user id and others
+const Token = sequelize.define('token', {
+  user: { type: DataTypes.INTEGER, primaryKey: true },
+  refreshToken: { type: DataTypes.STRING, allowNull: false }
+})
+
 const Role = sequelize.define('role', {
   name: {
     type: DataTypes.STRING,
@@ -17,9 +27,11 @@ const Role = sequelize.define('role', {
     unique: true,
   },
 });
+
 const UserRole = sequelize.define('user_role', {
   id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true }
 })
+
 const Cart = sequelize.define('cart', {
   id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
   userId: {
@@ -28,6 +40,7 @@ const Cart = sequelize.define('cart', {
     unique: true,
   },
 })
+
 const Order = sequelize.define('order', {
   id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
   totalPrice: { type: DataTypes.FLOAT, allowNull: false },
@@ -103,6 +116,10 @@ Order.belongsTo(User);
 User.belongsToMany(Role, { through: UserRole });
 Role.belongsToMany(User, { through: UserRole });
 
+// Todo: learn db migration
+Token.belongsTo(User, { foreignKey: 'user', as: 'tokenUser' });
+User.hasOne(Token, { foreignKey: 'user', as: 'userToken' });
+
 Cart.hasMany(Order);
 Order.belongsTo(Cart);
 
@@ -155,5 +172,6 @@ module.exports = {
   PastryPizza,
   Order,
   UserRole,
-  Role
+  Role,
+  Token
 }
