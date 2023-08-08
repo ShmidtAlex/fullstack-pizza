@@ -46,12 +46,10 @@
           LogIn
         </div>
       </NuxtLink>
-      <NuxtLink v-else class="open-button" to="/products">
-        <div class="bg-[gray] text-white m-2 px-3 py-2 rounded-md text-sm text-white">
-          LogOut
-        </div>
-      </NuxtLink>
-      <NuxtLink class="open-button" to="/registration" :class="{'open-button--disabled': isRegistrationPage }">
+      <button v-else @click="logOut" class="bg-[gray] text-white m-2 px-3 py-2 rounded-md text-sm text-white">
+        LogOut
+      </button>
+      <NuxtLink v-if="!isAuth" class="open-button" to="/registration" :class="{'open-button--disabled': isRegistrationPage }">
         <div class="bg-[blue] text-white m-2 px-3 py-2 rounded-md text-sm text-white">Registration</div>
       </NuxtLink>
       <NuxtLink v-if="isAdmin" class="open-button" to="/dashboard">
@@ -63,13 +61,14 @@
 </template>
 <script lang="ts" setup>
 
-import {computed, ref} from "vue";
+// import {computed, ref} from "#app";
 import {useRouter} from "vue-router";
 import {useUserStore} from "~/modules/AuthorizationForm/store/UserStore";
+import {navigateTo, useNuxtApp} from "#app";
   // Todo: show user icon in the very right corner of navbar (as well as ability to go to user page)
-
+  const context = useNuxtApp()
   const router = new useRouter()
-  const auth = useUserStore()
+  const userStore = useUserStore()
 
   const isSignInPage = computed(() => {
     return router.currentRoute.value.name === 'auth'
@@ -78,24 +77,24 @@ import {useUserStore} from "~/modules/AuthorizationForm/store/UserStore";
     return router.currentRoute.value.name === 'registration'
   })
   const isAdmin = computed(() => {
-    return auth.isAuth && (auth.user.role === 'ADIMIN' || 'SUPERADMIN')
+    return userStore.isAuth && (userStore.user.role === 'ADIMIN' || userStore.user.role === 'SUPERADMIN')
   })
   const isAuth = computed(() => {
-    return auth.isAuth
+    return userStore.isAuth
   })
-
   const props = defineProps({
     showMenu: {
       type: Boolean,
       default: true,
-    },
-    isAuthForm: {
-      type: Boolean,
-      default: false,
-    },
+    }
   })
   const city = ref("Munich");
   const change = ref(false);
+  const logOut = async () => {
+    await context.$api.auth.logout()
+    await navigateTo({ path: '/products' })
+    userStore.setIsAuth(false)
+  }
 
 </script>
 <style lang="scss">
@@ -191,5 +190,8 @@ import {useUserStore} from "~/modules/AuthorizationForm/store/UserStore";
 .user-section-active {
   background-color: #f8f8f8;
   color: #bfb7b6;
+}
+button {
+  cursor: pointer;
 }
 </style>

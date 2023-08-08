@@ -38,7 +38,7 @@
     </div>
     <div class="action-section">
       <div>{{ readdressMessage }}</div>
-      <NuxtLink :to="`/${link}`">{{ link }}</NuxtLink>
+      <NuxtLink :to="`/${link}`">{{ oppositeLabel }}</NuxtLink>
     </div>
   </div>
 </template>
@@ -74,7 +74,9 @@ import {useUserStore} from "~/modules/AuthorizationForm/store/UserStore";
   const data = ref({})
   const email = ref<string>('')
   const password = ref<string>('')
-
+  const oppositeLabel = computed(() => {
+    return props.label === 'registration' ? 'LogIn' : 'Registration'
+  })
   const handleClick = async () => {
     // todo: add validation for empty email/password for the both cases
     if (!isLogin.value) {
@@ -82,7 +84,7 @@ import {useUserStore} from "~/modules/AuthorizationForm/store/UserStore";
     } else {
       data.value = await context.$api.auth.login(email.value, password.value)
     }
-    setUser(data.value)
+    await setUser(data.value)
     setIsAuth(true)
     await navigateTo({ path: '/products' })
   }
@@ -127,6 +129,9 @@ import {useUserStore} from "~/modules/AuthorizationForm/store/UserStore";
   margin-bottom: 16px;
   a {
     margin: 0 16px;
+  }
+  button {
+    cursor: pointer;
   }
 }
 </style>

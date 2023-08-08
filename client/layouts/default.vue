@@ -1,5 +1,5 @@
 <template>
-  <NavBar :is-auth-form="isAuthenticated"></NavBar>
+  <NavBar></NavBar>
   <div class="product-container">
     <slot></slot>
   </div>

@@ -15,7 +15,12 @@ export default defineNuxtConfig({
     "./modules/AuthorizationForm",
   ],
   css: ["bootstrap/dist/css/bootstrap.min.css"],
-  build: { transpile: ["@vee-validate/rules"] },
+  build: {
+    extend(config, ctx) {
+      // Add or modify compilerOptions here
+      config.resolve.alias['vue'] = 'vue/dist/vue.esm-bundler.js';
+    },
+  },
   server: {
     host: 'localhost',
     port: 3000
