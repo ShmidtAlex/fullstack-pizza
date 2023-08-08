@@ -15,6 +15,7 @@ export default class AuthorizationService extends BaseHttpService<IAxiosConfig> 
   
   async registration(email: string, password: string): Promise<AxiosResponse> {
     const { data } = await this.axiosClient.post(`api/user/registration`, {email, password})
+    console.log(data)
     localStorage.setItem('token', data.accessToken)
     return jwt_decode(data.accessToken)
   }
@@ -23,6 +24,11 @@ export default class AuthorizationService extends BaseHttpService<IAxiosConfig> 
     const { data } = await this.axiosClient.post(`api/user/login`, {email, password})
     localStorage.setItem('token', data.accessToken)
     return jwt_decode(data.accessToken)
+  }
+  async logout(): Promise<AxiosResponse> {
+    const { data } = await this.axiosClient.post(`api/user/logout`)
+    localStorage.setItem('token', '')
+    // return jwt_decode(data.accessToken)
   }
   async check(): Promise<AxiosResponse> {
     const { data } = this.axiosClient.get(`api/user/auth`)

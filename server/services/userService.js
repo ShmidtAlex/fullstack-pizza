@@ -1,4 +1,4 @@
-const {Role, User, UserRole} = require("../models");
+const { User } = require("../models");
 const ApiError = require("../error/ApiError");
 const bcrypt = require("bcrypt");
 const uuid = require("uuid");

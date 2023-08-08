@@ -1,7 +1,7 @@
 import { defineStore } from "pinia";
 // import { IFinalObjectForCart, IIncreaseable } from "~/modules/Products/types";
 
-export const useUserStore = defineStore("useUserStore", {
+export const useUserStore = defineStore("user", {
   state: () => ({
     _isAuth: false,
     _user: {},
