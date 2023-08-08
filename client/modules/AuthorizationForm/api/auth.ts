@@ -12,7 +12,8 @@ export default class AuthorizationService extends BaseHttpService<IAxiosConfig> 
   ) {
     super(config)
   }
-  
+  // Todo: create and insert types for axios responses in each method, meaning
+  //  Promise<AxiosResponse<CustomInterface>> and this.axiosClient.post<CustomInterface>() which allows to get transparent response with IDE hints
   async registration(email: string, password: string): Promise<AxiosResponse> {
     const { data } = await this.axiosClient.post(`api/user/registration`, {email, password})
     localStorage.setItem('token', data.accessToken)
@@ -24,9 +25,9 @@ export default class AuthorizationService extends BaseHttpService<IAxiosConfig> 
     localStorage.setItem('token', data.accessToken)
     return jwt_decode(data.accessToken)
   }
-  async logout(): Promise<AxiosResponse> {
+  async logout(): Promise<void> {
     const { data } = await this.axiosClient.post(`api/user/logout`)
-    localStorage.setItem('token', '')
+    localStorage.removeItem('token')
     // return jwt_decode(data.accessToken)
   }
   async check(): Promise<AxiosResponse> {

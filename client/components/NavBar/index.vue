@@ -63,15 +63,17 @@
 
 // import {computed, ref} from "#app";
 import {useRouter} from "vue-router";
-import {useUserStore} from "~/modules/AuthorizationForm/store/UserStore";
+import {useAuthStore} from "~/modules/AuthorizationForm/store/AuthStore";
 import {navigateTo, useNuxtApp} from "#app";
-import {computed, ref} from "vue";
+import { computed, ref, onMounted } from "vue";
 
   // Todo: show user icon in the very right corner of navbar (as well as ability to go to user page)
   const context = useNuxtApp()
   const router = new useRouter()
-  const userStore = useUserStore()
-
+  const authStore = useAuthStore()
+   onMounted(async () => {
+    await authStore.checkAuth()
+  })
   const isSignInPage = computed(() => {
     return router.currentRoute.value.name === 'auth'
   })
@@ -79,10 +81,10 @@ import {computed, ref} from "vue";
     return router.currentRoute.value.name === 'registration'
   })
   const isAdmin = computed(() => {
-    return userStore.isAuth && (userStore.user.role === 'ADIMIN' || userStore.user.role === 'SUPERADMIN')
+    return authStore.isAuth && (authStore.user.role === 'ADIMIN' || authStore.user.role === 'SUPERADMIN')
   })
   const isAuth = computed(() => {
-    return userStore.isAuth
+    return authStore.isAuth
   })
   const props = defineProps({
     showMenu: {
@@ -95,7 +97,7 @@ import {computed, ref} from "vue";
   const logOut = async () => {
     await context.$api.auth.logout()
     await navigateTo({ path: '/products' })
-    userStore.setIsAuth(false)
+    authStore.setIsAuth(false)
   }
 
 </script>

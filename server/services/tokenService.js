@@ -24,7 +24,6 @@ class TokenService {
   async removeToken(refreshToken) {
     const tokenData = await Token.destroy({ where: {refreshToken} });
     // Todo check why does returns 1
-    console.log('REFRESH TOKEN', tokenData)
     return tokenData;
   }
   async validateAccessToken(token) {

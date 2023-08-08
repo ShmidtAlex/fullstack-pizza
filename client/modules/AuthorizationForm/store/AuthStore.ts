@@ -1,7 +1,8 @@
 import { defineStore } from "pinia";
+import axios from "axios";
 // import { IFinalObjectForCart, IIncreaseable } from "~/modules/Products/types";
 
-export const useUserStore = defineStore("user", {
+export const useAuthStore = defineStore("auth", {
   state: () => ({
     _isAuth: false,
     _user: {},
@@ -21,5 +22,15 @@ export const useUserStore = defineStore("user", {
     setUser(user): void {
       this._user = user
     },
+    async checkAuth() {
+      try {
+        const response = await axios.get(`http://localhost:5009/api/user/refresh`, { withCredentials: true });
+        localStorage.setItem('token', response.data.accessToken);
+        this.setIsAuth(true);
+        this.setUser(response.data.user)
+      } catch (e) {
+        console.log(e.response?.data?.message)
+      }
+    }
   },
 });

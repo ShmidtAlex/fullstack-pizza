@@ -15,8 +15,11 @@ router.post('/login', userController.login);
 router.post('/logout', userController.logout);
 router.get('/auth', authMiddleware, userController.checkIsAuth);
 router.get('/refresh', userController.refresh);
-router.get('/users', checkRoleMiddleware(['SUPERADMIN']), userController.getAllUsers);
+router.get('/users', checkRoleMiddleware(['SUPERADMIN', 'ADMIN']), userController.getAllUsers);
 router.delete('/delete/:id', checkRoleMiddleware(['SUPERADMIN']), userController.deleteUser);
+// meaning roles, passwords, emails or other registration data
 router.patch('/update/:id', checkRoleMiddleware(['SUPERADMIN']), userController.updateUser);
-// Todo: seems like we need another route to readact users' data by themselves. I mean phones, emails and etc.
+// Todo: seems like we need another route to redact users' data by themselves. I mean phones, emails and etc.
+router.patch('/update-account/:id', checkRoleMiddleware(['SUPERADMIN', 'ADMIN', 'REDACTOR', 'USER']), userController.updateUserData);
+
 module.exports = router

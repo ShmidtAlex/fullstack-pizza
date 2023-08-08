@@ -25,7 +25,6 @@ class UserController {
 
       const userData = await userService.registration(email, password, role)
       await roleService.addRole(userData.user, role)
-      console.log('USER_DATA_USER', userData)
       const cart = await Cart.create({userId: userData.user.id});
 
       // httpOnly prevents access to refreshToken in browser
@@ -85,12 +84,13 @@ class UserController {
   async refresh(req, res, next) {
     try {
       const { refreshToken } = req.cookies;
+
       const userData = await userService.refresh(refreshToken);
 
       res.cookie('refreshToken', userData.refreshToken, { maxAge: 30*24*60*60*1000, httpOnly: true });
       return res.json(userData);
     } catch (error) {
-      return next(ApiError.internal(`An error occurred during logout: ${error.message}`));
+      return next(ApiError.internal(`An error occurred during refresh token: ${error.message}`));
     }
   }
   async updateUser(req, res, next) {
@@ -114,6 +114,13 @@ class UserController {
       return res.json(users)
     } catch (error) {
       return next(ApiError.internal(`An error occurred during getting the list of users: ${error.message}`));
+    }
+  }
+  async updateUserData(req, res, next) {
+    try {
+     // todo: add method's content for updating user's personal data
+    } catch (error) {
+      return next(ApiError.internal(`An error occurred during updating personal user's data: ${error.message}`));
     }
   }
 }

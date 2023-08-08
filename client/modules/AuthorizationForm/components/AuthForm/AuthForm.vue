@@ -49,7 +49,7 @@ import Input from '@/components/Input/index.vue'
 
 import {useRouter} from "vue-router";
 import {navigateTo, useNuxtApp} from "#app";
-import {useUserStore} from "~/modules/AuthorizationForm/store/UserStore";
+import {useUserStore} from "~/modules/AuthorizationForm/store/AuthStore";
 import {computed, ref} from "vue";
 
   const context = useNuxtApp()
