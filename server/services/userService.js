@@ -12,7 +12,6 @@ class UserService {
     if (candidate) {
       return ApiError.badRequest('User with such an email already exists');
     }
-
     // if conditions correct, register user and hash password:
     const hashPassword = await bcrypt.hash(password, 5);
     const activationLink = uuid.v4()
@@ -55,21 +54,21 @@ class UserService {
       if (!userData) {
         return ApiError.badRequest('No user with such an email');
       }
-      let comparePassword = bcrypt.compareSync(password, userData.password)
+      let comparePassword = bcrypt.compareSync(password, userData.password);
       if (!comparePassword) {
         return ApiError.badRequest('Wrong password');
       }
       const userDto = new UserDto(userData);
-      const tokens = await tokenService.generateTokens({ ...userDto })
+      const tokens = await tokenService.generateTokens({ ...userDto });
 
       // save refresh token to db object
-      const savedTokens = await tokenService.saveToken(userDto.id, tokens.refreshToken)
+      const savedTokens = await tokenService.saveToken(userDto.id, tokens.refreshToken);
       return {
         ...tokens,
         user: userDto
-      }
+      };
     } catch(error) {
-      throw ApiError.badRequest('Error during login process', error)
+      throw ApiError.badRequest('Error during login process', error);
     }
   }
   async logout(refreshToken) {
@@ -79,6 +78,33 @@ class UserService {
     } catch(error) {
       throw ApiError.badRequest('Error during logout process', error)
     }
+  }
+  async refresh(refreshToken) {
+    try {
+      if (!refreshToken) {
+        // Todo: better to name ApiError method unauthorizedRequest
+        return ApiError.notFound('There is not valid or empty token');
+      }
+      const userData = tokenService.validateRefreshToken(refreshToken);
+      const tokenFromDb = await tokenService.findToken(refreshToken);
+      if (!userData || !tokenFromDb) {
+        // Todo: better to name ApiError method unauthorizedRequest
+        return ApiError.forbidden('Refresh token has not been found or not valid');
+      }
+      console.log("FIND_USER",  userData.id)
+      const user = await User.findByPk(userData.id);
+      const userDto = new UserDto(user);
+      const tokens = tokenService.generateTokens({...userDto});
+      console.log("FIND_USER", userDto.id)
+      await tokenService.saveToken(userDto.id, tokens.refreshToken);
+      return { ...tokens, user: userDto };
+    } catch(error) {
+      throw ApiError.badRequest('Error during refresh token of user', error);
+    }
+  }
+  async getAllUsers() {
+    const users = await User.findAll();
+    return users;
   }
 }
 

@@ -25,7 +25,7 @@ class UserController {
 
       const userData = await userService.registration(email, password, role)
       await roleService.addRole(userData.user, role)
-
+      console.log('USER_DATA_USER', userData)
       const cart = await Cart.create({userId: userData.user.id});
 
       // httpOnly prevents access to refreshToken in browser
@@ -54,6 +54,7 @@ class UserController {
   }
   async checkIsAuth(req, res, next) {
     try {
+      console.log('REQ_UID', req.user.id)
       const token = generateJWT(req.user.id, req.user.email, req.user.role)
       return res.json({ token })
     } catch(error) {
@@ -81,6 +82,17 @@ class UserController {
       return next(ApiError.internal(`An error occurred during logout: ${error.message}`));
     }
   }
+  async refresh(req, res, next) {
+    try {
+      const { refreshToken } = req.cookies;
+      const userData = await userService.refresh(refreshToken);
+
+      res.cookie('refreshToken', userData.refreshToken, { maxAge: 30*24*60*60*1000, httpOnly: true });
+      return res.json(userData);
+    } catch (error) {
+      return next(ApiError.internal(`An error occurred during logout: ${error.message}`));
+    }
+  }
   async updateUser(req, res, next) {
     try {
 
@@ -98,7 +110,8 @@ class UserController {
   // for business purposes only
   async getAllUsers (req, res, next) {
     try {
-
+      const users = await userService.getAllUsers();
+      return res.json(users)
     } catch (error) {
       return next(ApiError.internal(`An error occurred during getting the list of users: ${error.message}`));
     }

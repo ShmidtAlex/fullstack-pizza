@@ -15,7 +15,7 @@ class ApiError extends Error {
     return new ApiError(500, message)
   }
   static notFound(message) {
-    return new ApiError(4041, message)
+    return new ApiError(401, message)
   }
 }
 

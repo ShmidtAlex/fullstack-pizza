@@ -50,6 +50,7 @@ import Input from '@/components/Input/index.vue'
 import {useRouter} from "vue-router";
 import {navigateTo, useNuxtApp} from "#app";
 import {useUserStore} from "~/modules/AuthorizationForm/store/UserStore";
+import {computed, ref} from "vue";
 
   const context = useNuxtApp()
   const props = defineProps({
@@ -66,6 +67,7 @@ import {useUserStore} from "~/modules/AuthorizationForm/store/UserStore";
       type: String
     }
   })
+
   const router = new useRouter()
   const { setIsAuth, setUser } = useUserStore()
   const isLogin = computed(() => {
@@ -79,6 +81,8 @@ import {useUserStore} from "~/modules/AuthorizationForm/store/UserStore";
   })
   const handleClick = async () => {
     // todo: add validation for empty email/password for the both cases
+    // Todo: make a loader for retrieving loading from api;
+    //  todo: move the api calls below to the pinia store
     if (!isLogin.value) {
       data.value = await context.$api.auth.registration(email.value, password.value)
     } else {

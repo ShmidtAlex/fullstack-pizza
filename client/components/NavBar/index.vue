@@ -65,6 +65,8 @@
 import {useRouter} from "vue-router";
 import {useUserStore} from "~/modules/AuthorizationForm/store/UserStore";
 import {navigateTo, useNuxtApp} from "#app";
+import {computed, ref} from "vue";
+
   // Todo: show user icon in the very right corner of navbar (as well as ability to go to user page)
   const context = useNuxtApp()
   const router = new useRouter()

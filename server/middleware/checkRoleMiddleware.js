@@ -1,6 +1,6 @@
 const jwt = require('jsonwebtoken')
 const isValidUserRole = require('../middleware/checkRoleIsValidMiddleware')
-module.exports = function(role) {
+module.exports = function(roles) {
   return async function (req, res, next) {
     if (req.method === "OPTIONS") {
       next()
@@ -12,10 +12,11 @@ module.exports = function(role) {
       }
 
       const decoded = jwt.verify(token, process.env.SECRET_KEY, null, null)
-      if (decoded.role !== role) {
+
+      if (!roles.includes(decoded.role)) {
         return res.status(403).json({message: "Has no access"})
       }
-
+      console.log("DECODED_ID", decoded.id)
       const isValidRole = await isValidUserRole(decoded.id, decoded.role);
       if (!isValidRole) {
         // User's role has been changed, invalidate the token and log out
