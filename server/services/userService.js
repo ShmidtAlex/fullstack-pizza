@@ -5,6 +5,7 @@ const uuid = require("uuid");
 const mailService = require('./mailService');
 const tokenService = require('./tokenService');
 const UserDto = require('../dtos/userDto');
+const {where} = require("sequelize");
 
 class UserService {
   async registration(email, password, role) {
@@ -85,17 +86,19 @@ class UserService {
         // Todo: better to name ApiError method unauthorizedRequest
         return ApiError.notFound('There is not valid or empty token');
       }
-      const userData = tokenService.validateRefreshToken(refreshToken);
+      const userData = await tokenService.validateRefreshToken(refreshToken);
+
       const tokenFromDb = await tokenService.findToken(refreshToken);
+
       if (!userData || !tokenFromDb) {
         // Todo: better to name ApiError method unauthorizedRequest
         return ApiError.forbidden('Refresh token has not been found or not valid');
       }
-      console.log("FIND_USER",  userData.id)
-      const user = await User.findByPk(userData.id);
+      const user = await User.findOne({ where: {id: userData.id} });
+
       const userDto = new UserDto(user);
-      const tokens = tokenService.generateTokens({...userDto});
-      console.log("FIND_USER", userDto.id)
+      const tokens = await tokenService.generateTokens({...userDto});
+
       await tokenService.saveToken(userDto.id, tokens.refreshToken);
       return { ...tokens, user: userDto };
     } catch(error) {

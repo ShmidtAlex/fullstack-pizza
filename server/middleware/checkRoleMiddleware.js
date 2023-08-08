@@ -8,15 +8,15 @@ module.exports = function(roles) {
     try {
       const token = req.headers.authorization.split(' ')[1] // Bearer asfasnfkajsfnjk
       if (!token) {
-        return res.status(401).json({message: "Not authorized"})
+        return res.status(401).json({message: "Not authorized, there is no token"})
       }
 
       const decoded = jwt.verify(token, process.env.SECRET_KEY, null, null)
 
       if (!roles.includes(decoded.role)) {
-        return res.status(403).json({message: "Has no access"})
+        return res.status(403).json({message: "Has no access, the role doesn't match"})
       }
-      console.log("DECODED_ID", decoded.id)
+
       const isValidRole = await isValidUserRole(decoded.id, decoded.role);
       if (!isValidRole) {
         // User's role has been changed, invalidate the token and log out
