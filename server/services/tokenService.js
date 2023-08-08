@@ -1,13 +1,12 @@
 const jwt = require('jsonwebtoken');
 const { Token } = require('../models');
+const ApiError = require("../error/ApiError");
 
 class TokenService {
   async generateTokens(payload) {
     const accessToken = await jwt.sign(payload, process.env.SECRET_KEY, {expiresIn: '30m'}, null)
-
     // user has to login after 30 days of absence
     const refreshToken = await jwt.sign(payload, process.env.REFRESH_KEY, {expiresIn: '30d'}, null)
-
     return {
       accessToken, refreshToken
     }
@@ -27,6 +26,30 @@ class TokenService {
     // Todo check why does returns 1
     console.log('REFRESH TOKEN', tokenData)
     return tokenData;
+  }
+  async validateAccessToken(token) {
+    try {
+      const userData = jwt.verify(token, process.env.SECRET_KEY, null, null);
+      return userData;
+    } catch(error) {
+      return null;
+    }
+  }
+  async validateRefreshToken(token) {
+    try {
+      const userData = jwt.verify(token, process.env.REFRESH_KEY, null, null);
+      return userData;
+    } catch(error) {
+      return null;
+    }
+  }
+  async findToken(refreshToken) {
+    try {
+      const userData = Token.findOne({ where: {refreshToken}});
+      return userData;
+    } catch(error) {
+      return null;
+    }
   }
 }
 

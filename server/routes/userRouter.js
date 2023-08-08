@@ -14,9 +14,9 @@ router.post('/registration',
 router.post('/login', userController.login);
 router.post('/logout', userController.logout);
 router.get('/auth', authMiddleware, userController.checkIsAuth);
-router.get('/refresh', userController.checkIsAuth);
-router.get('/users', checkRoleMiddleware('ADMIN'), userController.getAllUsers);
-router.delete('/delete/:id', checkRoleMiddleware('ADMIN'), userController.deleteUser)
-router.patch('/delete/:id', userController.updateUser)
-
+router.get('/refresh', userController.refresh);
+router.get('/users', checkRoleMiddleware(['SUPERADMIN']), userController.getAllUsers);
+router.delete('/delete/:id', checkRoleMiddleware(['SUPERADMIN']), userController.deleteUser);
+router.patch('/update/:id', checkRoleMiddleware(['SUPERADMIN']), userController.updateUser);
+// Todo: seems like we need another route to readact users' data by themselves. I mean phones, emails and etc.
 module.exports = router
