@@ -4,6 +4,7 @@ class ApiError extends Error {
     this.status = status
     this.message = message
   }
+  // Todo: check all types of errors by postman
   static forbidden(message) {
     return new ApiError(403, message)
   }
@@ -13,8 +14,8 @@ class ApiError extends Error {
   static internal(message) {
     return new ApiError(500, message)
   }
-  static notFound() {
-
+  static notFound(message) {
+    return new ApiError(4041, message)
   }
 }
 

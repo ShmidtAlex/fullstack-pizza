@@ -36,15 +36,48 @@ class UserService {
   }
   async activate(activationLink) {
     try {
-      const user = await User.findOne({ activationLink })
+      const user = await User.findOne({ where: {activationLink} })
       if (!user) {
-        return ApiError.internal(`User with such activation link does not exist: ${error.message}`)
+        return ApiError.internal(`User with such activation link does not exist`)
       }
       user.isActivated = true;
       await user.save();
       return 'Activation successful';
     } catch (error) {
-      return ApiError.internal(`An error occurred during activation: ${error.message}`);
+      throw ApiError.internal(`An error occurred during activation: ${error.message}`);
+    }
+  }
+  async login(email, password) {
+    try {
+      const userData = await User.findOne({ where: { email }})
+      // todo: check, why does only general error handler works, but not these two:
+      //  the answer is because of throw keyword, it should be replaced with return
+      if (!userData) {
+        return ApiError.badRequest('No user with such an email');
+      }
+      let comparePassword = bcrypt.compareSync(password, userData.password)
+      if (!comparePassword) {
+        return ApiError.badRequest('Wrong password');
+      }
+      const userDto = new UserDto(userData);
+      const tokens = await tokenService.generateTokens({ ...userDto })
+
+      // save refresh token to db object
+      const savedTokens = await tokenService.saveToken(userDto.id, tokens.refreshToken)
+      return {
+        ...tokens,
+        user: userDto
+      }
+    } catch(error) {
+      throw ApiError.badRequest('Error during login process', error)
+    }
+  }
+  async logout(refreshToken) {
+    try {
+      const token = await tokenService.removeToken(refreshToken);
+      return token;
+    } catch(error) {
+      throw ApiError.badRequest('Error during logout process', error)
     }
   }
 }
