@@ -24,10 +24,13 @@ export const useAuthStore = defineStore("auth", {
     },
     async checkAuth() {
       try {
+        // Todo: yes, but we should check if user not log outed, because otherwise page reloading logs him in again
         const response = await axios.get(`http://localhost:5009/api/user/refresh`, { withCredentials: true });
         localStorage.setItem('token', response.data.accessToken);
-        this.setIsAuth(true);
-        this.setUser(response.data.user)
+        if (response.data.accessToken) {
+          this.setIsAuth(true);
+          this.setUser(response.data.user)
+        }
       } catch (e) {
         console.log(e.response?.data?.message)
       }
