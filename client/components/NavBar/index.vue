@@ -41,15 +41,15 @@
       <div class="phone-number">015 99-1234567</div>
     </div>
     <div class="navbar-container__actions">
-      <NuxtLink v-if="!isAuth" class="open-button" to="/auth" :class="{'open-button--disabled': isSignInPage}">
+      <NuxtLink v-if="!isAuth && !isLoading" class="open-button" to="/auth" :class="{'open-button--disabled': isSignInPage}">
         <div class="bg-[#12b488] text-white m-2 px-3 py-2 rounded-md text-sm text-white">
           LogIn
         </div>
       </NuxtLink>
-      <button v-else @click="logOut" class="bg-[gray] text-white m-2 px-3 py-2 rounded-md text-sm text-white">
+      <button v-else-if="isAuth && !isLoading" @click="logOut" class="bg-[gray] text-white m-2 px-3 py-2 rounded-md text-sm text-white">
         LogOut
       </button>
-      <NuxtLink v-if="!isAuth" class="open-button" to="/registration" :class="{'open-button--disabled': isRegistrationPage }">
+      <NuxtLink v-if="!isAuth && !isLoading" class="open-button" to="/registration" :class="{'open-button--disabled': isRegistrationPage }">
         <div class="bg-[blue] text-white m-2 px-3 py-2 rounded-md text-sm text-white">Registration</div>
       </NuxtLink>
       <NuxtLink v-if="isAdmin" class="open-button" to="/dashboard">
@@ -68,11 +68,15 @@ import {navigateTo, useNuxtApp} from "#app";
 import { computed, ref, onMounted } from "vue";
 
   // Todo: show user icon in the very right corner of navbar (as well as ability to go to user page)
+  // Todo: while reload, dashboard disappears for a second and appeared login/registration buttons and then dashboard appears again
+
   const context = useNuxtApp()
   const router = new useRouter()
   const authStore = useAuthStore()
+  const isLoading = ref(true);
    onMounted(async () => {
     await authStore.checkAuth()
+     isLoading.value = false
   })
   const isSignInPage = computed(() => {
     return router.currentRoute.value.name === 'auth'
@@ -81,7 +85,10 @@ import { computed, ref, onMounted } from "vue";
     return router.currentRoute.value.name === 'registration'
   })
   const isAdmin = computed(() => {
-    return authStore.isAuth && (authStore.user.role === 'ADIMIN' || authStore.user.role === 'SUPERADMIN')
+    if (authStore.user) {
+      return authStore.isAuth && (authStore.user.role === 'ADIMIN' || authStore.user.role === 'SUPERADMIN')
+    }
+    return false
   })
   const isAuth = computed(() => {
     return authStore.isAuth

@@ -49,7 +49,7 @@ import Input from '@/components/Input/index.vue'
 
 import {useRouter} from "vue-router";
 import {navigateTo, useNuxtApp} from "#app";
-import {useUserStore} from "~/modules/AuthorizationForm/store/AuthStore";
+import {useAuthStore} from "~/modules/AuthorizationForm/store/AuthStore";
 import {computed, ref} from "vue";
 
   const context = useNuxtApp()
@@ -69,7 +69,7 @@ import {computed, ref} from "vue";
   })
 
   const router = new useRouter()
-  const { setIsAuth, setUser } = useUserStore()
+  const { setIsAuth, setUser } = useAuthStore()
   const isLogin = computed(() => {
     return router.currentRoute.value.name === 'auth'
   })
