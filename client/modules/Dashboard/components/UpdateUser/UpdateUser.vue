@@ -1,5 +1,9 @@
 <template>
-  <div>Update user (change roles, reset passwords)</div>
+  <DashboardSection
+      title="Update user (change roles, reset passwords)"
+  >
+
+  </DashboardSection>
 </template>
 
 <script lang="ts" setup>

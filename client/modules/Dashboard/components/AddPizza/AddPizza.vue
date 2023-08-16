@@ -1,5 +1,9 @@
 <template>
-  <div>AddPizza component</div>
+  <DashboardSection
+      title="AddPizza component"
+  >
+
+  </DashboardSection>
 </template>
 
 <script lang="ts" setup>
