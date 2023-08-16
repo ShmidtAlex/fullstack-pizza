@@ -19,7 +19,7 @@ const app = express()
 app.use(express.json())
 app.use(cookieParser())
 app.use(cors({
-  origin: ['http://localhost:3000'], // Add your frontend URL here
+  origin: ['http://localhost:3000', 'http://localhost:3001'], // Add your frontend URL here
   credentials: true, //
 }))
 app.use(express.static(path.resolve(__dirname, 'static')))
