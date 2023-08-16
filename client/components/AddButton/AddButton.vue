@@ -20,5 +20,6 @@
     width: 80px;
     height: 40px;
     border-radius: 8px;
+    margin: 0 16px 16px 0;
   }
 </style>

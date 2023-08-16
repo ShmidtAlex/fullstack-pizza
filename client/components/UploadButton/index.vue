@@ -34,7 +34,7 @@
   border-radius: 10px;
   border: none;
   outline: none;
-  margin: 0 8px ;
+  margin: 0 16px 0 0;
   &__icon {
     display: flex;
     justify-content: center;
