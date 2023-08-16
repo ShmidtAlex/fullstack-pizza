@@ -27,9 +27,9 @@
       default: ''
     }
   })
-  const emit = defineEmits(['change'])
+  const emit = defineEmits(['input'])
   const changeString = (e) => {
-   emit('change', e.target.value)
+   emit('input', e.target.value)
   }
 </script>
 

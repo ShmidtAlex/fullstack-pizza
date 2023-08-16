@@ -1,33 +1,25 @@
 <template>
-  <div v-if="isShown" class="form-input w-full">
-    <label>{{ name.toUpperCase() }}</label>
-    <VField v-slot="{ field, meta, errors }" :name="name">
+  <div v-if="isShown" class="form-input">
+    <label>{{ label }}</label>
       <input
-        v-bind="field"
+        v-model="text"
         :name="name"
         :type="type"
-        :field="field"
-        class="form-input__item w-full"
-        :class="{
-          'form-input__item-success': meta.valid && meta.touched,
-          'form-input__item-warning': !meta.valid && meta.touched,
-        }"
-        :placeholder="`enter your ${name}`"
+        class="form-input__item"
+        :placeholder="placeholder"
       />
-    </VField>
-    <div class="form-input__error">
-      <VErrorMessage :name="name" class="text-red-800 w-full font-light" />
-    </div>
   </div>
 </template>
 
-<script setup>
+<script lang="ts" setup>
+import { ref } from "vue";
+
 const props = defineProps({
   isShown: {
     type: Boolean,
     default: false,
   },
-  name: {
+  label: {
     type: String,
     required: true,
   },
@@ -35,26 +27,24 @@ const props = defineProps({
     type: String,
     default: "text",
   },
-});
-let isBorder = false;
-const isRequired = (value) => {
-  if (value && value.trim()) {
-    return true;
+  placeholder: {
+    type: String,
+    default: 'enter your'
   }
-  isBorder = true;
-  return "this field is required";
-};
+});
+  const text = ref('')
 </script>
 
 <style lang="scss" scoped>
 .form-input {
   display: flex;
   flex-direction: column;
-  align-items: center;
-  height: 30%;
-
+  align-items: flex-start;
   label {
-    margin-bottom: 8px;
+    padding-left: 8px;
+    font-size: 14px;
+    margin-bottom: 4px;
+    font-weight: 500;
   }
   &__item {
     min-height: 40px;

@@ -1,5 +1,9 @@
 <template>
-  <div>Add another product</div>
+  <DashboardSection
+      title="Add another product"
+  >
+
+  </DashboardSection>
 </template>
 
 <script lang="ts" setup>

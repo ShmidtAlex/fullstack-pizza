@@ -1,5 +1,9 @@
 <template>
+  <DashboardSection
+      title="CreateRole component"
+  >
 
+  </DashboardSection>
 </template>
 
 <script>
