@@ -1,24 +1,25 @@
 <template>
   <DashboardSection
-    title="AddIngredient component"
+    title="Ingredient addition"
   >
     <div class="inputs-container">
       <Input
         v-model="ingredientName"
         type="text"
         placeholder="Enter ingredient name"
-        label="Ingredient name"
+        label="Name"
       />
       <Input
         v-model="ingredientPrice"
         id="ingredient-price"
         type="number"
-        label="Ingredient price"
-        placeholder="enter price"
+        label="Price"
+        placeholder="Enter ingredient price"
       />
       <UploadButton />
+      <AddButton @proceedAddition="proceed"/>
     </div>
-    <AddButton @proceedAddition="proceed"/>
+
   </DashboardSection>
 </template>
 
@@ -41,6 +42,6 @@
     flex-direction: row;
     align-items: flex-end;
     justify-content: space-between;
-    width: 420px;
+    width: 500px;
   }
 </style>

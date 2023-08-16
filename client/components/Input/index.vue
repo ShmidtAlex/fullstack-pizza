@@ -1,10 +1,10 @@
 <template>
-  <div class="mb-3">
+  <div class="input mb-3">
     <label :for="id" class="form-label text-sm font-medium">{{ label }}</label>
     <input @change="changeString" :type="type" class="form-control form-control-sm" :id="id" :placeholder="placeholder">
   </div>
 </template>
-
+<!-- Todo: prevent negative numbers -->
 <script setup lang="ts">
   import { PropType } from "vue";
 
@@ -34,9 +34,13 @@
 </script>
 
 <style lang="scss" scoped>
-  input {
-    &::placeholder {
-      color: lightgray;
+  .input {
+    margin-right: 16px;
+    input {
+      &::placeholder {
+        color: lightgray;
+      }
     }
   }
+
 </style>
