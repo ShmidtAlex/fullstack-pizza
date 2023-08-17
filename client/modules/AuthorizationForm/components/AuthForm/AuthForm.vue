@@ -3,6 +3,7 @@
     <h4>User {{ label }} form</h4>
     <div class="auth__form-items">
       <Input
+          v-model="phone"
           label="Phone"
           id="phone-registration"
           type="phone"
@@ -10,19 +11,20 @@
           placeholder="enter phone number"
       />
       <Input
+          v-model="email"
           label="Email"
           type="email"
           id="email"
           placeholder="enter email"
           v-else
-          @change="(value) => assignEmail(value)"
       />
       <Input
+          v-model="password"
           id="password-registration"
           label="Password"
           type="password"
           placeholder="enter password 8 characters, numbers symbols and letters required"
-          @change="(value) => assignPassword(value)"
+
       />
     </div>
     <div class="action-section">
@@ -45,7 +47,6 @@
 
 <script lang="ts" setup>
 import Input from '@/components/Input/index.vue'
-// import { computed, ref } from "vue";
 
 import {useRouter} from "vue-router";
 import {navigateTo, useNuxtApp} from "#app";
@@ -76,6 +77,7 @@ import {computed, ref} from "vue";
   const data = ref({})
   const email = ref<string>('')
   const password = ref<string>('')
+  const phone = ref<string>('')
   const oppositeLabel = computed(() => {
     return props.label === 'registration' ? 'LogIn' : 'Registration'
   })
@@ -91,12 +93,6 @@ import {computed, ref} from "vue";
     await setUser(data.value)
     setIsAuth(true)
     await navigateTo({ path: '/products' })
-  }
-  const assignEmail = (value) => {
-    email.value = value
-  }
-  const assignPassword = (value) => {
-    password.value = value
   }
 
   const readdressMessage = computed(() => {
