@@ -1,6 +1,6 @@
 const Router = require('express');
 const router = new Router();
-const nutritionController = require('../controllers/nutritionController')
+const nutritionController = require('../controllers/NutritionController')
 
 router.post('/', nutritionController.createNutrition);
 router.delete('/', nutritionController.removeNutrition);

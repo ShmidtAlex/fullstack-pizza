@@ -1,5 +1,5 @@
 // Todo: move BaseHttpService to general api folder in the root of the project
-import BaseHttpService from '~/modules/AuthorizationForm/api/base'
+import BaseHttpService from '~/modules/Dashboard/api/base'
 import { IAxiosConfig } from '~/models/Http/types'
 import { AxiosResponse } from 'axios'
 

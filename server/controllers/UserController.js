@@ -53,7 +53,6 @@ class UserController {
   }
   async checkIsAuth(req, res, next) {
     try {
-      console.log('REQ_UID', req.user.id)
       const token = generateJWT(req.user.id, req.user.email, req.user.role)
       return res.json({ token })
     } catch(error) {

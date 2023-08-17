@@ -1,5 +1,5 @@
 import AuthorizationService from '~/modules/AuthorizationForm/api/auth';
-
+import IngredientsService from "~/modules/Dashboard/api/ingredients";
 import { AxiosError } from 'axios'
 import { IHttpService } from '~/models/Http/types'
 import {useNuxtApp} from "#app";
@@ -7,6 +7,7 @@ import {defineNuxtPlugin} from "#app";
 
 export interface IApi {
   auth: AuthorizationService,
+  ingredients: IngredientsService
 };
 
 let $api: IApi;
@@ -34,6 +35,7 @@ export default defineNuxtPlugin(() => {
   // Initialize API factories
   const factories: IApi = {
     auth: new AuthorizationService(),
+    ingredients: new IngredientsService()
   }
   
   // Inject $api but in nuxt 3 manner
