@@ -1,7 +1,7 @@
 <template>
   <div class="input mb-3">
     <label :for="id" class="form-label text-sm font-medium">{{ label }}</label>
-    <input @change="changeString" :type="type" class="form-control form-control-sm" :id="id" :placeholder="placeholder">
+    <input @input="changeString" :type="type" class="form-control form-control-sm" :id="id" :placeholder="placeholder">
   </div>
 </template>
 <!-- Todo: prevent negative numbers -->
@@ -27,10 +27,11 @@
       default: ''
     }
   })
-  const emit = defineEmits(['input'])
+
+  const emit = defineEmits(['update:modelValue']);
   const changeString = (e) => {
-   emit('input', e.target.value)
-  }
+    emit('update:modelValue', e.target.value);
+  };
 </script>
 
 <style lang="scss" scoped>
