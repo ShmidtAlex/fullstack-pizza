@@ -1,6 +1,6 @@
 const Router = require('express');
 const router = new Router();
-const sizeController = require('../controllers/sizeController')
+const sizeController = require('../controllers/SizeController')
 const checkRoleMiddleware = require("../middleware/checkRoleMiddleware");
 
 router.post('/', checkRoleMiddleware('ADMIN'), sizeController.createSize);

@@ -78,6 +78,7 @@ import {computed, ref} from "vue";
   const email = ref<string>('')
   const password = ref<string>('')
   const phone = ref<string>('')
+
   const oppositeLabel = computed(() => {
     return props.label === 'registration' ? 'LogIn' : 'Registration'
   })
@@ -98,6 +99,7 @@ import {computed, ref} from "vue";
   const readdressMessage = computed(() => {
     return props.label === 'registration' ? 'Already registered? ' : 'Have no account yet?';
   })
+
 </script>
 
 <style lang="scss" scoped>

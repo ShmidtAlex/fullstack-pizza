@@ -10,7 +10,7 @@ const sizeRouter = require('./sizeRouter');
 
 router.use('/user', userRouter);
 router.use('/cart', cartRouter);
-router.use('/ingredient', ingredientRouter);
+router.use('/ingredients', ingredientRouter);
 router.use('/nutrition', nutritionRouter);
 router.use('/pizza', pizzaRouter);
 router.use('/price', priceRouter);

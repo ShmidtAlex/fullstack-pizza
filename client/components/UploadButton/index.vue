@@ -15,9 +15,9 @@
   const props = defineProps({
 
   })
-
-  const uploadDocument = () => {
-    this.$emit('upload')
+  const emit = defineEmits(['upload'])
+  const uploadDocument = (e) => {
+    emit('upload', e.target.files)
   }
 
 </script>
