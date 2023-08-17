@@ -8,23 +8,27 @@ class IngredientController {
     try {
       const { name, price } = req.body
       const { img } = req.files
+      
+      if (!img || !name || !price) {
+        return next(ApiError.badRequest('Seems like you miss image or name or price for the ingredient'));
+      }
+
+      let existingIngredient = await Ingredient.findOne({ where: { name: name } });
+
       let fileName = `${uuid.v4()}.jpg`
       await img.mv(path.resolve(__dirname, '..', 'static', fileName))
 
-      let existingIngredient = await Ingredient.findOne({ where: { name: name } });
-      if (!img && !name && !price) {
-        return ApiError.badRequest('Seems like you miss image or name or price for the ingredients.ts');
-      }
       if (!existingIngredient) {
         existingIngredient = await Ingredient.create({
           img: fileName,
           name,
           price,
         });
+        return res.json(existingIngredient)
       } else {
-        ApiError.badRequest('Ingredient with this name already exists');
+        return next(ApiError.badRequest('Ingredient with this name already exists'));
       }
-      return res.json(existingIngredient)
+
     } catch (e) {
 
     }
