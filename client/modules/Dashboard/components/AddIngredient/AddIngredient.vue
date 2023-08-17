@@ -5,6 +5,7 @@
     <div class="inputs-container">
       <Input
         v-model="ingredientModel.name"
+        id="ingredient-name"
         type="text"
         placeholder="Enter ingredient name"
         label="Name"
@@ -41,12 +42,13 @@
 
   const uploadDocument = (files: any[]): void => {
     if (files.length) {
+      console.log(files)
       ingredientModel.value.img = files[0]
     }
   }
   const proceed =  async () => {
     console.log(context.$api)
-    await context.$api.ingredients.addIngredient(ingredientModel as IIngredientModel)
+    await context.$api.ingredients.addIngredient(ingredientModel.value as IIngredientModel)
   }
 </script>
 

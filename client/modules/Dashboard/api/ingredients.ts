@@ -14,7 +14,16 @@ export default class IngredientsService extends BaseHttpService<IAxiosConfig> {
   }
   
   async addIngredient(payload: IIngredientModel) {
-    const { data } = await this.axiosClient.post(`api/ingredients`, JSON.stringify(payload), { headers: {
+    const { name, price, img } = payload
+    const formData = new FormData();
+    formData.append('name', name);
+    formData.append('price', price);
+    if (img) {
+      formData.append('img', img);
+    }
+    
+    const { data } = await this.axiosClient.post(`api/ingredients`, payload, { headers: {
+      'Content-Type': 'multipart/form-data',
       'Authorization': `Bearer $${localStorage.getItem('token')}`
       }})
     return data
