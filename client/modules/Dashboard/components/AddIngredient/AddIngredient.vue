@@ -29,6 +29,9 @@
             @remove="removeIngredient"
         />
       </template>
+      <template v-else>
+
+      </template>
     </div>
   </DashboardSection>
 </template>
@@ -93,11 +96,8 @@
     width: 500px;
   }
   .list-container {
-    display: flex;
+    @extend .ingredient-container;
     flex-direction: column;
-    align-items: flex-end;
-    justify-content: space-between;
-    width: 500px;
     padding: 16px;
   }
 </style>

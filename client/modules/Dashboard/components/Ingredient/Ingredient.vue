@@ -1,7 +1,9 @@
 <template>
   <div class="ingredient">
     <div class="ingredient__info">
-      <img :src="data.img" alt="">
+      <div class="ingredient__info__img">
+        <img :src="`${config.public.NUXT_ENV_BASE_URL}/${data.img}`" :alt="`image of ingredient ${data.name}`">
+      </div>
       <div class="ingredient__info__name">{{ data.name }}</div>
       <div class="ingredient__info__price">{{ data.price }}$</div>
     </div>
@@ -17,6 +19,7 @@
 <script lang="ts" setup>
    import { IIngredientModel } from "~/modules/Dashboard/types";
    import { PropType } from "vue";
+   import { useRuntimeConfig } from "#app";
 
    const props = defineProps({
      data: {
@@ -24,6 +27,7 @@
        required: true
      }
    })
+   const config = useRuntimeConfig();
    const emit = defineEmits(['remove'])
    const remove = () => {
      emit('remove', props.data.id)
@@ -48,6 +52,17 @@
       align-items: center;
       height: 40px;
       width: 50%;
+
+      // Todo: minimize pictures, as they are still to big
+      &__img {
+        display: flex;
+        justify-content: center;
+        width: 60px;
+        img {
+          widht: 40px;
+          height: 40px;
+        }
+      }
     }
   }
 </style>

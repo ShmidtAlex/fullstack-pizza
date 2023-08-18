@@ -24,7 +24,7 @@ export default defineNuxtConfig({
   runtimeConfig: {
     public: {
       API_BASE_URL: process.env.API_BASE_URL,
-      NUXT_ENV_BASE_URL: process.env.NUXT_ENV_BASE_URL as string,
+      NUXT_ENV_BASE_URL: process.env.NUXT_ENV_BASE_URL,
     },
   },
   pinia: {
