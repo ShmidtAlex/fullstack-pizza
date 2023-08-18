@@ -1,6 +1,7 @@
 import { defineStore } from "pinia";
 import axios from "axios";
 // import { IFinalObjectForCart, IIncreaseable } from "~/modules/Products/types";
+// Todo: add ts
 
 export const useAuthStore = defineStore("auth", {
   state: () => ({
