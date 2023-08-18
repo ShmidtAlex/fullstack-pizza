@@ -3,9 +3,17 @@
 </template>
 
 <script lang="ts" setup>
+  const props = defineProps({
+    disabled: {
+      type: Boolean,
+      default: false
+    }
+  })
   const emit = defineEmits(['proceedAddition'])
   const proceedAddition = () => {
-    emit('proceedAddition')
+    if (!props.disabled) {
+      emit('proceedAddition')
+    }
   }
 
 </script>
@@ -21,5 +29,6 @@
     height: 40px;
     border-radius: 8px;
     margin: 0 16px 16px 0;
+    cursor: pointer;
   }
 </style>

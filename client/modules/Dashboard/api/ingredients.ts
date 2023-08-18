@@ -28,9 +28,11 @@ export default class IngredientsService extends BaseHttpService<IAxiosConfig> {
       }})
     return data
   }
-  async removeIngredient(ingredientId: number) {
-    const { data } = await this.axiosClient.delete(`api/ingredients/${ingredientId}`)
-    return data
+  async removeIngredient(id: number) {
+    const response = await this.axiosClient.delete(`api/ingredients/${id}`, { headers: {
+        'Authorization': `Bearer $${localStorage.getItem('token')}`
+      }})
+    return response
   }
   async updateIngredient(ingredientId: number, payload: IIngredientModel) {
     const { data } = await this.axiosClient.patch(`api/ingredients/${ingredientId}`, payload)
@@ -40,7 +42,7 @@ export default class IngredientsService extends BaseHttpService<IAxiosConfig> {
     const { data } = await this.axiosClient.get(`api/ingredients/${ingredientId}`)
     return data
   }
-  async getAllIngredients(req, res): Promise<AxiosResponse> {
+  async getAllIngredients(): Promise<AxiosResponse> {
     const { data } = await this.axiosClient.get(`api/ingredients`)
     return data
   }

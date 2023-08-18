@@ -14,6 +14,7 @@ export default defineNuxtConfig({
     // './modules/UserAccount',
     "./modules/AuthorizationForm",
   ],
+  plugins: ['~/plugins/api'],
   css: ["bootstrap/dist/css/bootstrap.min.css"],
   build: { transpile: ["@vee-validate/rules"] },
   server: {

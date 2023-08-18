@@ -131,6 +131,7 @@ class PizzaController {
   }
 
   async getAllPizzas (req, res) {
+    // {includes: {all: true}} means, that we also want to get all pizza related data, including belongsTo etc.
     const pizzas = await Pizza.findAll({ include: { all: true }})
     return res.json(pizzas)
   }
