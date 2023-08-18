@@ -35,6 +35,8 @@
 
 <script lang="ts" setup>
   // Todo: create a plug for empty arrays responses
+  // Todo: show ingredient image
+  // Todo: design loaders
   import { useNuxtApp } from "#app";
   import { useDashboardStore } from "~/modules/Dashboard/store/DashbordStore";
   import {computed, onMounted, ref, watch} from "vue";
