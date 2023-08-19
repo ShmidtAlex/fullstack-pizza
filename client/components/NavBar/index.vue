@@ -66,7 +66,7 @@ import {useRouter} from "vue-router";
 import {useAuthStore} from "~/modules/AuthorizationForm/store/AuthStore";
 import {navigateTo, useNuxtApp} from "#app";
 import { computed, ref, onMounted } from "vue";
-import { DASHBOARD_ACCESS_ROLES } from '~/components/constants/index'
+import { DASHBOARD_ACCESS_ROLES } from '~/constants/index'
   // Todo: show user icon in the very right corner of navbar (as well as ability to go to user page)
   // Todo: while reload, dashboard disappears for a second and appeared login/registration buttons and then dashboard appears again
 

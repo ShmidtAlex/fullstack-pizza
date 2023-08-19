@@ -16,7 +16,9 @@ import AddNewProduct from "../components/AddNewProduct/AddNewProduct.vue";
 import AddPizza from  "../components/AddPizza/AddPizza.vue";
 import CreateRole from "../components/CreateRole/CreateRole.vue";
 import UpdateUser from "../components/UpdateUser/UpdateUser.vue";
-// Todo: make reusable wrapper for all included components
+import {useAuthStore} from "~/modules/AuthorizationForm/store/AuthStore";
+import {computed} from "vue/dist/vue";
+import {DASHBOARD_ADMIN_ROLES} from "~/constants";
 
 
 </script>
