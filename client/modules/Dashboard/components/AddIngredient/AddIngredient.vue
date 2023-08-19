@@ -18,19 +18,25 @@
         placeholder="Enter ingredient price"
       />
       <UploadButton @upload="uploadDocument" />
-      <AddButton @proceedAddition="proceed" :disabled="isDisabled" />
+      <AddButton
+          :disabled="isDisabled"
+          @proceedAddition="proceed"
+      />
     </div>
     <div class="list-container">
-      <template v-if="ingredients">
+      <template v-if="ingredients.length">
         <Ingredient
             v-for="ingredient in ingredients"
             :key="ingredient.id"
             :data="ingredient"
             @remove="removeIngredient"
+            @redact="redactIngredient"
         />
       </template>
       <template v-else>
-
+        <EmptyData
+            item-name="ingredients"
+        />
       </template>
     </div>
   </DashboardSection>
@@ -49,8 +55,9 @@
   import AddButton from "~/components/AddButton/AddButton.vue";
   import Ingredient from "../Ingredient/Ingredient.vue";
 
-  import { IIngredientModel } from "~/modules/Dashboard/types";
+  import {IIngredientModel, IIngredientUpdates} from "~/modules/Dashboard/types";
   import { storeToRefs } from "pinia";
+  import EmptyData from "~/components/EmptyDataPlug/EmptyData.vue";
 
   const context = useNuxtApp()
   const dashboardStore = useDashboardStore();
@@ -77,8 +84,11 @@
     dashboardStore.addNewIngredient(ingredientModel.value as IIngredientModel)
     // await context.$api.ingredients.addIngredient(ingredientModel.value as IIngredientModel)
   }
-  const removeIngredient = (id) => {
+  const removeIngredient = (id: number):void => {
     dashboardStore.removeIngredientFromList(id)
+  }
+  const redactIngredient = (updates: IIngredientUpdates):void => {
+    dashboardStore.redactIngredient(updates)
   }
   watch(isRemovalSuccess, (newValue) => {
     if (newValue) {
@@ -93,7 +103,7 @@
     flex-direction: row;
     align-items: flex-end;
     justify-content: space-between;
-    width: 500px;
+    width: 510px;
   }
   .list-container {
     @extend .ingredient-container;

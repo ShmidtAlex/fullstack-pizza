@@ -34,7 +34,8 @@ export default class IngredientsService extends BaseHttpService<IAxiosConfig> {
       }})
     return response
   }
-  async updateIngredient(ingredientId: number, payload: IIngredientModel) {
+  async updateIngredient(ingredientId: number, payload: Partial<IIngredientModel>) {
+    console.log(ingredientId, payload)
     const { data } = await this.axiosClient.patch(`api/ingredients/${ingredientId}`, payload)
     return data
   }

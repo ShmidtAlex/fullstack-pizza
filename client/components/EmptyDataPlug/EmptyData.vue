@@ -1,6 +1,6 @@
 <template>
   <div class="plug">
-    <div class="info">There is no {{ itemName }} here yet</div>
+    <div class="plug__info">There is no {{ itemName }} here yet</div>
   </div>
 </template>
 
@@ -23,5 +23,8 @@
     color: #bfb7b6;
     height: 100%;
     width: 100%;
+    &__info {
+      padding: 16px;
+    }
   }
 </style>

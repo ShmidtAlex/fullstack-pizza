@@ -1,7 +1,8 @@
 <template>
-  <div class="input mb-3">
-    <label :for="id" class="form-label text-sm font-medium">{{ label }}</label>
-    <input @input="changeString" :type="type" class="form-control form-control-sm" :id="id" :placeholder="placeholder">
+  <div class="input">
+    <label v-if="label" :for="id" class="form-label text-sm font-medium">{{ label }}</label>
+    <input v-if="value" @input="changeString" :type="type" class="form-control form-control-sm" :id="id" :placeholder="placeholder" :value="value">
+    <input v-else @input="changeString" :type="type" class="form-control form-control-sm" :id="id" :placeholder="placeholder">
   </div>
 </template>
 <!-- Todo: prevent negative numbers -->
@@ -25,6 +26,12 @@
     label: {
       type: String,
       default: ''
+    },
+    // Todo if ingredient creation works well after adding this props
+    value: {
+      required: false,
+      type: String,
+      default: ''
     }
   })
 
@@ -36,7 +43,8 @@
 
 <style lang="scss" scoped>
   .input {
-    margin-right: 16px;
+    margin: 0 16px 16px 0;
+    min-width: fit-content;
     input {
       &::placeholder {
         color: lightgray;

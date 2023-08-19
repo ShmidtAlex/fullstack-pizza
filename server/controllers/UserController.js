@@ -22,8 +22,13 @@ class UserController {
       if (!email || !password) {
         return next(ApiError.badRequest('Wrong email or password'));
       }
+      const candidate = await User.findOne({ where: {email} });
+      if (candidate.id) {
+        next(ApiError.badRequest('User with such email already exists'));
+      }
 
       const userData = await userService.registration(email, password, role)
+
       await roleService.addRole(userData.user, role)
       const cart = await Cart.create({userId: userData.user.id});
 
