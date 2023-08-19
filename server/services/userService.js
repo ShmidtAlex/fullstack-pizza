@@ -5,14 +5,9 @@ const uuid = require("uuid");
 const mailService = require('./mailService');
 const tokenService = require('./tokenService');
 const UserDto = require('../dtos/userDto');
-const {where} = require("sequelize");
 
 class UserService {
   async registration(email, password, role) {
-    const candidate = await User.findOne({ where: {email} });
-    if (candidate) {
-      return ApiError.badRequest('User with such an email already exists');
-    }
     // if conditions correct, register user and hash password:
     const hashPassword = await bcrypt.hash(password, 5);
     const activationLink = uuid.v4()

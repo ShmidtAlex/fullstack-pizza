@@ -1,6 +1,6 @@
 import { $api } from '~/plugins/api'
 import { defineStore } from "pinia";
-import {IIngredientModel} from "~/modules/Dashboard/types";
+import {IIngredientModel, IIngredientUpdates} from "~/modules/Dashboard/types";
 
 export const useDashboardStore = defineStore("dashboard", {
   state: () => ({
@@ -29,6 +29,13 @@ export const useDashboardStore = defineStore("dashboard", {
           this.fetchIngredientsList()
         }
       })
+    },
+    async redactIngredient(payload: IIngredientUpdates) {
+      const { ingredientId, redactedIngredient } = payload
+      const response = await $api.ingredients.updateIngredient(ingredientId, redactedIngredient)
+      if (response.status === 200) {
+        this.fetchIngredientsList()
+      }
     },
     async fetchIngredientsList() {
       const response = await $api.ingredients.getAllIngredients()

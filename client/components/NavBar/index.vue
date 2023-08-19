@@ -52,7 +52,7 @@
       <NuxtLink v-if="!isAuth && !isLoading" class="open-button" to="/registration" :class="{'open-button--disabled': isRegistrationPage }">
         <div class="bg-[blue] text-white m-2 px-3 py-2 rounded-md text-sm text-white">Registration</div>
       </NuxtLink>
-      <NuxtLink v-if="isAdmin" class="open-button" to="/dashboard">
+      <NuxtLink v-if="isAdminOrRedactor" class="open-button" to="/dashboard">
         <div class="bg-[crimson] text-white m-2 px-3 py-2 rounded-md text-sm text-white">Dashboard</div>
       </NuxtLink>
     </div>
@@ -66,7 +66,7 @@ import {useRouter} from "vue-router";
 import {useAuthStore} from "~/modules/AuthorizationForm/store/AuthStore";
 import {navigateTo, useNuxtApp} from "#app";
 import { computed, ref, onMounted } from "vue";
-
+import { DASHBOARD_ACCESS_ROLES } from '~/constants/index'
   // Todo: show user icon in the very right corner of navbar (as well as ability to go to user page)
   // Todo: while reload, dashboard disappears for a second and appeared login/registration buttons and then dashboard appears again
 
@@ -84,9 +84,9 @@ import { computed, ref, onMounted } from "vue";
   const isRegistrationPage = computed(() => {
     return router.currentRoute.value.name === 'registration'
   })
-  const isAdmin = computed(() => {
+  const isAdminOrRedactor = computed(() => {
     if (authStore.user) {
-      return authStore.isAuth && (authStore.user.role === 'ADIMIN' || authStore.user.role === 'SUPERADMIN')
+      return authStore.isAuth && DASHBOARD_ACCESS_ROLES.includes(authStore.user.role)
     }
     return false
   })
