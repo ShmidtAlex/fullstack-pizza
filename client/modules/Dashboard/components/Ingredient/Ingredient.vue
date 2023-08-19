@@ -12,10 +12,10 @@
         <img :src="`${config.public.NUXT_ENV_BASE_URL}/${data.img}`" :alt="`image of ingredient ${data.name}`">
       </div>
       <div class="ingredient__redact__name">
-        <Input v-model="redactedIngredient.name" :value="data.name" />
+        <Input type="text" :value="data.name" @change="(value) => update(value, 'name') " />
       </div>
       <div class="ingredient__redact__price">
-        <Input v-model="redactedIngredient.price" type="number" :value="`${data.price}`" />$
+        <Input type="number" :value="data.price" @change="(value) => update(value, 'price')" />$
       </div>
     </div>
     <div v-if="!isRedactor" class="ingredient__actions">
@@ -41,7 +41,7 @@
 
 <script lang="ts" setup>
    import { IIngredientModel } from "~/modules/Dashboard/types";
-   import {computed, PropType, ref} from "vue";
+   import {computed, PropType, reactive, ref} from "vue";
    import { useRuntimeConfig } from "#app";
    import {useAuthStore} from "~/modules/AuthorizationForm/store/AuthStore";
 
@@ -57,7 +57,7 @@
    const isRedactor = computed(() => {
      return authStore.user.role === 'REDACTOR'
    })
-   const redactedIngredient = ref<Partial<IIngredientModel>>({
+   const redactedIngredient = reactive<Partial<IIngredientModel>>({
      name: '',
      price: ''
    })
@@ -65,9 +65,12 @@
    const remove = () => {
      emit('remove', props.data.id)
    }
+   const update = (value,field) => {
+     redactedIngredient[field] = value
+   }
    const redact = () => {
      redactMode.value = true
-     emit('redact', { ingredientId: props.data.id, redactedIngredient });
+     emit('redact', { ingredientId: props.data.id, redactedIngredient: redactedIngredient });
      redactMode.value = false
    }
 </script>

@@ -32,11 +32,10 @@ export const useDashboardStore = defineStore("dashboard", {
     },
     async redactIngredient(payload: IIngredientUpdates) {
       const { ingredientId, redactedIngredient } = payload
-      await $api.ingredients.updateIngredient(ingredientId, redactedIngredient).then((response) => {
-        if (response.id) {
-          this.fetchIngredientsList()
-        }
-      })
+      const response = await $api.ingredients.updateIngredient(ingredientId, redactedIngredient)
+      if (response.status === 200) {
+        this.fetchIngredientsList()
+      }
     },
     async fetchIngredientsList() {
       const response = await $api.ingredients.getAllIngredients()

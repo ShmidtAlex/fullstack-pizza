@@ -35,9 +35,12 @@ export default class IngredientsService extends BaseHttpService<IAxiosConfig> {
     return response
   }
   async updateIngredient(ingredientId: number, payload: Partial<IIngredientModel>) {
-    console.log(ingredientId, payload)
-    const { data } = await this.axiosClient.patch(`api/ingredients/${ingredientId}`, payload)
-    return data
+    const response = await this.axiosClient.patch(`api/ingredients/${ingredientId}`, payload, {
+      headers: {
+        'Authorization': `Bearer $${localStorage.getItem('token')}`
+      }
+    })
+    return response
   }
   async getIngredient(ingredientId) {
     const { data } = await this.axiosClient.get(`api/ingredients/${ingredientId}`)

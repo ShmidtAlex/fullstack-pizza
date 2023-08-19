@@ -53,8 +53,27 @@ class IngredientController {
       return next(ApiError.internal(`An error occurred during deleting ingredient: ${error.message}`));
     }
   }
-  async updateIngredient(req, res) {
+  async updateIngredient(req, res, next) {
+    try {
+      const id = req.params.id
+      const { name, price }  = req.body;
+      const update = {}
+      if (name) {
+        update.name = name
+      }
+      if (price) {
+        update.price = price
+      }
+      const ingredient = await Ingredient.findByPk(id)
 
+      if (!ingredient) {
+        return next(ApiError.badRequest('There is no ingredient with such id'));
+      }
+      await ingredient.update(update,{ where: { id }})
+      res.status(200).json({ message: 'Ingredient updated successfully' });
+    } catch (error) {
+      return next(ApiError.internal(`An error occurred during ingredient update: ${error.message}`));
+    }
   }
   async getIngredient(req, res) {
 
