@@ -47,7 +47,7 @@
       justify-content: center;
       align-items: flex-start;
       font-weight: 500;
-      width: 510px;
+      width: 550px;
       min-width: 100%;
       position: relative;
       padding: 16px;

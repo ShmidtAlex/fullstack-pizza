@@ -1,4 +1,7 @@
 <template>
+  <Modal v-if="removalConfirmation" title="Ingredient Removal" :is-footer="false" @close="close">
+    <ActionConfirmation action-name="remove ingredient" @cancel="close" @confirm="removeIngredient"/>
+  </Modal>
   <DashboardSection
     :title="title"
     :is-loading="isLoading"
@@ -36,7 +39,7 @@
             v-for="ingredient in ingredients"
             :key="ingredient.id"
             :data="ingredient"
-            @remove="removeIngredient"
+            @remove="confirmRemoval"
             @redact="redactIngredient"
         />
       </template>
@@ -105,9 +108,18 @@
     dashboardStore.addNewIngredient(ingredientModel.value as IIngredientModel)
     resetIngredientModel()
   }
-
+  const removalConfirmation = ref<boolean>(false)
+  const close = () => {
+    removalConfirmation.value = false
+  }
+  const removedIngredientId = ref<number | string>('')
+  const confirmRemoval = (value) => {
+    removedIngredientId.value = value
+    removalConfirmation.value = true
+  }
   const removeIngredient = (id: number):void => {
-    dashboardStore.removeIngredientFromList(id)
+    dashboardStore.removeIngredientFromList(removedIngredientId.value)
+    removalConfirmation.value = false
   }
   const redactIngredient = (updates: IIngredientUpdates):void => {
     dashboardStore.redactIngredient(updates)

@@ -40,6 +40,7 @@
       </div>
       <div class="phone-number">015 99-1234567</div>
     </div>
+<!--  Todo: replace buttons with Button component -->
     <div class="navbar-container__actions">
       <NuxtLink v-if="!isAuth && !isLoading" class="open-button" to="/auth" :class="{'open-button--disabled': isSignInPage}">
         <div class="bg-[#12b488] text-white m-2 px-3 py-2 rounded-md text-sm text-white">
