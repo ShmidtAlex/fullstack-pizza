@@ -1,9 +1,10 @@
 <template>
   <DashboardSection
     :title="title"
+    :is-loading="isLoading"
   >
 <!--    Todo: despite after ingredient addition ingredientModel resets, value in fields stays unchanged, that could be misleading -->
-
+<!--    Todo: show warning and request approve while deleting -->
     <div v-if="isAdmin" class="ingredient-container">
       <Input
         v-model="ingredientModel.name"
@@ -25,35 +26,30 @@
           @proceedAddition="proceed"
       />
     </div>
-<!--    <div class="list-container">-->
-      <List
-          title="Show available ingredients"
-          :expand="showList"
-          @click="showList = !showList"
-      >
-        <template v-if="ingredients.length">
-          <Ingredient
-              v-for="ingredient in ingredients"
-              :key="ingredient.id"
-              :data="ingredient"
-              @remove="removeIngredient"
-              @redact="redactIngredient"
-          />
-        </template>
-        <template v-else>
-          <EmptyData
-              item-name="ingredients"
-          />
-        </template>
-      </List>
-<!--    </div>-->
+    <List
+        title="Show available ingredients"
+        :expand="showList"
+        @toggleList="showList = !showList"
+    >
+      <template v-if="ingredients.length">
+        <Ingredient
+            v-for="ingredient in ingredients"
+            :key="ingredient.id"
+            :data="ingredient"
+            @remove="removeIngredient"
+            @redact="redactIngredient"
+        />
+      </template>
+      <template v-else>
+        <EmptyData
+            item-name="ingredients"
+        />
+      </template>
+    </List>
   </DashboardSection>
 </template>
 
 <script lang="ts" setup>
-  // Todo: create a plug for empty arrays responses
-  // Todo: show ingredient image
-  // Todo: design loaders
   import { useNuxtApp } from "#app";
   import { useDashboardStore } from "~/modules/Dashboard/store/DashbordStore";
   import { useAuthStore } from "~/modules/AuthorizationForm/store/AuthStore";
@@ -93,6 +89,9 @@
       return authStore.isAuth && DASHBOARD_ADMIN_ROLES.includes(authStore.user.role)
     }
     return false
+  })
+  const isLoading = computed(() => {
+    return dashboardStore.ingredientUpdateLoader || dashboardStore.ingredientCreateLoader || dashboardStore.ingredientRemoveLoader
   })
   const title = computed(() => {
     return isAdmin.value ? 'Ingredients addition and updating' : 'Ingredients updating'
