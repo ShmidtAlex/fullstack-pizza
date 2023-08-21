@@ -1,5 +1,6 @@
 <template>
   <div class="input">
+    <!--    Todo: prevent negative values for input type number -->
     <label v-if="label" :for="id" class="form-label text-sm font-medium">{{ label }}</label>
     <input v-if="value || value === ''" @input="update" :type="type" class="form-control form-control-sm" :id="id" name="a" :placeholder="placeholder" :value="value">
     <input v-else @input="changeString" :type="type" class="form-control form-control-sm" :id="id" name="b" :placeholder="placeholder">

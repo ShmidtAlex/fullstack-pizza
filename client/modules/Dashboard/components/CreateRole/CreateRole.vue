@@ -6,10 +6,8 @@
   </DashboardSection>
 </template>
 
-<script>
-export default {
-  name: "CreateRole"
-}
+<script lang="ts" setup>
+
 </script>
 
 <style scoped>
