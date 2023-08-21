@@ -16,10 +16,8 @@ import AddNewProduct from "../components/AddNewProduct/AddNewProduct.vue";
 import AddPizza from  "../components/AddPizza/AddPizza.vue";
 import CreateRole from "../components/CreateRole/CreateRole.vue";
 import UpdateUser from "../components/UpdateUser/UpdateUser.vue";
-import {useAuthStore} from "~/modules/AuthorizationForm/store/AuthStore";
-import {computed} from "vue/dist/vue";
-import {DASHBOARD_ADMIN_ROLES} from "~/constants";
-
+// Todo: SUPERADMIN is able to set admin and redactor's role by checkbox picking which rights should be assigned, so, plus to hard-roles'-assignment
+// todo: which allows to provide default-access settings, we have to develop exceptions checking
 
 </script>
 

@@ -1,8 +1,10 @@
 <template>
   <DashboardSection
     :title="title"
+    :is-loading="isLoading"
   >
 <!--    Todo: despite after ingredient addition ingredientModel resets, value in fields stays unchanged, that could be misleading -->
+<!--    Todo: show warning and request approve while deleting -->
     <div v-if="isAdmin" class="ingredient-container">
       <Input
         v-model="ingredientModel.name"
@@ -24,7 +26,11 @@
           @proceedAddition="proceed"
       />
     </div>
-    <div class="list-container">
+    <List
+        title="Show available ingredients"
+        :expand="showList"
+        @toggleList="showList = !showList"
+    >
       <template v-if="ingredients.length">
         <Ingredient
             v-for="ingredient in ingredients"
@@ -39,14 +45,11 @@
             item-name="ingredients"
         />
       </template>
-    </div>
+    </List>
   </DashboardSection>
 </template>
 
 <script lang="ts" setup>
-  // Todo: create a plug for empty arrays responses
-  // Todo: show ingredient image
-  // Todo: design loaders
   import { useNuxtApp } from "#app";
   import { useDashboardStore } from "~/modules/Dashboard/store/DashbordStore";
   import { useAuthStore } from "~/modules/AuthorizationForm/store/AuthStore";
@@ -57,7 +60,7 @@
   import UploadButton from "~/components/UploadButton/index.vue";
   import AddButton from "~/components/AddButton/AddButton.vue";
   import Ingredient from "../Ingredient/Ingredient.vue";
-
+  import List from '~/components/List/List.vue';
   import {IIngredientModel, IIngredientUpdates} from "~/modules/Dashboard/types";
   import EmptyData from "~/components/EmptyDataPlug/EmptyData.vue";
   import {DASHBOARD_ADMIN_ROLES} from "~/constants";
@@ -75,6 +78,7 @@
     img: null
   })
 
+  const showList = ref<boolean>(false)
   const isDisabled = computed(() => {
     return Object.values(ingredientModel.value).some((value) => !value)
   })
@@ -85,6 +89,9 @@
       return authStore.isAuth && DASHBOARD_ADMIN_ROLES.includes(authStore.user.role)
     }
     return false
+  })
+  const isLoading = computed(() => {
+    return dashboardStore.ingredientUpdateLoader || dashboardStore.ingredientCreateLoader || dashboardStore.ingredientRemoveLoader
   })
   const title = computed(() => {
     return isAdmin.value ? 'Ingredients addition and updating' : 'Ingredients updating'
@@ -128,9 +135,9 @@
     justify-content: space-between;
     width: 510px;
   }
-  .list-container {
-    @extend .ingredient-container;
-    flex-direction: column;
-    padding: 16px;
-  }
+  //.list-container {
+  //  @extend .ingredient-container;
+  //  flex-direction: column;
+  //  padding: 16px;
+  //}
 </style>

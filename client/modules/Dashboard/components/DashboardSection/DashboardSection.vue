@@ -1,5 +1,8 @@
 <template>
   <div class="section">
+    <div v-if="isLoading" class="section__loader">
+      <span class="loader"></span>
+    </div>
     <div class="section__title">
       {{ title }}
     </div>
@@ -12,11 +15,17 @@
     title: {
       type: String,
       default: ''
+    },
+    isLoading: {
+      type: Boolean,
+      default: false
     }
   })
 </script>
 
 <style lang="scss" scoped>
+@import "@/assets/css/loader.scss";
+
 .section {
   display: flex;
   flex-direction: column;
@@ -27,10 +36,20 @@
   border-radius: 8px;
   padding: 16px;
   margin: 16px;
+  position: relative;
   &:hover {
     box-shadow: 2px 2px 2px 2px rgba(0, 0, 0, 0.3);
   }
-  .section__title {
+  &__loader {
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    width: 100%;
+    background-color: rgba(255, 255, 255, 0.6);
+  }
+  &__title {
     font-weight: 600;
     font-size: 18px;
     margin-bottom: 24px;

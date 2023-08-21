@@ -18,20 +18,19 @@
         <Input type="number" :value="data.price" @change="(value) => update(value, 'price')" />$
       </div>
     </div>
-    <div v-if="!isRedactor" class="ingredient__actions">
+    <div class="ingredient__actions">
       <button
+          v-if="isAdmin"
           class="bg-[crimson] m-1 px-3 py-2 rounded-md text-sm text-white"
           @click="remove"
       >Remove ingredient</button>
-    </div>
-    <div v-else class="ingredient__actions">
       <button
-          v-if="!redactMode"
+          v-if="!redactMode && isAdminOrRedactor"
           class="ingredient__actions--redact m-1 px-3 py-2 rounded-md text-sm text-white"
           @click="redactMode = true"
       >Change ingredient</button>
       <button
-          v-else
+          v-if="redactMode && isAdminOrRedactor"
           class="ingredient__actions--activate m-1 px-3 py-2 rounded-md text-sm text-white"
           @click="redact"
       >Apply changes</button>
@@ -44,6 +43,7 @@
    import {computed, PropType, reactive, ref} from "vue";
    import { useRuntimeConfig } from "#app";
    import {useAuthStore} from "~/modules/AuthorizationForm/store/AuthStore";
+   import {DASHBOARD_ACCESS_ROLES, DASHBOARD_ADMIN_ROLES} from "~/constants";
 
    const redactMode = ref<boolean>(false);
    const authStore = useAuthStore()
@@ -54,8 +54,14 @@
      }
    })
    const config = useRuntimeConfig();
-   const isRedactor = computed(() => {
-     return authStore.user.role === 'REDACTOR'
+   const isAdmin = computed(() => {
+     return authStore.isAuth && DASHBOARD_ADMIN_ROLES.includes(authStore.user.role)
+   })
+   const isAdminOrRedactor = computed(() => {
+     if (authStore.user) {
+       return authStore.isAuth && DASHBOARD_ACCESS_ROLES.includes(authStore.user.role)
+     }
+     return false
    })
    const redactedIngredient = reactive<Partial<IIngredientModel>>({
      name: '',
@@ -81,7 +87,7 @@
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
-    width: 100%;
+    width: 550px;
     padding: 8px;
     margin-bottom: 16px;
     border-radius: 8px;
@@ -105,6 +111,8 @@
       }
     }
     &__actions {
+      min-width: fit-content;
+      margin-left: 16px;
       &--redact {
         background-color: darkorange;
       }
