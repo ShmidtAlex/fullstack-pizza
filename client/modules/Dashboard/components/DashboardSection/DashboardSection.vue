@@ -4,22 +4,29 @@
       <span class="loader"></span>
     </div>
     <div class="section__title">
-      {{ title }}
+      {{ localTitle }}
     </div>
     <slot></slot>
   </div>
 </template>
 
 <script lang="ts" setup>
+  import { computed } from "vue";
+  import { useAuthStore } from "~/modules/AuthorizationForm/store/AuthStore";
+
   const props = defineProps({
     title: {
       type: String,
-      default: ''
+      required: true
     },
     isLoading: {
       type: Boolean,
       default: false
     }
+  })
+  const authStore = useAuthStore()
+  const localTitle = computed(() => {
+    return authStore.isAdmin ? `${props.title} addition and updating` : `${props.title} updating`
   })
 </script>
 

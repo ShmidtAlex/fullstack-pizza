@@ -1,6 +1,6 @@
 <template>
   <DashboardSection
-      title="Update user (change roles, reset passwords)"
+      title="Users accesses"
   >
 
   </DashboardSection>

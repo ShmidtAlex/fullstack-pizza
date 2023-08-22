@@ -4,8 +4,7 @@
     <AddIngredient />
     <AddNewProduct />
     <AddPizza />
-    <CreateRole />
-    <UpdateUser />
+    <ManageUser />
   </div>
 
 </template>
@@ -14,11 +13,10 @@
 import AddIngredient from '../components/AddIngredient/AddIngredient.vue';
 import AddNewProduct from "../components/AddNewProduct/AddNewProduct.vue";
 import AddPizza from  "../components/AddPizza/AddPizza.vue";
-import CreateRole from "../components/CreateRole/CreateRole.vue";
-import UpdateUser from "../components/UpdateUser/UpdateUser.vue";
+import ManageUser from "~/modules/Dashboard/components/ManageUser/ManageUser.vue";
 // Todo: SUPERADMIN is able to set admin and redactor's role by checkbox picking which rights should be assigned, so, plus to hard-roles'-assignment
 // todo: which allows to provide default-access settings, we have to develop exceptions checking
-
+// TODO: develop order service, order history etc...
 </script>
 
 <style lang="scss" scoped>

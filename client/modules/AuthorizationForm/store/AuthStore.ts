@@ -1,6 +1,7 @@
 import { defineStore } from "pinia";
 import axios from "axios";
-// import { IFinalObjectForCart, IIncreaseable } from "~/modules/Products/types";
+import {DASHBOARD_ACCESS_ROLES, DASHBOARD_ADMIN_ROLES} from "~/constants";
+
 // Todo: add ts
 
 export const useAuthStore = defineStore("auth", {
@@ -14,6 +15,18 @@ export const useAuthStore = defineStore("auth", {
     },
     user: (state) => {
       return state._user
+    },
+    isAdmin: (state) => {
+      if (state._user) {
+        return state._isAuth && DASHBOARD_ADMIN_ROLES.includes(state._user.role)
+      }
+      return false
+    },
+    isAdminOrRedactor: (state) => {
+      if (state._user) {
+        return state._isAuth && DASHBOARD_ACCESS_ROLES.includes(state._user.role)
+      }
+      return false
     }
   },
   actions: {

@@ -37,7 +37,6 @@
 
 <style lang="scss" scoped>
   .list {
-    height: 80px;
     overflow-x: hidden;
     border-radius: 8px;
     padding: 2px;
@@ -50,7 +49,7 @@
       width: 550px;
       min-width: 100%;
       position: relative;
-      padding: 16px;
+      padding: 8px 16px;
       border-radius: 8px;
       box-shadow: 1px 1px 1px 1px rgba(0, 0, 0, 0.3);
       transition: height 1s ease-in-out;
@@ -59,7 +58,7 @@
         content: '';
         position: absolute;
         display: inline-block;
-        top: 18px;
+        top: 10px;
         right: 14px;
         width: 14px;
         height: 14px;
@@ -75,7 +74,7 @@
           content: '';
           position: absolute;
           display: inline-block;
-          top: 24px;
+          top: 16px;
           right: 14px;
           width: 14px;
           height: 14px;

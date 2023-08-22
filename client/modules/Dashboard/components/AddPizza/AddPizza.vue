@@ -1,6 +1,6 @@
 <template>
   <DashboardSection
-      title="AddPizza component"
+      title="Pizza"
   >
 
   </DashboardSection>

@@ -42,27 +42,25 @@
     </div>
 
     <div class="navbar-container__actions">
-      <NuxtLink v-if="!isAuth && !isLoading" to="/auth">
+      <NuxtLink v-if="!authStore.isAuth && !isLoading" to="/auth">
         <Button :type="loginType">LogIn</Button>
       </NuxtLink>
-      <Button type="base" v-else-if="isAuth && !isLoading" @click="logOut">LogOut</Button>
-      <NuxtLink v-if="!isAuth && !isLoading" to="/registration">
+      <Button type="base" v-else-if="authStore.isAuth && !isLoading" @click="logOut">LogOut</Button>
+      <NuxtLink v-if="!authStore.isAuth && !isLoading" to="/registration">
         <Button :type="registrationType">Registration</Button>
       </NuxtLink>
-      <NuxtLink v-if="isAdminOrRedactor" to="/dashboard">
+      <NuxtLink v-if="authStore.isAdminOrRedactor" to="/dashboard">
         <Button type="danger">Dashboard</Button>
       </NuxtLink>
     </div>
-
-    </div>
+  </div>
 </template>
 <script lang="ts" setup>
 
-import {useRouter} from "vue-router";
-import {useAuthStore} from "~/modules/AuthorizationForm/store/AuthStore";
-import {navigateTo, useNuxtApp} from "#app";
+import { useRouter } from "vue-router";
+import { useAuthStore } from "~/modules/AuthorizationForm/store/AuthStore";
+import { navigateTo, useNuxtApp } from "#app";
 import { computed, ref, onMounted } from "vue";
-import { DASHBOARD_ACCESS_ROLES } from '~/constants/index'
 import Button from '~/components/Button/Button.vue'
 
   // Todo: show user icon in the very right corner of navbar (as well as ability to go to user page)
@@ -81,15 +79,6 @@ import Button from '~/components/Button/Button.vue'
   })
   const isRegistrationPage = computed(() => {
     return router.currentRoute.value.name === 'registration'
-  })
-  const isAdminOrRedactor = computed(() => {
-    if (authStore.user) {
-      return authStore.isAuth && DASHBOARD_ACCESS_ROLES.includes(authStore.user.role)
-    }
-    return false
-  })
-  const isAuth = computed(() => {
-    return authStore.isAuth
   })
   const registrationType = computed(() => {
     return isRegistrationPage.value ? 'base' : 'neutral'
