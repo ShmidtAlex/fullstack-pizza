@@ -1,4 +1,4 @@
-.btn {
+.base {
   background-color: rgb(128, 128, 128);
   color: white;
   padding: 0.5rem 1rem;
@@ -6,13 +6,37 @@
   border-radius: 0.375rem;
   font-size: 0.875rem;
   line-height: 1.25rem;
+  cursor: pointer;
+  button {
+    cursor: pointer;
+  }
+  &.disabled {
+    cursor: auto;
+    &:hover {
+      box-shadow: 0px 0px 0px 0px rgba(0, 0, 0, 0.3);
+    }
+    button {
+      cursor: auto;
+    }
+  }
+  &:hover {
+    box-shadow: 1px 1px 1px 1px rgba(0, 0, 0, 0.3);
+  }
 }
 
 .danger {
-  @extend .btn;
+  @extend .base;
   background-color: crimson;
 }
 .warning {
-  @extend .btn;
+  @extend .base;
   background-color: darkorange;
+}
+.success {
+  @extend .base;
+  background-color: rgb(18 180 136 / 1);
+}
+.neutral {
+  @extend .base;
+  background-color: rgb(0 0 255 / 1);
 }

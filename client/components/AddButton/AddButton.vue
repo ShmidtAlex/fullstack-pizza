@@ -1,17 +1,24 @@
 <template>
-  <div
+  <Button
+      :type="type"
       class="add-button"
-      :class="{'disabled': disabled}"
+      :disabled="disabled"
       @click="proceedAddition"
-  >Add +</div>
+  >Add +</Button>
 </template>
 
 <script lang="ts" setup>
+import Button from '~/components/Button/Button.vue';
+import {computed} from "vue";
+
   const props = defineProps({
     disabled: {
       type: Boolean,
       default: false
     }
+  })
+  const type = computed(() => {
+    return props.disabled ? 'base' : 'success'
   })
   const emit = defineEmits(['proceedAddition'])
   const proceedAddition = () => {
@@ -28,21 +35,9 @@
     justify-content: center;
     align-items: center;
     color: white;
-    background-color: rgba(0,128,0, 0.9);
     width: 80px;
+    min-width: fit-content;
     height: 40px;
-    border-radius: 8px;
     margin: 0 16px 16px 0;
-    cursor: pointer;
-    &.disabled {
-      background-color: rgba(0,0,0, 0.3);
-      cursor: auto;
-      &:hover {
-        box-shadow: 0px 0px 0px 0px rgba(0, 0, 0, 0.3);
-      }
-    }
-    &:hover {
-      box-shadow: 1px 1px 1px 1px rgba(0, 0, 0, 0.3);
-    }
   }
 </style>
