@@ -1,5 +1,6 @@
 import AuthorizationService from '~/modules/AuthorizationForm/api/auth';
 import IngredientsService from "~/modules/Dashboard/api/ingredients";
+import PizzaService from "~/modules/Dashboard/api/pizza";
 import { AxiosError } from 'axios'
 import { IHttpService } from '~/models/Http/types'
 import { useNuxtApp } from "#app";
@@ -7,7 +8,8 @@ import { defineNuxtPlugin } from "#app";
 
 export interface IApi {
   auth: AuthorizationService,
-  ingredients: IngredientsService
+  ingredients: IngredientsService,
+  pizza: PizzaService
 };
 
 let $api: IApi;
@@ -35,7 +37,8 @@ export default defineNuxtPlugin(() => {
   // Initialize API factories for using inside vue components
   const factories: IApi = {
     auth: new AuthorizationService(),
-    ingredients: new IngredientsService()
+    ingredients: new IngredientsService(),
+    pizza: new PizzaService(),
   }
   
   // Inject $api but in nuxt 3 manner
@@ -44,7 +47,8 @@ export default defineNuxtPlugin(() => {
   // Initialize API variable for using outside the vue components
   $api = {
     auth: new AuthorizationService(),
-    ingredients: new IngredientsService()
+    ingredients: new IngredientsService(),
+    pizza: new PizzaService(),
   }
 })
 

@@ -23,7 +23,7 @@ app.use(cors({
   credentials: true, //
 }))
 app.use(express.static(path.resolve(__dirname, 'static')))
-app.use(fileUpload({}))
+// app.use(fileUpload({}))
 app.use('/api', router)
 app.use(errorHandler)// must be last in the list
 

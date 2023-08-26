@@ -2,6 +2,7 @@ const jwt = require('jsonwebtoken')
 const isValidUserRole = require('../middleware/checkRoleIsValidMiddleware')
 module.exports = function(roles) {
   return async function (req, res, next) {
+
     if (req.method === "OPTIONS") {
       next()
     }
@@ -23,7 +24,6 @@ module.exports = function(roles) {
         // You can blacklist the token or use a token version mechanism
         return res.status(401).json({ message: "Role changed, please log in again" });
       }
-
       req.user = decoded;
       next()
     } catch (e) {
