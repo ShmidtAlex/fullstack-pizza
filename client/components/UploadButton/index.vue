@@ -19,7 +19,6 @@
   const uploadDocument = (e) => {
     emit('upload', e.target.files)
   }
-
 </script>
 
 <style lang="scss" scoped>

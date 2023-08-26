@@ -1,6 +1,5 @@
 <template>
   <div class="modal">
-
     <div class="modal__header">
       {{ title }}
       <RemoveButton @removeItem="emit('close')"></RemoveButton>

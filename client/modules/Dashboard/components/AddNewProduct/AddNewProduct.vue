@@ -1,6 +1,6 @@
 <template>
   <DashboardSection
-      title="Add another product"
+      title="New product"
   >
 
   </DashboardSection>

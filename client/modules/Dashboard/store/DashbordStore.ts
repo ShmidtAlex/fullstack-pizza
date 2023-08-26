@@ -10,7 +10,8 @@ export const useDashboardStore = defineStore("dashboard", {
       _ingredientUpdateLoader: false,
       _ingredientCreateLoader: false,
       _ingredientRemoveLoader: false
-    }
+    },
+    _preUploadedImage: ''
   }),
   getters: {
     ingredients: (store) => {
@@ -39,6 +40,9 @@ export const useDashboardStore = defineStore("dashboard", {
     },
     toggleLoader(loaderName, state) {
       this.loaders[loaderName] = state
+    },
+    setPreloadedImage(img) {
+      this._preUploadedImage = img
     },
     async addNewIngredient(payload) {
       this.toggleLoader('_ingredientCreateLoader', true)
@@ -69,6 +73,10 @@ export const useDashboardStore = defineStore("dashboard", {
         this.setRemovalResult(response.data)
       }
       this.toggleLoader('_ingredientRemoveLoader', false)
+    },
+    async preUploadImage(payload) {
+      const response = await $api.pizza.uploadImage(payload)
+      this.setPreloadedImage(response)
     }
   }
 });

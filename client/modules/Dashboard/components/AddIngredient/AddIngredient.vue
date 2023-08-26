@@ -1,14 +1,22 @@
 <template>
-  <Modal v-if="removalConfirmation" title="Ingredient Removal" :is-footer="false" @close="close">
-    <ActionConfirmation action-name="remove ingredient" @cancel="close" @confirm="removeIngredient"/>
+  <Modal
+      v-if="removalConfirmation"
+      title="Ingredient Removal"
+      :is-footer="false"
+      @close="close"
+  >
+    <ActionConfirmation
+        action-name="remove ingredient"
+        @cancel="close"
+        @confirm="removeIngredient"
+    />
   </Modal>
   <DashboardSection
-    :title="title"
+    title="Pizza's ingredients"
     :is-loading="isLoading"
   >
 <!--    Todo: despite after ingredient addition ingredientModel resets, value in fields stays unchanged, that could be misleading -->
-<!--    Todo: show warning and request approve while deleting -->
-    <div v-if="isAdmin" class="ingredient-container">
+    <div v-if="authStore.isAdmin" class="ingredient-container">
       <Input
         v-model="ingredientModel.name"
         id="ingredient-name"
@@ -66,7 +74,6 @@
   import List from '~/components/List/List.vue';
   import {IIngredientModel, IIngredientUpdates} from "~/modules/Dashboard/types";
   import EmptyData from "~/components/EmptyDataPlug/EmptyData.vue";
-  import {DASHBOARD_ADMIN_ROLES} from "~/constants";
 
   const context = useNuxtApp()
   const dashboardStore = useDashboardStore();
@@ -87,18 +94,10 @@
   })
 
   const authStore = useAuthStore()
-  const isAdmin = computed(() => {
-    if (authStore.user) {
-      return authStore.isAuth && DASHBOARD_ADMIN_ROLES.includes(authStore.user.role)
-    }
-    return false
-  })
   const isLoading = computed(() => {
     return dashboardStore.ingredientUpdateLoader || dashboardStore.ingredientCreateLoader || dashboardStore.ingredientRemoveLoader
   })
-  const title = computed(() => {
-    return isAdmin.value ? 'Ingredients addition and updating' : 'Ingredients updating'
-  })
+
   const uploadImage = (files: any[]): void => {
     if (files.length) {
       ingredientModel.value.img = files[0]
@@ -147,9 +146,4 @@
     justify-content: space-between;
     width: 510px;
   }
-  //.list-container {
-  //  @extend .ingredient-container;
-  //  flex-direction: column;
-  //  padding: 16px;
-  //}
 </style>
