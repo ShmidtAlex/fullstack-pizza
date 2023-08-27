@@ -1,42 +1,38 @@
 const ApiError = require('../error/ApiError');
-const multer = require('multer')
-const stream = require('stream');
+const path = require('path');
+const fs = require('fs/promises');
+
 class UploadsController {
-  filename(_req, file, cb) {
-    console.log('file will be named ' + file.originalname);
-    cb(null, file.originalname);
-  }
   async uploadPhoto(req, res, next) {
-    // Todo: move multer into separate middleware (in order to keep controller thin)?
-    const storage = multer.diskStorage({
-      destination: 'uploads/',
-      filename: (_req, file, cb) => {
-        cb(null, file.name);
-      }
-    });
     try {
-      if (!req.files.image) {
+      console.log('FILES', req.files)
+      if (!req.files) {
         return next(ApiError.badRequest('No file uploaded.'));
       }
-      storage._handleFile(
-        req, {
-          ...req.files.image,
-          stream: new stream.PassThrough(),
-        },
-        (err) => {
-          if (err) {
-            console.log('Upload failed with error: ' + err.message);
-            res.status(422);
-            res.json(err.message);
-            res.end();
-          }
-        }
-      );
-      res.status(200);
-      res.json('OK');
-      res.end();
+
+
     } catch (e) {
       return next(ApiError.internal(e.message));
+    }
+  }
+  
+  async getPreUploaded(req, res, next) {
+    const imageName = req.params.imageName; // Extract the image name from the URL
+    console.log('1', imageName)
+    const imagePath = path.join(__dirname, '../uploads', imageName);
+    console.log(imagePath)
+    try {
+      // Read the image file as binary data
+      const imageDataBuffer = await fs.readFile(imagePath);
+
+      // Convert the buffer to base64-encoded string
+      const imageData = imageDataBuffer.toString('base64');
+      console.log('IMAGEDATA', imageData)
+      // Send the image data in the response
+      res.status(200);
+      res.send(imageData); // Send the base64-encoded image data directly
+    } catch (error) {
+      return next(ApiError.notFound('Image not found.'));
     }
   }
 }

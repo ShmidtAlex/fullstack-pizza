@@ -10,6 +10,7 @@
             id="uploadImage"
         />
       </label>
+      <img :src="src" alt="">
       <div class="tip">download image</div>
     </div>
 
@@ -21,17 +22,20 @@
   import {useRuntimeConfig} from "#app";
   import {computed} from "vue";
   import {useDashboardStore} from "~/modules/Dashboard/store/DashbordStore";
+  import {convertResponseToImageDataUrl} from "~/helpers";
   const dashboardStore = useDashboardStore()
   const config = useRuntimeConfig()
   const emit = defineEmits(['upload'])
   const src = computed(() => {
-    return dashboardStore.uploadedImgSrc ? dashboardStore.uploadedImgSrc : 'default_pizza.svg'
+    return dashboardStore.uploadedImgSrc ? convertResponseToImageDataUrl(dashboardStore.uploadedImgSrc) : 'default_pizza.svg'
+    // return dashboardStore.uploadedImgSrc
+    //     ? `${config.public.NUXT_ENV_BASE_URL}${dashboardStore.uploadedImgSrc.fileName}.${dashboardStore.uploadedImgSrc.fileExtension}`
+    //     : 'default_pizza.svg'
   })
   const uploadImage = (event: any): void => {
-    const file = event.target.files[0]
+    const file = event.target.files
     if (file) {
-      console.log(file)
-      dashboardStore.preUploadImage({ image: file })
+      dashboardStore.preUploadImage(file[0])
     }
   }
 </script>
