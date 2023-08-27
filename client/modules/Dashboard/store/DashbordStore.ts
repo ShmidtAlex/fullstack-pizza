@@ -11,7 +11,7 @@ export const useDashboardStore = defineStore("dashboard", {
       _ingredientCreateLoader: false,
       _ingredientRemoveLoader: false
     },
-    _preUploadedImage: ''
+    _preUploadedImageSrc: ''
   }),
   getters: {
     ingredients: (store) => {
@@ -28,6 +28,9 @@ export const useDashboardStore = defineStore("dashboard", {
     },
     ingredientRemoveLoader(store) {
       return store.loaders._ingredientRemoveLoader
+    },
+    uploadedImgSrc(store) {
+      return store._preUploadedImageSrc
     }
   },
   
@@ -42,7 +45,7 @@ export const useDashboardStore = defineStore("dashboard", {
       this.loaders[loaderName] = state
     },
     setPreloadedImage(img) {
-      this._preUploadedImage = img
+      this._preUploadedImageSrc = `uploads/${img}`
     },
     async addNewIngredient(payload) {
       this.toggleLoader('_ingredientCreateLoader', true)
@@ -75,8 +78,13 @@ export const useDashboardStore = defineStore("dashboard", {
       this.toggleLoader('_ingredientRemoveLoader', false)
     },
     async preUploadImage(payload) {
-      const response = await $api.pizza.uploadImage(payload)
-      this.setPreloadedImage(response)
+      try {
+        const sendingResult = await $api.pizza.uploadImage(payload);
+        this.setPreloadedImage(sendingResult.imageUrl);
+        localStorage.setItem('preloadedImage', sendingResult.imageUrl);
+      } catch (error) {
+        console.error('Error in preUploadImage:', error);
+      }
     }
   }
 });

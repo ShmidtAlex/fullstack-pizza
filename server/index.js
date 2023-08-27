@@ -14,15 +14,14 @@ const port = process.env.PORT || 5000;
 
 const app = express()
 
-
-
 app.use(express.json())
 app.use(cookieParser())
 app.use(cors({
   origin: ['http://localhost:3000', 'http://localhost:3001'], // Add your frontend URL here
   credentials: true, //
 }))
-app.use(express.static(path.resolve(__dirname, 'static')))
+app.use('/static', express.static(path.resolve(__dirname, 'static')))
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 app.use(fileUpload({}))
 app.use('/api', router)
 app.use(errorHandler)// must be last in the list
