@@ -2,21 +2,21 @@
   <div class="ingredient">
     <div v-if="!redactMode" class="ingredient__info">
       <div class="ingredient__info__img">
-        <img :src="`${config.public.NUXT_ENV_BASE_URL}/${data.img}`" :alt="`image of ingredient ${data.name}`">
+        <img :src="`${config.public.NUXT_ENV_BASE_URL}static/${data.img}`" :alt="`image of ingredient ${data.name}`">
       </div>
       <div class="ingredient__info__name">{{ data.name }}</div>
       <div class="ingredient__info__price">{{ data.price }}$</div>
     </div>
     <div v-else class="ingredient__redact">
       <div class="ingredient__redact__img">
-        <img :src="`${config.public.NUXT_ENV_BASE_URL}/${data.img}`" :alt="`image of ingredient ${data.name}`">
+        <img :src="`${config.public.NUXT_ENV_BASE_URL}static/${data.img}`" :alt="`image of ingredient ${data.name}`">
       </div>
-       <UploadButton @upload="uploadImage" />
+       <UploadButton :id="`${data.id}-ingredient`" mode="redact" @upload="uploadImage" />
       <div class="ingredient__redact__name">
-        <Input type="text" :value="data.name" @change="(value) => update(value, 'name') " />
+        <Input :id="`${data.id}-name`" type="text" :value="data.name" @change="(value) => update(value, 'name') " />
       </div>
       <div class="ingredient__redact__price">
-        <Input type="number" :value="data.price" @change="(value) => update(value, 'price')" />$
+        <Input :id="`${data.id}-value`" type="number" :value="data.price" @change="(value) => update(value, 'price')" />$
       </div>
     </div>
     <div class="ingredient__actions">
@@ -75,10 +75,10 @@
    })
    const emit = defineEmits(['redact'])
 
-   const uploadImage = (files: any[]): void => {
+   const uploadImage = (files: any) => {
      console.log('files', files)
      if (files.length) {
-       redactedIngredient.value.img = files[0]
+       redactedIngredient.img = files[0]
      }
    }
    const remove = () => {
@@ -89,6 +89,7 @@
    }
    const redact = () => {
      redactMode.value = true
+     // Todo: check empty request case feels like failed
      emit('redact', { ingredientId: props.data.id, redactedIngredient: redactedIngredient });
      redactMode.value = false
    }

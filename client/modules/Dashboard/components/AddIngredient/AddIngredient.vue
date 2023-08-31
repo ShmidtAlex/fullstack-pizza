@@ -31,7 +31,7 @@
         label="Price"
         placeholder="Enter ingredient price"
       />
-      <UploadButton @upload="uploadImage" />
+      <UploadButton id="up-load" @upload="uploadImage" />
       <AddButton
           :disabled="isDisabled"
           @proceed="proceed"
