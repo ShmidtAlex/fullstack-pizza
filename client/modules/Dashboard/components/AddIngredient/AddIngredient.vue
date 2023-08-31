@@ -35,7 +35,7 @@
       <AddButton
           :disabled="isDisabled"
           @proceedAddition="proceed"
-      />
+      >Add +</AddButton>
     </div>
     <List
         title="Show available ingredients"
@@ -68,7 +68,7 @@
   import { storeToRefs } from "pinia";
 
   import DashboardSection from "../DashboardSection/DashboardSection.vue";
-  import UploadButton from "~/components/UploadButton/index.vue";
+  import UploadButton from "~/components/UploadButton/UploadButton.vue";
   import AddButton from "~/components/AddButton/AddButton.vue";
   import Ingredient from "../Ingredient/Ingredient.vue";
   import List from '~/components/List/List.vue';

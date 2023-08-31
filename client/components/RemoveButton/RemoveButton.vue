@@ -16,10 +16,13 @@
 </template>
 
 <script lang="ts" setup>
+import {PropType} from "vue";
+
+type TIds = number | string | null
 const emits = defineEmits(["removeItem"]);
 const props = defineProps({
   elemId: {
-    type: Number || String,
+    type:  [Number, String] as PropType<TIds>,
     default: "",
   },
 });
@@ -28,6 +31,7 @@ const props = defineProps({
 <style lang="scss" scoped>
 .remove {
   display: flex;
+  justify-content: center;
   justify-self: flex-end;
   cursor: pointer;
 }

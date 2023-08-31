@@ -11,7 +11,7 @@ export default class PizzaService extends BaseHttpService<IAxiosConfig> {
   ) {
     super(config)
   }
-  async uploadImage(payload) {
+  async uploadImage(payload: File): Promise<AxiosResponse> {
     const formData = new FormData();
     formData.append('image', payload);
     const { data } = await this.axiosClient.post('api/upload', formData, { headers: {
@@ -20,8 +20,9 @@ export default class PizzaService extends BaseHttpService<IAxiosConfig> {
       }})
     return data
   }
-  async getPreUploaded(imageName) {
-    const response = await this.axiosClient.get(`api/upload/${imageName}`)
-    return response
+  // in order not to add the own size, but only choose from existed ones
+  async fetchSizes(): Promise<AxiosResponse> {
+    const { data } = await this.axiosClient.get('api/size')
+    return data
   }
 }

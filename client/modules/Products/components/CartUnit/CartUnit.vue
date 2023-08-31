@@ -36,7 +36,7 @@ import { IFinalObjectForCart } from "~/modules/Products/types";
 import { useProductsStore } from "~/modules/Products/store/ProductsStore";
 import CartUnitIngredients from "~/modules/Products/components/CartUnit/CartUnitIngredients.vue";
 import CartUnitAddons from "~/modules/Products/components/CartUnit/CartUnitAddons.vue";
-import RemoveButton from "~/components/RemoveButton/index.vue";
+import RemoveButton from "~/components/RemoveButton/RemoveButton.vue";
 import { useRuntimeConfig } from "#app";
 
 const props = defineProps({

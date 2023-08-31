@@ -16,8 +16,13 @@ class SizeController {
   async getSize(req, res) {
 
   }
-  async getAllSizes (req, res) {
-
+  async getAllSizes (req, res, next) {
+    try {
+      const sizes = await Size.findAll()
+      return res.json(sizes)
+    } catch (e) {
+      return next(ApiError.internal(`An error occurred during get list of sizes: ${e.message}`));
+    }
   }
 }
 module.exports = new SizeController()

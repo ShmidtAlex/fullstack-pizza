@@ -4,7 +4,7 @@
       class="add-button"
       :disabled="disabled"
       @click="proceedAddition"
-  >Add +</Button>
+  ><slot></slot></Button>
 </template>
 
 <script lang="ts" setup>
