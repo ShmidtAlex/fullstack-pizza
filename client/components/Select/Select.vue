@@ -12,7 +12,7 @@
             @click="
           selectedSize = option.label;
           open = false;
-          $emit('input', option.value);
+          $emit('input', option);
         "
         >
           {{ option.label }}
@@ -47,9 +47,6 @@ import { PropType, ref } from "vue";
   const emit = defineEmits(['input'])
   const open = ref(false);
   const selectedSize = ref<string | number>('')
-  // watch(selectedSize, (newValue) => {
-  //   emit('setSize', newValue)
-  // })
 
   const closeDropdown = () => {
     open.value = false

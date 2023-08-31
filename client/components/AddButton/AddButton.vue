@@ -3,7 +3,7 @@
       :type="type"
       class="add-button"
       :disabled="disabled"
-      @click="proceedAddition"
+      @click="proceed"
   ><slot></slot></Button>
 </template>
 
@@ -20,10 +20,10 @@ import {computed} from "vue";
   const type = computed(() => {
     return props.disabled ? 'base' : 'success'
   })
-  const emit = defineEmits(['proceedAddition'])
-  const proceedAddition = () => {
+  const emit = defineEmits(['proceed'])
+  const proceed = () => {
     if (!props.disabled) {
-      emit('proceedAddition')
+      emit('proceed')
     }
   }
 

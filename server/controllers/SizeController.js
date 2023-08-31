@@ -2,10 +2,19 @@ const ApiError = require('../error/ApiError')
 const { Size } = require('../models/index')
 
 class SizeController {
-  async createSize(req, res) {
-    const { value } = req.body
-    const size = await Size.create({ value })
-    return res.json(size)
+  async createSize(req, res, next) {
+    try {
+      const { value } = req.body
+      const isSizeExist = await Size.findOne({ where: { value }})
+      // Todo: this method could be evoked only if we are in pizza's redact mode
+      if (isSizeExist) {
+        return next(ApiError.badRequest(`${value} size already exist`))
+      }
+      const createdSize = await Size.create({ value })
+      return res.json(createdSize)
+    } catch (e) {
+      return next(ApiError.internal(`An error occurred during creation of a new size: ${e.message}`));
+    }
   }
   async updateSize(req, res) {
 

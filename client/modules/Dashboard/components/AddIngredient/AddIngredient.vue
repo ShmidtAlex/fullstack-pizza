@@ -34,7 +34,7 @@
       <UploadButton @upload="uploadImage" />
       <AddButton
           :disabled="isDisabled"
-          @proceedAddition="proceed"
+          @proceed="proceed"
       >Add +</AddButton>
     </div>
     <List
