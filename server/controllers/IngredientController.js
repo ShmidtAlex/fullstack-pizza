@@ -57,7 +57,7 @@ class IngredientController {
     try {
       const id = req.params.id
       const { name, price }  = req.body;
-      const { img } = req.files
+      let img
       const update = {}
       if (name) {
         update.name = name
@@ -65,8 +65,8 @@ class IngredientController {
       if (price) {
         update.price = price
       }
-      if (img) {
-        console.log('IMG', img)
+      if (req.files) {
+        img = req.files
         let fileName = `${uuid.v4()}.jpg`
         await img.mv(path.resolve(__dirname, '..', 'static', fileName))
         update.img = fileName

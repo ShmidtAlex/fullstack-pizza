@@ -76,7 +76,6 @@
    const emit = defineEmits(['redact'])
 
    const uploadImage = (files: any) => {
-     console.log('files', files)
      if (files.length) {
        redactedIngredient.img = files[0]
      }
@@ -88,10 +87,12 @@
      redactedIngredient[field] = value
    }
    const redact = () => {
-     redactMode.value = true
-     // Todo: check empty request case feels like failed
-     emit('redact', { ingredientId: props.data.id, redactedIngredient: redactedIngredient });
-     redactMode.value = false
+     // Todo: add warning that there is no updated value
+     if (Object.values(redactedIngredient).some((elem) => !!elem)) {
+       redactMode.value = true
+       emit('redact', { ingredientId: props.data.id, redactedIngredient: redactedIngredient });
+       redactMode.value = false
+     }
    }
 </script>
 
