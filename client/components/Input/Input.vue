@@ -47,7 +47,7 @@
     },
     id: {
       required: true,
-      type: String,
+      type: [String, Number],
       default: 'a'
     },
     placeholder: {

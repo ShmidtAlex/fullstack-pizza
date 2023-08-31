@@ -45,12 +45,15 @@
             :options="sizeOptions"
             @input="setSize"
         />
-        <AddButton
-            @proceedAddition="addBrandNewSize"
-        >
-          Add new size
-        </AddButton>
-        <!-- Todo: create a component for opting prices and sizes -->
+        <!--  Todo: this block should be shown in pizza's redact mode -->
+<!--        <div v-if="sizeCreationMode" class="pizza__content__data&#45;&#45;addition">-->
+<!--          <Input type="text" v-model="newSize" placeholder="add brand new size" />-->
+<!--          <div class="pizza__content__data&#45;&#45;off">-->
+<!--            <AddButton :disabled="!newSize" @proceed="addBrandNewSize">Create</AddButton>-->
+<!--            <RemoveButton @close="sizeCreationMode = false"/>-->
+<!--          </div>-->
+<!--        </div>-->
+<!--        <AddButton v-if="!sizeCreationMode" @proceed="turnOnCreationMode">Add new size</AddButton>-->
       </div>
       <div v-if="pizzaModel.itemSizes.length" class="pizza__content__data">
         <SizeAndPrice
@@ -76,6 +79,9 @@
   import {IPizzaModel} from "~/modules/Dashboard/types";
   import AddButton from "~/components/AddButton/AddButton.vue";
   import SizeAndPrice from "../SizeAndPrice/SizeAndPrice.vue";
+  import Input from "~/components/Input/Input.vue";
+  import RemoveButton from "~/components/RemoveButton/RemoveButton.vue";
+  import {IOptions} from "~/components/types";
 
   const dashboardStore = useDashboardStore()
   const config = useRuntimeConfig()
@@ -126,24 +132,38 @@
   const sizeOptions = computed(() => {
     return dashboardStore.sizes.map((size) => {
       return {
+        id: size.id,
         label: `${size.value} cm`,
         value: size.value
       }
     })
   })
-  const addBrandNewSize = () => {
-
+  const sizeCreationMode = ref<boolean>(false)
+  const newSize = ref<string>('')
+  const turnOnCreationMode = ():void => {
+    sizeCreationMode.value = true
   }
-  const setSize = (size: number) => {
-    if (!pizzaModel.itemSizes?.includes(size)) {
+  const addBrandNewSize = ():void => {
+    dashboardStore.createSize({ value: newSize.value })
+  }
+
+  const setSize = (size: IOptions):void => {
+    const existedSize = pizzaModel.itemSizes.find((elem) => elem.value === size.value)
+    if (!existedSize) {
       pizzaModel.itemSizes.push(size)
     }
   }
-  const setPrice = (data: {index: number, price: number}) => {
-    pizzaModel.itemPrices[data.index] = data.price;
+  const setPrice = (data: {id: number, price: number}) => {
+    console.log('setPrice', data)
+    pizzaModel.itemPrices[data.id-1] = data;
   }
-  const removeSizeAndPrice = (index: number) => {
-    pizzaModel.itemSizes = pizzaModel.itemSizes.filter((size, ind) => ind !== index)
+  // method works incorrect because of index is a key, itemPrices and itemSizes has to be an object wi
+  const removeSizeAndPrice = (id: number) => {
+    console.log(id)
+    pizzaModel.itemPrices = pizzaModel.itemPrices.filter((el, ind) => {
+      return ind !== (id -1)
+    })
+    pizzaModel.itemSizes = pizzaModel.itemSizes.filter((el, ind) =>  ind !== (id -1))
   }
   const dropdownComponent = ref(null)
 
@@ -216,6 +236,15 @@
       padding: 0px 16px 16px;
       min-width: fit-content;
       margin-bottom: 16px;
+      &--off {
+        display: flex;
+        flex-direction: row;
+        justify-content: flex-start;
+        align-items: center;
+        &:deep .add-button {
+          margin-bottom: 0px;
+        }
+      }
     }
   }
 

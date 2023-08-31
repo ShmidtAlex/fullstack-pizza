@@ -1,3 +1,5 @@
+import {IOptions} from "~/components/types";
+
 export interface IIngredientModel {
   id?: number
   name: string
@@ -20,10 +22,15 @@ export interface INutrition {
   energy: number
   pizzaId?: number
 }
+
+export interface IPrice {
+  id: number,
+  price: number
+}
 export interface IPizzaModel extends Partial<IIngredientModel>{
   pastryTypes: string[]
   description: string
   nutrition: INutrition
-  itemPrices: number[]
-  itemSizes: number[]
+  itemPrices: IPrice[]
+  itemSizes: IOptions[]
 }

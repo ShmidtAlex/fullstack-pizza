@@ -1,9 +1,8 @@
 <template>
   <div class="label">{{ label }}</div>
-  <div v-for="(size, index) in sizes" :key="index" class="price">
-    <div class="price__item">{{ size }} cm</div>
+  <div v-for="size in sizes" :key="size.id" class="price">
+    <div class="price__item">{{ size.label }}</div>
     <Price
-        :index="index"
         :size="size"
         @confirm="confirm"
         @remove="removeSizeAndPrice"
@@ -14,10 +13,11 @@
 <script lang="ts" setup>
   import { PropType } from "vue";
   import Price from "../Price/Price.vue";
+  import {IOptions} from "~/components/types";
 
   const props = defineProps({
     sizes: {
-      type: Array as PropType<number[]>,
+      type: Array as PropType<IOptions[]>,
       default: () => []
     },
     label: {
@@ -26,11 +26,12 @@
     }
   })
   const emit = defineEmits(['confirm', 'remove'])
+  // const currentPrice
   const confirm = (data) => {
     emit('confirm', data)
   }
   const removeSizeAndPrice = (index) => {
-    emit('remove', index)
+    emit('remove', Number(index))
   }
 
 </script>

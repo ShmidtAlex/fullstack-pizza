@@ -39,22 +39,22 @@ export const useDashboardStore = defineStore("dashboard", {
   },
   
   actions: {
-    setIngredients(ingredientsList) {
+    setIngredients(ingredientsList):void {
       this._ingredients = ingredientsList
     },
-    setRemovalResult(result) {
+    setRemovalResult(result):void {
       this._removalResult = result
     },
-    toggleLoader(loaderName, state) {
+    toggleLoader(loaderName, state):void {
       this.loaders[loaderName] = state
     },
-    setPreloadedImage(img) {
+    setPreloadedImage(img):void {
       this._preUploadedImageSrc = `uploads/${img}`
     },
-    setSizes(data: any) {
+    setSizes(data: any):void {
       this._sizesList = data
     },
-    async addNewIngredient(payload) {
+    async addNewIngredient(payload):void {
       this.toggleLoader('_ingredientCreateLoader', true)
       await $api.ingredients.addIngredient(payload).then((response) => {
         if (response.id) {
@@ -76,7 +76,7 @@ export const useDashboardStore = defineStore("dashboard", {
       const response = await $api.ingredients.getAllIngredients()
       this.setIngredients(response)
     },
-    async removeIngredientFromList(id) {
+    async removeIngredientFromList(id):void {
       this.toggleLoader('_ingredientRemoveLoader', true)
       const response = await $api.ingredients.removeIngredient(id)
       if (response.status === 200) {
@@ -84,7 +84,7 @@ export const useDashboardStore = defineStore("dashboard", {
       }
       this.toggleLoader('_ingredientRemoveLoader', false)
     },
-    async preUploadImage(payload: File) {
+    async preUploadImage(payload: File):void {
       try {
         const sendingResult = await $api.pizza.uploadImage(payload);
         this.setPreloadedImage(sendingResult.imageUrl);
@@ -93,9 +93,15 @@ export const useDashboardStore = defineStore("dashboard", {
         console.error('Error in preUploadImage:', error);
       }
     },
-    async fetchPizzaSizes() {
+    async fetchPizzaSizes():void {
       const sizes = await $api.pizza.fetchSizes()
       this.setSizes(sizes)
+    },
+    async createSize(payload: { value: number }):void {
+      await $api.pizza.createSize(payload).then((response) => {
+        if (response.data.size)
+        this.fetchPizzaSizes()
+      })
     }
   }
 });

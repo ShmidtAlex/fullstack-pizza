@@ -95,6 +95,7 @@
 </script>
 
 <style lang="scss" scoped>
+@import '/assets/css/buttons.scss';
   .ingredient {
     display: flex;
     flex-direction: row;
@@ -130,6 +131,7 @@
       align-items: center;
       min-width: fit-content;
       margin-left: 16px;
+      // Todo: replace with styles from assets/css/buttons
       &--redact {
         background-color: darkorange;
       }

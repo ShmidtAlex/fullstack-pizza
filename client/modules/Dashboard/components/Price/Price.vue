@@ -1,32 +1,37 @@
 <template>
   <Input
       v-model="price"
-      :id="size"
+      :id="size.id"
       type="number"
       placeholder="enter price"
       :disabled="confirmed"
   />
   <AddButton
-      :disabled="!price || confirmed"
-      @proceedAddition="confirm"
-  >confirm</AddButton>
-  <RemoveButton @removeItem="removeItem" :elem-id="size"/>
+      v-if="!confirmed"
+      @proceed="confirm"
+  >
+    Confirm
+  </AddButton>
+  <Button
+      v-else
+      type="warning"
+      @click="confirmed = false"
+  >
+    Redact
+  </Button>
+  <RemoveButton @removeItem="removeItem" :elem-id="size.id"/>
 </template>
 
 <script lang="ts" setup>
-
   import Input from "~/components/Input/Input.vue";
   import AddButton from "~/components/AddButton/AddButton.vue";
-  import {ref, watch} from "vue";
+  import {PropType, ref, watch} from "vue";
   import RemoveButton from "~/components/RemoveButton/RemoveButton.vue";
+  import {IOptions} from "~/components/types";
 
   const props = defineProps({
-    index: {
-      type: Number,
-      required: true
-    },
     size: {
-      type: [Number, String],
+      type: Object as PropType<IOptions>,
       required: true
     }
   })
@@ -35,14 +40,14 @@
   const price = ref<number | null>(null)
   const confirm = () => {
     const priceObj = {
-      index: props.index,
-      price: price.value
+      id: props.size.id,
+      price: Number(price.value)
     }
     emit('confirm', priceObj)
     confirmed.value = true
   }
-  const removeItem = () => {
-    emit('remove', props.index)
+  const removeItem = (id) => {
+    emit('remove', id)
   }
   watch(price, (newVal) => {
     if (newVal) {
@@ -54,5 +59,8 @@
 <style lang="scss" scoped>
   .add-button {
     margin-bottom: 0px;
+  }
+  .warning {
+    margin-right: 16px;
   }
 </style>

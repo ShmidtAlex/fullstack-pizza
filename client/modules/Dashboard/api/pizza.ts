@@ -25,4 +25,12 @@ export default class PizzaService extends BaseHttpService<IAxiosConfig> {
     const { data } = await this.axiosClient.get('api/size')
     return data
   }
+  async createSize(payload: { value: number }): Promise<AxiosResponse> {
+    const { data } = await this.axiosClient.post('api/size', payload, {
+      headers: {
+        'Authorization': `Bearer ${localStorage.getItem('token')}`
+      }
+    })
+    return data
+  }
 }
