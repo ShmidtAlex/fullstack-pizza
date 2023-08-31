@@ -46,7 +46,7 @@
 </template>
 
 <script lang="ts" setup>
-import Input from '@/components/Input/index.vue'
+import Input from '~/components/Input/Input.vue'
 
 import {useRouter} from "vue-router";
 import {navigateTo, useNuxtApp} from "#app";

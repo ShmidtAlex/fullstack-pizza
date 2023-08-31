@@ -1,5 +1,5 @@
 <template>
-  <div class="upload mb-3">
+  <div class="upload">
     <label for="uploadFile" class="upload__icon" @change="uploadDocument">
       <input
         type="file"
@@ -33,7 +33,7 @@
   border-radius: 10px;
   border: none;
   outline: none;
-  margin: 0 16px 0 0;
+  margin: 16px;
   &__icon {
     display: flex;
     justify-content: center;

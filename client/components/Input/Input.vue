@@ -1,9 +1,38 @@
 <template>
-  <div class="input">
+  <div v-if="value" class="input">
     <!--    Todo: prevent negative values for input type number -->
-    <label v-if="label" :for="id" class="form-label text-sm font-medium">{{ label }}</label>
-    <input v-if="value || value === ''" @input="update" :type="type" class="form-control form-control-sm" :id="id" name="a" :placeholder="placeholder" :value="value">
-    <input v-else @input="changeString" :type="type" class="form-control form-control-sm" :id="id" name="b" :placeholder="placeholder">
+    <label
+        v-if="label"
+        :for="`value-${id}`"
+        class="form-label text-sm font-medium"
+    >{{ label }}</label>
+    <input
+        @input="update"
+        :type="type"
+        class="form-control form-control-sm"
+        :id="`value-${id}`"
+        name="a"
+        :placeholder="placeholder"
+        :value="value"
+        :disabled="disabled"
+    >
+  </div>
+  <div v-else class="input">
+    <!--    Todo: prevent negative values for input type number -->
+    <label
+        v-if="label"
+        :for="`id-${id}`"
+        class="form-label text-sm font-medium"
+    >{{ label }}</label>
+    <input
+        @input="changeString"
+        :type="type"
+        class="form-control form-control-sm"
+        :id="`id-${id}`"
+        name="b"
+        :placeholder="placeholder"
+        :disabled="disabled"
+    >
   </div>
 </template>
 <!-- Todo: prevent negative numbers -->
@@ -18,7 +47,8 @@
     },
     id: {
       required: true,
-      type: String
+      type: String,
+      default: 'a'
     },
     placeholder: {
       type: String,
@@ -28,10 +58,15 @@
       type: String,
       default: ''
     },
+    disabled: {
+      type: Boolean,
+      default: false
+    },
     // Todo if ingredient creation works well after adding this props
     value: {
       required: false,
       type: String,
+      default: ''
     }
   })
 

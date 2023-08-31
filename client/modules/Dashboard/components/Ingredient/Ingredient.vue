@@ -11,6 +11,7 @@
       <div class="ingredient__redact__img">
         <img :src="`${config.public.NUXT_ENV_BASE_URL}/${data.img}`" :alt="`image of ingredient ${data.name}`">
       </div>
+       <UploadButton @upload="uploadImage" />
       <div class="ingredient__redact__name">
         <Input type="text" :value="data.name" @change="(value) => update(value, 'name') " />
       </div>
@@ -34,6 +35,9 @@
           class="ingredient__actions--activate m-1 px-3 py-2 rounded-md text-sm text-white"
           @click="redact"
       >Apply changes</button>
+      <div v-if="redactMode" class="ingredient__actions__close">
+        <RemoveButton @removeItem="redactMode = false"/>
+      </div>
     </div>
   </div>
 </template>
@@ -44,6 +48,7 @@
    import { useRuntimeConfig } from "#app";
    import {useAuthStore} from "~/modules/AuthorizationForm/store/AuthStore";
    import {DASHBOARD_ACCESS_ROLES, DASHBOARD_ADMIN_ROLES} from "~/constants";
+   import UploadButton from '~/components/UploadButton/UploadButton.vue';
 
    const redactMode = ref<boolean>(false);
    const authStore = useAuthStore()
@@ -65,9 +70,17 @@
    })
    const redactedIngredient = reactive<Partial<IIngredientModel>>({
      name: '',
-     price: ''
+     price: '',
+     img: null
    })
    const emit = defineEmits(['redact'])
+
+   const uploadImage = (files: any[]): void => {
+     console.log('files', files)
+     if (files.length) {
+       redactedIngredient.value.img = files[0]
+     }
+   }
    const remove = () => {
      emit('remove', props.data.id)
    }
@@ -87,7 +100,8 @@
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
-    width: 550px;
+    width: fit-content;
+    min-width: 550px;
     padding: 8px;
     margin-bottom: 16px;
     border-radius: 8px;
@@ -105,12 +119,15 @@
         justify-content: center;
         width: 60px;
         img {
-          widht: 40px;
+          width: 40px;
           height: 40px;
         }
       }
     }
     &__actions {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
       min-width: fit-content;
       margin-left: 16px;
       &--redact {
@@ -118,6 +135,9 @@
       }
       &--activate {
         background-color: rgba(0, 128, 0, 0.9);
+      }
+      &__close {
+        width: 40px;
       }
     }
     &__redact {
@@ -129,12 +149,13 @@
         min-width: 60px;
         margin-right: 16px;
         img {
-          widht: 40px;
+          width: 40px;
           height: 40px;
         }
       }
       .input {
         margin: 0 16px 0 0;
+        min-width: 50px;
       }
       &__price {
         display: flex;

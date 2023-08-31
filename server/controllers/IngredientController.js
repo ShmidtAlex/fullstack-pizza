@@ -57,12 +57,19 @@ class IngredientController {
     try {
       const id = req.params.id
       const { name, price }  = req.body;
+      const { img } = req.files
       const update = {}
       if (name) {
         update.name = name
       }
       if (price) {
         update.price = price
+      }
+      if (img) {
+        console.log('IMG', img)
+        let fileName = `${uuid.v4()}.jpg`
+        await img.mv(path.resolve(__dirname, '..', 'static', fileName))
+        update.img = fileName
       }
       const ingredient = await Ingredient.findByPk(id)
 

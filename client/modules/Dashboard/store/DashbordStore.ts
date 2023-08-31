@@ -6,12 +6,13 @@ export const useDashboardStore = defineStore("dashboard", {
   state: () => ({
     _ingredients: <IIngredientModel>[],
     _removalResult: <boolean>false,
+    _preUploadedImageSrc: '',
+    _sizesList: [],
     loaders: {
       _ingredientUpdateLoader: false,
       _ingredientCreateLoader: false,
       _ingredientRemoveLoader: false
     },
-    _preUploadedImageSrc: ''
   }),
   getters: {
     ingredients: (store) => {
@@ -31,6 +32,9 @@ export const useDashboardStore = defineStore("dashboard", {
     },
     uploadedImgSrc(store) {
       return store._preUploadedImageSrc
+    },
+    sizes(store) {
+      return store._sizesList
     }
   },
   
@@ -46,6 +50,9 @@ export const useDashboardStore = defineStore("dashboard", {
     },
     setPreloadedImage(img) {
       this._preUploadedImageSrc = `uploads/${img}`
+    },
+    setSizes(data: any) {
+      this._sizesList = data
     },
     async addNewIngredient(payload) {
       this.toggleLoader('_ingredientCreateLoader', true)
@@ -77,7 +84,7 @@ export const useDashboardStore = defineStore("dashboard", {
       }
       this.toggleLoader('_ingredientRemoveLoader', false)
     },
-    async preUploadImage(payload) {
+    async preUploadImage(payload: File) {
       try {
         const sendingResult = await $api.pizza.uploadImage(payload);
         this.setPreloadedImage(sendingResult.imageUrl);
@@ -85,6 +92,10 @@ export const useDashboardStore = defineStore("dashboard", {
       } catch (error) {
         console.error('Error in preUploadImage:', error);
       }
+    },
+    async fetchPizzaSizes() {
+      const sizes = await $api.pizza.fetchSizes()
+      this.setSizes(sizes)
     }
   }
 });
