@@ -65,7 +65,7 @@
     // Todo if ingredient creation works well after adding this props
     value: {
       required: false,
-      type: String,
+      type: [String, Number],
       default: ''
     }
   })

@@ -21,7 +21,7 @@ export default class IngredientsService extends BaseHttpService<IAxiosConfig> {
     if (img) {
       formData.append('img', img);
     }
-    
+    // Figure out why does payload used instead of formData
     const { data } = await this.axiosClient.post(`api/ingredients`, payload, { headers: {
       'Content-Type': 'multipart/form-data',
       'Authorization': `Bearer $${localStorage.getItem('token')}`
@@ -35,7 +35,19 @@ export default class IngredientsService extends BaseHttpService<IAxiosConfig> {
     return response
   }
   async updateIngredient(ingredientId: number, payload: Partial<IIngredientModel>) {
-    const response = await this.axiosClient.patch(`api/ingredients/${ingredientId}`, payload, {
+    const { name, price, img } = payload
+    const formData = new FormData();
+    if (name) {
+      formData.append('name', name);
+    }
+    if (price) {
+      formData.append('price', price);
+    }
+    if (img) {
+      formData.append('img', img);
+    }
+  
+    const response = await this.axiosClient.patch(`api/ingredients/${ingredientId}`, formData, {
       headers: {
         'Authorization': `Bearer $${localStorage.getItem('token')}`
       }

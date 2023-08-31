@@ -1,10 +1,10 @@
 <template>
   <div class="upload">
-    <label for="uploadFile" class="upload__icon" @change="uploadDocument">
+    <label :for="id" class="upload__icon" @change="uploadDocument">
       <input
         type="file"
         name="uploadFile"
-        id="uploadFile"
+        :id="id"
         class="upload__icon_hidden-input"
       />
     </label>
@@ -13,9 +13,16 @@
 
 <script lang="ts" setup>
   const props = defineProps({
-
+    id: {
+      type: [String, Number],
+      required: true
+    },
+    mode: {
+      type: String,
+      default: 'create'
+    }
   })
-  const emit = defineEmits(['upload'])
+  const emit = defineEmits(['upload', 'redactIngredientImage'])
   const uploadDocument = (e) => {
     emit('upload', e.target.files)
   }

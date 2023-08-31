@@ -77,7 +77,7 @@ class IngredientController {
         return next(ApiError.badRequest('There is no ingredient with such id'));
       }
       await ingredient.update(update,{ where: { id }})
-      res.status(200).json({ message: 'Ingredient updated successfully' });
+      return res.status(200).json({ message: 'Ingredient updated successfully' });
     } catch (error) {
       return next(ApiError.internal(`An error occurred during ingredient update: ${error.message}`));
     }
