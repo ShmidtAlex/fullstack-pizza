@@ -9,7 +9,7 @@
     <input
         @input="update"
         :type="type"
-        class="form-control form-control-sm"
+        class="form-control form-control-md"
         :id="`value-${id}`"
         name="a"
         :placeholder="placeholder"
@@ -27,7 +27,7 @@
     <input
         @input="changeString"
         :type="type"
-        class="form-control form-control-sm"
+        class="form-control form-control-md"
         :id="`id-${id}`"
         name="b"
         :placeholder="placeholder"
