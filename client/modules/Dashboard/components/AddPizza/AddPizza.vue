@@ -64,7 +64,14 @@
         />
       </div>
       <div class="pizza__content__data">
-        <!-- Todo: create a component for nutrition object -->
+        <Input v-model="pizzaModel.nutrition.protein" id="protein" label="Proteins:" type="number" placeholder="enter protein amount" />
+        <Input v-model="pizzaModel.nutrition.fats" id="fats" label="Fats:" type="number" placeholder="enter fats amount" />
+        <Input v-model="pizzaModel.nutrition.carbohydrates" id="carbohydrates" label="Carbohydrates:" type="number" placeholder="enter carbohydrates amount" />
+        <Input v-model="pizzaModel.nutrition.energy" id="energy" label="Energy:" type="number" placeholder="enter energy amount" />
+      </div>
+      <div class="pizza__content__data">
+        <Toggler value="Thin" data-type="string" @toggle="changeType" />
+        <Toggler value="Traditional" data-type="string" @toggle="changeType"/>
       </div>
       <!-- Todo: add a section for showing existed pizzas list
             and modal popup with the same AddPizza component but with existed pizza's data in order to redact it -->
@@ -81,7 +88,8 @@
   import SizeAndPrice from "../SizeAndPrice/SizeAndPrice.vue";
   import Input from "~/components/Input/Input.vue";
   import RemoveButton from "~/components/RemoveButton/RemoveButton.vue";
-  import {IOptions} from "~/components/types";
+  import {IOptions, TTogglerDataTypes} from "~/components/types";
+  import Toggler from "~/components/Toggler/Toggler.vue";
 
   const dashboardStore = useDashboardStore()
   const config = useRuntimeConfig()
@@ -154,16 +162,23 @@
     }
   }
   const setPrice = (data: {id: number, price: number}) => {
-    console.log('setPrice', data)
     pizzaModel.itemPrices[data.id-1] = data;
   }
   // method works incorrect because of index is a key, itemPrices and itemSizes has to be an object wi
   const removeSizeAndPrice = (id: number) => {
-    console.log(id)
     pizzaModel.itemPrices = pizzaModel.itemPrices.filter((el, ind) => {
       return ind !== (id -1)
     })
     pizzaModel.itemSizes = pizzaModel.itemSizes.filter((el, ind) =>  ind !== (id -1))
+  }
+  const changeType = (data: TTogglerDataTypes) => {
+    if (typeof data === 'string') {
+      if (pizzaModel.pastryTypes.includes(data)) {
+        pizzaModel.pastryTypes = pizzaModel.pastryTypes.filter((t) => t === data)
+      } else {
+        pizzaModel.pastryTypes.push(data)
+      }
+    }
   }
   const dropdownComponent = ref(null)
 

@@ -3,3 +3,4 @@ export interface IOptions {
   value: string | number
   label?: string
 }
+export type TTogglerDataTypes = boolean | string
