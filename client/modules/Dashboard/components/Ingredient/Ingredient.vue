@@ -7,7 +7,7 @@
       <div class="ingredient__info__name">{{ data.name }}</div>
       <div class="ingredient__info__price">{{ data.price }}$</div>
     </div>
-    <div v-else class="ingredient__redact">
+    <div v-if="redactMode" class="ingredient__redact">
       <div class="ingredient__redact__img">
         <img :src="`${config.public.NUXT_ENV_BASE_URL}static/${data.img}`" :alt="`image of ingredient ${data.name}`">
       </div>
@@ -19,35 +19,44 @@
         <Input :id="`${data.id}-value`" type="number" :value="data.price" @change="(value) => update(value, 'price')" />$
       </div>
     </div>
-    <div class="ingredient__actions">
-      <button
+    <div v-if="!selectionMode" class="ingredient__actions">
+      <Button
           v-if="isAdmin"
-          class="bg-[crimson] m-1 px-3 py-2 rounded-md text-sm text-white"
+          type="danger"
           @click="remove"
-      >Remove ingredient</button>
-      <button
+      >
+        Remove ingredient
+      </Button>
+      <Button
           v-if="!redactMode && isAdminOrRedactor"
-          class="ingredient__actions--redact m-1 px-3 py-2 rounded-md text-sm text-white"
+          type="warning"
           @click="redactMode = true"
-      >Change ingredient</button>
-      <button
+      >
+        Change ingredient
+      </Button>
+      <Button
           v-if="redactMode && isAdminOrRedactor"
-          class="ingredient__actions--activate m-1 px-3 py-2 rounded-md text-sm text-white"
+          type="warning"
           @click="redact"
-      >Apply changes</button>
+      >
+        Apply changes
+      </Button>
       <div v-if="redactMode" class="ingredient__actions__close">
         <RemoveButton @removeItem="redactMode = false"/>
       </div>
+    </div>
+    <div v-if="selectionMode" class="ingredient__selector">
+      <input type="checkbox" :id="data.id" :name="data.name" :value="data.id" @change="emit('select', data.id)">
     </div>
   </div>
 </template>
 
 <script lang="ts" setup>
-   import { IIngredientModel } from "~/modules/Dashboard/types";
-   import {computed, PropType, reactive, ref} from "vue";
+import { IIngredientModel } from "~/modules/Dashboard/types";
+   import { computed, PropType, reactive, ref } from "vue";
    import { useRuntimeConfig } from "#app";
-   import {useAuthStore} from "~/modules/AuthorizationForm/store/AuthStore";
-   import {DASHBOARD_ACCESS_ROLES, DASHBOARD_ADMIN_ROLES} from "~/constants";
+   import { useAuthStore } from "~/modules/AuthorizationForm/store/AuthStore";
+   import { DASHBOARD_ACCESS_ROLES, DASHBOARD_ADMIN_ROLES } from "~/constants";
    import UploadButton from '~/components/UploadButton/UploadButton.vue';
 
    const redactMode = ref<boolean>(false);
@@ -56,6 +65,10 @@
      data: {
        type: Object as PropType<IIngredientModel>,
        required: true
+     },
+     selectionMode: {
+       type: Boolean,
+       default: false
      }
    })
    const config = useRuntimeConfig();
@@ -133,9 +146,9 @@
       align-items: center;
       min-width: fit-content;
       margin-left: 16px;
-      // Todo: replace with styles from assets/css/buttons
       &--redact {
         background-color: darkorange;
+        border-radius: 8px;
       }
       &--activate {
         background-color: rgba(0, 128, 0, 0.9);
@@ -171,6 +184,9 @@
         @extend .ingredient__redact__price;
         min-width: 110px;
       }
+    }
+    &__selector {
+      margin-right: 16px;
     }
   }
 </style>

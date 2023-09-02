@@ -73,6 +73,26 @@
         <Toggler value="Thin" data-type="string" @toggle="changeType" />
         <Toggler value="Traditional" data-type="string" @toggle="changeType"/>
       </div>
+      <List
+          title="Show ingredients available for addition"
+          :expand="showList"
+          @toggleList="showList = !showList"
+      >
+        <template v-if="ingredients.length">
+          <Ingredient
+              v-for="ingredient in ingredients"
+              :key="ingredient.id"
+              :data="ingredient"
+              selection-mode
+              @select="addIngredient"
+          />
+        </template>
+        <template v-else>
+          <EmptyData
+              item-name="ingredients"
+          />
+        </template>
+      </List>
       <!-- Todo: add a section for showing existed pizzas list
             and modal popup with the same AddPizza component but with existed pizza's data in order to redact it -->
     </div>
@@ -90,7 +110,10 @@
   import RemoveButton from "~/components/RemoveButton/RemoveButton.vue";
   import {IOptions, TTogglerDataTypes} from "~/components/types";
   import Toggler from "~/components/Toggler/Toggler.vue";
+  import {storeToRefs} from "pinia";
+  import {pushOrFilter} from "~/helpers";
 
+  const { ingredients } = storeToRefs(useDashboardStore());
   const dashboardStore = useDashboardStore()
   const config = useRuntimeConfig()
   const pizzaModel = reactive<IPizzaModel>({
@@ -99,6 +122,7 @@
     pastryTypes: [],
     itemPrices: [],
     itemSizes: [],
+    ingredientIds: [],
     description: '',
     nutrition: {
       protein: 0,
@@ -173,18 +197,18 @@
   }
   const changeType = (data: TTogglerDataTypes) => {
     if (typeof data === 'string') {
-      if (pizzaModel.pastryTypes.includes(data)) {
-        pizzaModel.pastryTypes = pizzaModel.pastryTypes.filter((t) => t === data)
-      } else {
-        pizzaModel.pastryTypes.push(data)
-      }
+      pushOrFilter(pizzaModel.pastryTypes, data)
     }
+  }
+  const addIngredient = (id: number) => {
+    pushOrFilter(pizzaModel.ingredientIds, id)
   }
   const dropdownComponent = ref(null)
 
   const closeDropdown = () => {
     dropdownComponent.value.closeDropdown()
   }
+  const showList = ref(false)
   const clearData = () => {
     localStorage.setItem('preloadedImage', '')
     // Todo: clear uploads folder after adding or redaction a new pizza
