@@ -11,6 +11,7 @@
 </template>
 
 <script lang="ts" setup>
+// Todo: instead of prevent user click event on button, add validation
   import { PropType } from "vue";
   import Price from "../Price/Price.vue";
   import {IOptions} from "~/components/types";
@@ -39,6 +40,7 @@
 <style lang="scss" scoped>
   .label {
     margin-bottom: 8px;
+    font-weight: 500;
   }
   .price {
     display: flex;

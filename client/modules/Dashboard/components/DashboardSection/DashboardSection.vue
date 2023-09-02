@@ -31,7 +31,7 @@
 </script>
 
 <style lang="scss" scoped>
-@import "@/assets/css/loader.scss";
+@import "assets/css/loader.scss";
 
 .section {
   display: flex;

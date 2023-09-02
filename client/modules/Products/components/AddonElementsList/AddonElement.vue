@@ -121,7 +121,7 @@ const cTotalNumber = computed((): string => {
 });
 </script>
 <style lang="scss" scoped>
-@import "/assets/css/animations/warn-text";
+@import "assets/css/animations/warn-text";
 .addon-element {
   display: flex;
   flex-direction: row;

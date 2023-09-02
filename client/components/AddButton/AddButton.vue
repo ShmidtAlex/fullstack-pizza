@@ -35,7 +35,6 @@ import {computed} from "vue";
     justify-content: center;
     align-items: center;
     color: white;
-    width: 80px;
     min-width: fit-content;
     height: 40px;
     margin: 0 16px 16px 0;

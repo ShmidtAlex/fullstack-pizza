@@ -1,7 +1,6 @@
 <template>
   <DashboardSection
       title="Pizza"
-      @click.stop="closeDropdown"
   >
     <div class="pizza__content" >
       <div class="pizza__content__image">
@@ -37,41 +36,93 @@
             type="text"
         />
       </div>
-      <div class="pizza__content__data" @click.stop>
-        <Select
-            ref="dropdownComponent"
-            label="Choose a size"
-            select-name="pizzaSizes"
-            :options="sizeOptions"
-            @input="setSize"
-        />
-        <!--  Todo: this block should be shown in pizza's redact mode -->
-<!--        <div v-if="sizeCreationMode" class="pizza__content__data&#45;&#45;addition">-->
-<!--          <Input type="text" v-model="newSize" placeholder="add brand new size" />-->
-<!--          <div class="pizza__content__data&#45;&#45;off">-->
-<!--            <AddButton :disabled="!newSize" @proceed="addBrandNewSize">Create</AddButton>-->
-<!--            <RemoveButton @close="sizeCreationMode = false"/>-->
+      <div class="pizza__content__data" @click.stop="closeDropdown">
+        <Button :type="isSizeAndPriceSet" @proceedAction="isSizesAndPricesModal = true">Set Sizes and Prices</Button>
+        <Modal
+            v-if="isSizesAndPricesModal"
+            title="Set price for each size"
+            :is-footer="false"
+            @close="closeSizesAndPricesModal"
+        >
+          <div class="modal__content">
+            <Select
+                ref="dropdownComponent"
+                label="Choose a size"
+                select-name="pizzaSizes"
+                :options="sizeOptions"
+                @input="setSize"
+            />
+            <div class="modal__content__settings">
+              <SizeAndPrice
+                  v-if="pizzaModel.itemSizes.length"
+                  label="Set price"
+                  :sizes="pizzaModel.itemSizes"
+                  @confirm="setPrice"
+                  @remove="removeSizeAndPrice"
+              />
+            </div>
+          </div>
+          <Button
+              type="success"
+              :disabled="!sizeAndPriceConditions"
+              @proceedAction="isSizesAndPricesModal = false"
+          >Apply</Button>
+        </Modal>
+      </div>
+      <!--  Todo: this block should be shown in pizza's redact mode as we only able to add size to existed pizza -->
+<!--      <div  class="pizza__content__data">-->
+<!--        <div class="modal__content">-->
+<!--          <div v-if="sizeCreationMode" class="pizza__content__data&#45;&#45;addition">-->
+<!--            <Input type="text" v-model="newSize" placeholder="add brand new size" />-->
+<!--            <div class="pizza__content__data&#45;&#45;off">-->
+<!--              <AddButton :disabled="!newSize" @proceed="addBrandNewSize">Create</AddButton>-->
+<!--              <RemoveButton @close="sizeCreationMode = false"/>-->
+<!--            </div>-->
 <!--          </div>-->
+<!--          <AddButton v-if="!sizeCreationMode" @proceed="turnOnCreationMode">Add new size</AddButton>-->
 <!--        </div>-->
-<!--        <AddButton v-if="!sizeCreationMode" @proceed="turnOnCreationMode">Add new size</AddButton>-->
-      </div>
-      <div v-if="pizzaModel.itemSizes.length" class="pizza__content__data">
-        <SizeAndPrice
-            label="Set price"
-            :sizes="pizzaModel.itemSizes"
-            @confirm="setPrice"
-            @remove="removeSizeAndPrice"
-        />
+<!--      </div>-->
+      <div class="pizza__content__data">
+        <Button :type="allNutrition" @proceedAction="isNutritionModal = true">Set nutrition</Button>
+        <Modal
+            v-if="isNutritionModal"
+            title="Set nutrition details"
+            :is-footer="false"
+            @close="closeNutritionModal"
+        >
+          <div class="modal__content">
+            <Input v-model="pizzaModel.nutrition.protein" id="protein" label="Proteins:" type="number" placeholder="enter protein amount" />
+            <Input v-model="pizzaModel.nutrition.fats" id="fats" label="Fats:" type="number" placeholder="enter fats amount" />
+            <Input v-model="pizzaModel.nutrition.carbohydrates" id="carbohydrates" label="Carbohydrates:" type="number" placeholder="enter carbohydrates amount" />
+            <Input v-model="pizzaModel.nutrition.energy" id="energy" label="Energy:" type="number" placeholder="enter energy amount" />
+          </div>
+
+          <Button
+              type="success"
+              :disabled="!isNutritionSet"
+              @proceedAction="isNutritionModal = false"
+          >Apply</Button>
+        </Modal>
       </div>
       <div class="pizza__content__data">
-        <Input v-model="pizzaModel.nutrition.protein" id="protein" label="Proteins:" type="number" placeholder="enter protein amount" />
-        <Input v-model="pizzaModel.nutrition.fats" id="fats" label="Fats:" type="number" placeholder="enter fats amount" />
-        <Input v-model="pizzaModel.nutrition.carbohydrates" id="carbohydrates" label="Carbohydrates:" type="number" placeholder="enter carbohydrates amount" />
-        <Input v-model="pizzaModel.nutrition.energy" id="energy" label="Energy:" type="number" placeholder="enter energy amount" />
-      </div>
-      <div class="pizza__content__data">
-        <Toggler value="Thin" data-type="string" @toggle="changeType" />
-        <Toggler value="Traditional" data-type="string" @toggle="changeType"/>
+        <Button :type="pastryTypeCondition" @proceedAction="isPastryTypesModal = true">Set Pastry Types</Button>
+        <Modal
+            v-if="isPastryTypesModal"
+            title="Set Pastry Types"
+            :is-footer="false"
+            @close="closePastryTypesModal"
+        >
+          <div class="modal__content">
+            <Toggler value="Thin" data-type="string" @toggle="changeType" />
+            <Toggler value="Traditional" data-type="string" @toggle="changeType"/>
+          </div>
+          <Button
+              type="success"
+              :disabled="!isPastryTypesSet"
+              @proceedAction="isPastryTypesModal = false"
+          >Apply</Button>
+        </Modal>
+
       </div>
       <List
           title="Show ingredients available for addition"
@@ -95,6 +146,10 @@
       </List>
       <!-- Todo: add a section for showing existed pizzas list
             and modal popup with the same AddPizza component but with existed pizza's data in order to redact it -->
+      <div class="pizza__content__data">
+        <AddButton :disabled="!allFieldsFullFelt">Create Pizza</AddButton>
+      </div>
+
     </div>
   </DashboardSection>
 </template>
@@ -112,6 +167,9 @@
   import Toggler from "~/components/Toggler/Toggler.vue";
   import {storeToRefs} from "pinia";
   import {pushOrFilter} from "~/helpers";
+  import EmptyData from "~/components/EmptyDataPlug/EmptyData.vue";
+  import Button from "~/components/Button/Button.vue";
+  import Modal from "~/components/Modal/Modal.vue";
 
   const { ingredients } = storeToRefs(useDashboardStore());
   const dashboardStore = useDashboardStore()
@@ -170,6 +228,21 @@
       }
     })
   })
+  const isSizesAndPricesModal = ref<boolean>(false);
+  const closeSizesAndPricesModal = () => {
+    isSizesAndPricesModal.value = false
+    clearSizesAndPricesData()
+  }
+  const clearSizesAndPricesData = () => {
+    pizzaModel.itemSizes = []
+    pizzaModel.itemPrices = []
+  }
+  const sizeAndPriceConditions = computed((): boolean => {
+    return pizzaModel.itemSizes.length === pizzaModel.itemPrices.length && pizzaModel.itemSizes.length > 0
+  })
+  const isSizeAndPriceSet = computed(() => {
+    return sizeAndPriceConditions.value ? 'success' : 'warning'
+  })
   const sizeCreationMode = ref<boolean>(false)
   const newSize = ref<string>('')
   const turnOnCreationMode = ():void => {
@@ -203,11 +276,45 @@
   const addIngredient = (id: number) => {
     pushOrFilter(pizzaModel.ingredientIds, id)
   }
+  const isNutritionModal = ref<boolean>(false)
+  const isNutritionSet = computed(():boolean => {
+    return Object.values(pizzaModel.nutrition).every((item) => item > 0)
+  })
+  const allNutrition = computed((): string  => {
+    return isNutritionSet.value ? 'success' : 'warning'
+  })
+  const allFieldsFullFelt = computed((): boolean => {
+    return sizeAndPriceConditions.value
+  })
+  const closeNutritionModal = () => {
+    isNutritionModal.value = false
+    clearNutritionData()
+  }
+  const clearNutritionData = () => {
+    for (let key in pizzaModel.nutrition) {
+      pizzaModel.nutrition[key] = 0
+    }
+  }
+  const isPastryTypesModal = ref<boolean>(false)
+  const isPastryTypesSet = computed((): boolean => {
+    return pizzaModel.pastryTypes.length > 0
+  })
+  const pastryTypeCondition = computed((): string => {
+    return isPastryTypesSet.value ? 'success' : 'warning'
+  })
+  const closePastryTypesModal = () => {
+    isPastryTypesModal.value = false
+    clearPastryTypes()
+  }
+  const clearPastryTypes = () => {
+    pizzaModel.pastryTypes = []
+  }
   const dropdownComponent = ref(null)
 
   const closeDropdown = () => {
     dropdownComponent.value.closeDropdown()
   }
+
   const showList = ref(false)
   const clearData = () => {
     localStorage.setItem('preloadedImage', '')
@@ -284,6 +391,23 @@
           margin-bottom: 0px;
         }
       }
+    }
+  }
+  .modal__content {
+    display: flex;
+    justify-content: flex-start;
+    flex-wrap: wrap;
+    min-height: 48px;
+    height: fit-content;
+    width: 100%;
+    margin: 16px 0px;
+    &__settings {
+      display: flex;
+      flex-direction: column;
+      justify-content: stretch;
+      align-items: flex-start;
+      width: 100%;
+      height: fit-content;
     }
   }
 

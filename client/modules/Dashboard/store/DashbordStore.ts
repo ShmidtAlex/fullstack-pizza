@@ -68,7 +68,7 @@ export const useDashboardStore = defineStore("dashboard", {
       const { ingredientId, redactedIngredient } = payload
       const response = await $api.ingredients.updateIngredient(ingredientId, redactedIngredient)
       if (response.status === 200) {
-        this.fetchIngredientsList()
+        await this.fetchIngredientsList()
       }
       this.toggleLoader('_ingredientUpdateLoader', false)
     },

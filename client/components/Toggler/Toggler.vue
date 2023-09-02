@@ -1,7 +1,9 @@
 <template>
-  <div class="label" v-if="value">{{ value }}</div>
-  <div class="line" :class="{ on: turnOn }" @click="toggle">
-    <div class="spot" :class="{ on: turnOn }"></div>
+  <div class="toggler">
+    <div class="label" v-if="value">{{ value }}</div>
+    <div class="line" :class="{ on: turnOn }" @click="toggle">
+      <div class="spot" :class="{ on: turnOn }"></div>
+    </div>
   </div>
 </template>
 
@@ -33,32 +35,37 @@ import { TTogglerDataTypes } from "~/components/types";
 </script>
 
 <style lang="scss" scoped>
-  .label {
-    margin-bottom: 8px;
-  }
-  .line {
-    width: 100px;
-    height: 40px;
-    background-color: lightgrey;
-    border-radius: 25px;
-    border: 1px solid lightgray;
-    position: relative;
-    transition: background-color .8s ease-in-out;
-    &.on {
-      background-color: rgb(18 180 136);
+  .toggler {
+    margin-right: 16px;
+    .label {
+      margin-bottom: 8px;
+      font-weight: 500;
     }
-    .spot {
-      position: absolute;
-      top: 0px;
-      left: 0px;
-      width: 38px;
-      height: 38px;
-      border-radius: 50%;
-      background-color: white;
-      transition: left .5s ease-in-out;
+    .line {
+      width: 100px;
+      height: 40px;
+      background-color: lightgrey;
+      border-radius: 25px;
+      border: 1px solid lightgray;
+      position: relative;
+      transition: background-color .8s ease-in-out;
       &.on {
-        left: 60px;
+        background-color: rgb(18 180 136);
+      }
+      .spot {
+        position: absolute;
+        top: 2px;
+        left: 2px;
+        width: 36px;
+        height: 34px;
+        border-radius: 50%;
+        background-color: white;
+        transition: left .5s ease-in-out;
+        &.on {
+          left: 60px;
+        }
       }
     }
   }
+
 </style>

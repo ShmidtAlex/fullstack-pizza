@@ -1,28 +1,29 @@
 import { defineStore } from "pinia";
 import axios from "axios";
-import {DASHBOARD_ACCESS_ROLES, DASHBOARD_ADMIN_ROLES} from "~/constants";
+import { DASHBOARD_ACCESS_ROLES, DASHBOARD_ADMIN_ROLES} from "~/constants";
+import { AuthState, User } from "~/modules/AuthorizationForm/types";
 
 // Todo: add ts
 
 export const useAuthStore = defineStore("auth", {
-  state: () => ({
+  state: ():AuthState => ({
     _isAuth: false,
-    _user: {},
+    _user: { role: ''},
   }),
   getters: {
-    isAuth: (state) => {
+    isAuth: (state: AuthState) => {
       return state._isAuth
     },
-    user: (state) => {
+    user: (state: AuthState) => {
       return state._user
     },
-    isAdmin: (state) => {
+    isAdmin: (state: AuthState) => {
       if (state._user) {
         return state._isAuth && DASHBOARD_ADMIN_ROLES.includes(state._user.role)
       }
       return false
     },
-    isAdminOrRedactor: (state) => {
+    isAdminOrRedactor: (state: AuthState) => {
       if (state._user) {
         return state._isAuth && DASHBOARD_ACCESS_ROLES.includes(state._user.role)
       }
@@ -30,10 +31,10 @@ export const useAuthStore = defineStore("auth", {
     }
   },
   actions: {
-    setIsAuth(val): void {
+    setIsAuth(val: boolean): void {
       this._isAuth = val;
     },
-    setUser(user): void {
+    setUser(user: User): void {
       this._user = user
     },
     async checkAuth() {

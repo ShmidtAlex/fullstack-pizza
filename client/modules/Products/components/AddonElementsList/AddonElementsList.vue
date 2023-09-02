@@ -117,7 +117,7 @@ const applyAddons = (): void => {
 </script>
 
 <style lang="scss" scoped>
-@import "/assets/css/animations/warn-text";
+@import "assets/css/animations/warn-text";
 .addon-elements {
   display: flex;
   flex-direction: column;
