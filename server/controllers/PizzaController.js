@@ -17,7 +17,7 @@ const ApiError = require('../error/ApiError');
 class PizzaController {
   async createPizza(req, res, next) {
     try {
-      let { name, itemSizes, itemPrices, pastryTypes, nutrition, ingredients, description } = req.body
+      let { name, itemSizes, itemPrices, pastryTypes, nutrition, ingredientsIds, description } = req.body
       const { img } = req.files
       let fileName = `${uuid.v4()}.jpg`
       await img.mv(path.resolve(__dirname, '..', 'static', fileName))
@@ -79,22 +79,22 @@ class PizzaController {
           pizzaId: pizza.id
         })
       }
-      if (!!ingredients) {
-        ingredients = JSON.parse(ingredients);
-        for (const ingredient of ingredients) {
-          let existingIngredient = await Ingredient.findOne({ where: { name: ingredient.value } });
-          // Todo: redo, here should be only ingredients.ts Id, as the ingredients themselves should already exist in db
-          // replace ingredients.ts.value with ingredients.ts.id, and comment/delete strings 88-94
-          if (!existingIngredient) {
-            existingIngredient = await Ingredient.create({
-              img: ingredient.img,
-              name: ingredient.value,
-              price: ingredient.price,
-            });
-          }
+      if (!!ingredientsIds) {
+        ingredientsIds = JSON.parse(ingredientsIds);
+        for (const ingredient of ingredientsIds) {
+          // let existingIngredient = await Ingredient.findOne({ where: { name: ingredient.value } });
+          // // Todo: redo, here should be only ingredientsIds.ts Id, as the ingredientsIds themselves should already exist in db
+          // // replace ingredientsIds.ts.value with ingredientsIds.ts.id, and comment/delete strings 88-94
+          // if (!existingIngredient) {
+          //   existingIngredient = await Ingredient.create({
+          //     img: ingredient.img,
+          //     name: ingredient.value,
+          //     price: ingredient.price,
+          //   });
+          // }
           await PizzaIngredient.create({
             pizzaId: pizza.id,
-            ingredientId: existingIngredient.id,
+            ingredientId: ingredient,
           });
         }
 
