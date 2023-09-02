@@ -74,7 +74,8 @@
   import List from '~/components/List/List.vue';
   import {IIngredientModel, IIngredientUpdates} from "~/modules/Dashboard/types";
   import EmptyData from "~/components/EmptyDataPlug/EmptyData.vue";
-
+  import Modal from "~/components/Modal/Modal.vue";
+  import ActionConfirmation from "~/components/ActionConfirmation/ActionConfirmation.vue";
   const context = useNuxtApp()
   const dashboardStore = useDashboardStore();
   const { ingredients, isRemovalSuccess } = storeToRefs(useDashboardStore());
@@ -116,7 +117,7 @@
     removedIngredientId.value = value
     removalConfirmation.value = true
   }
-  const removeIngredient = (id: number):void => {
+  const removeIngredient = ():void => {
     dashboardStore.removeIngredientFromList(removedIngredientId.value)
     removalConfirmation.value = false
   }
@@ -124,12 +125,11 @@
     dashboardStore.redactIngredient(updates)
   }
   const resetIngredientModel = () => {
-    const model = {
+    ingredientModel.value = {
       name: '',
       price: '',
       img: null
     }
-    ingredientModel.value = model;
   }
   watch(isRemovalSuccess, (newValue) => {
     if (newValue) {

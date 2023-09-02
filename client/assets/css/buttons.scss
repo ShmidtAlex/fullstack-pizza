@@ -12,6 +12,7 @@
   }
   &.disabled {
     cursor: auto;
+    background-color: rgb(128, 128, 128);
     &:hover {
       box-shadow: 0px 0px 0px 0px rgba(0, 0, 0, 0.3);
     }

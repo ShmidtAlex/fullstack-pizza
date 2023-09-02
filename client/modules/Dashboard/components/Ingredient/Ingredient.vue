@@ -45,7 +45,9 @@
         <RemoveButton @removeItem="redactMode = false"/>
       </div>
     </div>
+    <!-- Todo: create custom checkbox in order to style better -->
     <div v-if="selectionMode" class="ingredient__selector">
+
       <input type="checkbox" :id="data.id" :name="data.name" :value="data.id" @change="emit('select', data.id)">
     </div>
   </div>
@@ -58,6 +60,7 @@ import { IIngredientModel } from "~/modules/Dashboard/types";
    import { useAuthStore } from "~/modules/AuthorizationForm/store/AuthStore";
    import { DASHBOARD_ACCESS_ROLES, DASHBOARD_ADMIN_ROLES } from "~/constants";
    import UploadButton from '~/components/UploadButton/UploadButton.vue';
+   import RemoveButton from "~/components/RemoveButton/RemoveButton.vue";
 
    const redactMode = ref<boolean>(false);
    const authStore = useAuthStore()
@@ -110,7 +113,7 @@ import { IIngredientModel } from "~/modules/Dashboard/types";
 </script>
 
 <style lang="scss" scoped>
-@import '/assets/css/buttons.scss';
+@import 'assets/css/buttons.scss';
   .ingredient {
     display: flex;
     flex-direction: row;

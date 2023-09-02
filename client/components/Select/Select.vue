@@ -23,6 +23,7 @@
 </template>
 
 <script lang="ts" setup>
+// Todo: add multiple choice for items
 import { IOptions } from "~/components/types";
 import { PropType, ref } from "vue";
  const props = defineProps({
@@ -59,9 +60,11 @@ import { PropType, ref } from "vue";
 
 <style lang="scss" scoped>
 .select {
-  min-height: fit-content;
+  height: fit-content;
+  max-height: fit-content;
   &__title {
     margin-bottom: 8px;
+    font-weight: 500;
   }
   &__body {
     position: relative;
