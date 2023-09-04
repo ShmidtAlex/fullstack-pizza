@@ -4,6 +4,8 @@
   >
     <div class="pizza__content" >
       <div class="pizza__content__image">
+
+<!--        Todo: if we left as is, after reloading page image won't be sent to server, but still visible on the page -->
         <label for="uploadImage" @change="uploadImage">
           <input
               ref="uploadInput"
@@ -36,13 +38,21 @@
             type="text"
         />
       </div>
-      <div class="pizza__content__data" @click.stop="closeDropdown">
+<!--      -->
+      <div class="pizza__content__data">
         <Button :type="isSizeAndPriceSet" @proceedAction="isSizesAndPricesModal = true">Set Sizes and Prices</Button>
+        <div v-if="sizeAndPriceConditions" class="pizza__content__data__result">
+          <div class="pizza__content__data__result__label">Opted sizes and prices</div>
+          <div v-for="itemSize in pizzaModel.itemSizes" :key="itemSize.id" class="pizza__content__data__result_item">
+            {{ itemSize.value }} cm {{ pizzaModel.itemPrices[itemSize.id-1].price }} $
+          </div>
+        </div>
         <Modal
             v-if="isSizesAndPricesModal"
             title="Set price for each size"
             :is-footer="false"
             @close="closeSizesAndPricesModal"
+            @click="closeDropdown"
         >
           <div class="modal__content">
             <Select
@@ -51,6 +61,7 @@
                 select-name="pizzaSizes"
                 :options="sizeOptions"
                 @input="setSize"
+                @click.stop
             />
             <div class="modal__content__settings">
               <SizeAndPrice
@@ -65,9 +76,10 @@
           <Button
               type="success"
               :disabled="!sizeAndPriceConditions"
-              @proceedAction="isSizesAndPricesModal = false"
+              @proceedAction="showSizeAndPriceResult"
           >Apply</Button>
         </Modal>
+
       </div>
       <!--  Todo: this block should be shown in pizza's redact mode as we only able to add size to existed pizza -->
 <!--      <div  class="pizza__content__data">-->
@@ -84,6 +96,12 @@
 <!--      </div>-->
       <div class="pizza__content__data">
         <Button :type="allNutrition" @proceedAction="isNutritionModal = true">Set nutrition</Button>
+        <div v-if="isNutritionSet" class="pizza__content__data__result">
+          <div class="pizza__content__data__result__label">Opted nutrition g</div>
+          <div v-for="(nutritionItem, key) in pizzaModel.nutrition" :key="key" class="pizza__content__data__result_item">
+            {{ key }}: {{ nutritionItem }}
+          </div>
+        </div>
         <Modal
             v-if="isNutritionModal"
             title="Set nutrition details"
@@ -106,6 +124,12 @@
       </div>
       <div class="pizza__content__data">
         <Button :type="pastryTypeCondition" @proceedAction="isPastryTypesModal = true">Set Pastry Types</Button>
+        <div v-if="isPastryTypesSet" class="pizza__content__data__result">
+          <div class="pizza__content__data__result__label">Opted pastry types</div>
+          <div v-for="type in pizzaModel.pastryTypes" :key="type" class="pizza__content__data__result_item">
+            {{ type }}
+          </div>
+        </div>
         <Modal
             v-if="isPastryTypesModal"
             title="Set Pastry Types"
@@ -125,7 +149,7 @@
 
       </div>
       <List
-          title="Show ingredients available for addition"
+          title="Ingredients available for addition"
           :expand="showList"
           @toggleList="showList = !showList"
       >
@@ -170,6 +194,7 @@
   import EmptyData from "~/components/EmptyDataPlug/EmptyData.vue";
   import Button from "~/components/Button/Button.vue";
   import Modal from "~/components/Modal/Modal.vue";
+  import {TButtonsTypes} from "../../../../components/Button/Button.vue";
 
   const { ingredients } = storeToRefs(useDashboardStore());
   const dashboardStore = useDashboardStore()
@@ -233,6 +258,9 @@
     isSizesAndPricesModal.value = false
     clearSizesAndPricesData()
   }
+  const showSizeAndPriceResult = () => {
+    isSizesAndPricesModal.value = false
+  }
   const clearSizesAndPricesData = () => {
     pizzaModel.itemSizes = []
     pizzaModel.itemPrices = []
@@ -258,7 +286,7 @@
       pizzaModel.itemSizes.push(size)
     }
   }
-  const setPrice = (data: {id: number, price: number}) => {
+  const setPrice = (data: {id: number, value: number}) => {
     pizzaModel.itemPrices[data.id-1] = data;
   }
   // method works incorrect because of index is a key, itemPrices and itemSizes has to be an object wi
@@ -280,11 +308,16 @@
   const isNutritionSet = computed(():boolean => {
     return Object.values(pizzaModel.nutrition).every((item) => item > 0)
   })
-  const allNutrition = computed((): string  => {
+  const allNutrition = computed((): TButtonsTypes  => {
     return isNutritionSet.value ? 'success' : 'warning'
   })
   const allFieldsFullFelt = computed((): boolean => {
     return sizeAndPriceConditions.value
+        && isNutritionSet.value
+        && isPastryTypesSet.value
+        && !!pizzaModel.name
+        && !!pizzaModel.description 
+        && pizzaModel.ingredientIds.length > 0
   })
   const closeNutritionModal = () => {
     isNutritionModal.value = false
@@ -299,7 +332,7 @@
   const isPastryTypesSet = computed((): boolean => {
     return pizzaModel.pastryTypes.length > 0
   })
-  const pastryTypeCondition = computed((): string => {
+  const pastryTypeCondition = computed((): TButtonsTypes => {
     return isPastryTypesSet.value ? 'success' : 'warning'
   })
   const closePastryTypesModal = () => {
@@ -312,7 +345,9 @@
   const dropdownComponent = ref(null)
 
   const closeDropdown = () => {
-    dropdownComponent.value.closeDropdown()
+    if (dropdownComponent.value) {
+      dropdownComponent.value.closeDropdown()
+    }
   }
 
   const showList = ref(false)
@@ -382,6 +417,13 @@
       padding: 0px 16px 16px;
       min-width: fit-content;
       margin-bottom: 16px;
+      &__result {
+        padding: 16px;
+        &__label {
+          font-weight: 500;
+          margin-bottom: 8px;
+        }
+      }
       &--off {
         display: flex;
         flex-direction: row;

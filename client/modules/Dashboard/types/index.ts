@@ -26,7 +26,7 @@ export interface INutrition {
 
 export interface IPrice {
   id: number,
-  price: number
+  value: number
 }
 export interface IPizzaModel extends Partial<IIngredientModel>{
   pastryTypes: string[]
