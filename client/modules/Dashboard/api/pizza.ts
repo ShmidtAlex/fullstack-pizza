@@ -1,6 +1,7 @@
 import BaseHttpService from '~/modules/Dashboard/api/base'
 import { IAxiosConfig } from '~/models/Http/types'
 import { AxiosResponse } from 'axios';
+import {IPizzaModel} from "../types";
 
 export default class PizzaService extends BaseHttpService<IAxiosConfig> {
   constructor(
@@ -28,6 +29,25 @@ export default class PizzaService extends BaseHttpService<IAxiosConfig> {
   async createSize(payload: { value: number }): Promise<AxiosResponse> {
     const { data } = await this.axiosClient.post('api/size', payload, {
       headers: {
+        'Authorization': `Bearer ${localStorage.getItem('token')}`
+      }
+    })
+    return data
+  }
+  async createNewPizza(payload: IPizzaModel): Promise<AxiosResponse> {
+    const { name, img, pastryTypes, itemPrices, itemSizes, ingredients, description, nutrition } = payload
+    const formData = new FormData()
+    formData.append('name', name)
+    formData.append('img', img)
+    formData.append('pastryTypes', JSON.stringify(pastryTypes))
+    formData.append('pastryTypes', JSON.stringify(itemPrices))
+    formData.append('pastryTypes', JSON.stringify(itemSizes))
+    formData.append('pastryTypes', ingredients)
+    formData.append('pastryTypes', description)
+    formData.append('pastryTypes', JSON.stringify(nutrition))
+    const {data} = await this.axiosClient.post('api/pizza', formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data',
         'Authorization': `Bearer ${localStorage.getItem('token')}`
       }
     })

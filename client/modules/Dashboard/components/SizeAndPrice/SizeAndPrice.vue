@@ -31,8 +31,8 @@
   const confirm = (data) => {
     emit('confirm', data)
   }
-  const removeSizeAndPrice = (index) => {
-    emit('remove', Number(index))
+  const removeSizeAndPrice = (id) => {
+    emit('remove', Number(id))
   }
 
 </script>

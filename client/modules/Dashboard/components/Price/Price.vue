@@ -37,11 +37,11 @@
   })
   const emit = defineEmits(['confirm', 'remove'])
   const confirmed = ref(false)
-  const price = ref<number | null>(null)
+  const price = ref<number>()
   const confirm = () => {
     const priceObj = {
       id: props.size.id,
-      price: Number(price.value)
+      value: Number(price.value)
     }
     emit('confirm', priceObj)
     confirmed.value = true

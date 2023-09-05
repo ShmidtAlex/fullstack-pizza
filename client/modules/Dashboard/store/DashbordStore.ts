@@ -1,6 +1,6 @@
 import { $api } from '~/plugins/api'
 import { defineStore } from "pinia";
-import {IIngredientModel, IIngredientUpdates} from "~/modules/Dashboard/types";
+import {IIngredientModel, IIngredientUpdates, IPizzaModel} from "~/modules/Dashboard/types";
 
 export const useDashboardStore = defineStore("dashboard", {
   state: () => ({
@@ -102,6 +102,11 @@ export const useDashboardStore = defineStore("dashboard", {
         if (response.data.size)
         this.fetchPizzaSizes()
       })
+    },
+    async createPizza(payload: IPizzaModel): void {
+      const pizza = await $api.pizza.createNewPizza(payload)
+      console.log(pizza)
+      return pizza
     }
   }
 });
