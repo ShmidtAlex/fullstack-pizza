@@ -16,7 +16,7 @@
       <img
         class="pizza-unit__picture--img"
         :alt="pizzaData.name"
-        :src="`${config.public.NUXT_ENV_BASE_URL}/${pizzaData.img}`"
+        :src="`${config.public.NUXT_ENV_BASE_URL}static/${pizzaData.img}`"
       />
       <ShowAddonsButton
         v-if="pizzaData.ingredients.length"
