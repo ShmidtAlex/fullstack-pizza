@@ -97,10 +97,15 @@ const PastryPizza = sequelize.define('pastry_pizza', {
 
 const PizzaSize = sequelize.define('pizza_size', {
   id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
+  pizzaId: { type: DataTypes.INTEGER, allowNull: false },
+  sizeId: { type: DataTypes.INTEGER, allowNull: false },
 });
 
 const PizzaSizePrice = sequelize.define('pizza_size_price', {
-  id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true }
+  id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
+  pizzaId: { type: DataTypes.INTEGER, allowNull: false },
+  sizeId: { type: DataTypes.INTEGER, allowNull: false },
+  priceId: { type: DataTypes.INTEGER, allowNull: false },
 });
 
 const PizzaIngredient = sequelize.define('pizza_ingredient', {

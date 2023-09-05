@@ -30,14 +30,14 @@ class PizzaController {
         for (let i = 0; i < itemSizes.length; i++) {
           let price = itemPrices[i]
           let size = itemSizes[i]
-
+          // we NEED it because all pizzas theoretically could have different set of sizes
           let newSize = await Size.create({
-            value: size,
+            value: size.value,
             pizzaId: pizza.id
           });
 
           let newPrice = await Price.create({
-            value: price,
+            value: price.value,
             pizzaId: pizza.id,
             sizeId: newSize.id
           });
@@ -46,6 +46,7 @@ class PizzaController {
             pizzaId: pizza.id,
             sizeId: newSize.id
           });
+
           await PizzaSizePrice.create({
             pizzaId: pizza.id,
             sizeId: newSize.id,
@@ -58,7 +59,7 @@ class PizzaController {
         pastryTypes = JSON.parse(pastryTypes)
         for (let pastry of pastryTypes) {
           const newPastry = await Pastry.create({
-            value: pastry.value,
+            value: pastry,
             pizzaId: pizza.id
           });
 
@@ -79,19 +80,9 @@ class PizzaController {
           pizzaId: pizza.id
         })
       }
-      if (!!ingredientsIds) {
+      if (ingredientsIds.length > 0) {
         ingredientsIds = JSON.parse(ingredientsIds);
         for (const id of ingredientsIds) {
-          // let existingIngredient = await Ingredient.findOne({ where: { name: ingredient.value } });
-          // // Todo: redo, here should be only ingredientsIds.ts Id, as the ingredientsIds themselves should already exist in db
-          // // replace ingredientsIds.ts.value with ingredientsIds.ts.id, and comment/delete strings 88-94
-          // if (!existingIngredient) {
-          //   existingIngredient = await Ingredient.create({
-          //     img: ingredient.img,
-          //     name: ingredient.value,
-          //     price: ingredient.price,
-          //   });
-          // }
           await PizzaIngredient.create({
             pizzaId: pizza.id,
             ingredientId: id,
