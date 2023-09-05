@@ -44,7 +44,7 @@
         <div v-if="sizeAndPriceConditions" class="pizza__content__data__result">
           <div class="pizza__content__data__result__label">Opted sizes and prices</div>
           <div v-for="itemSize in pizzaModel.itemSizes" :key="itemSize.id" class="pizza__content__data__result_item">
-            {{ itemSize.value }} cm {{ pizzaModel.itemPrices[itemSize.id-1].price }} $
+            {{ itemSize.value }} cm {{ showSizePrice(itemSize.id) }} $
           </div>
         </div>
         <Modal
@@ -68,8 +68,10 @@
                   v-if="pizzaModel.itemSizes.length"
                   label="Set price"
                   :sizes="pizzaModel.itemSizes"
+                  :prices="pizzaModel.itemPrices"
                   @confirm="setPrice"
                   @remove="removeSizeAndPrice"
+                  @reset="resetOnlyPrice"
               />
             </div>
           </div>
@@ -171,7 +173,7 @@
       <!-- Todo: add a section for showing existed pizzas list
             and modal popup with the same AddPizza component but with existed pizza's data in order to redact it -->
       <div class="pizza__content__data">
-        <AddButton :disabled="!allFieldsFullFelt">Create Pizza</AddButton>
+        <AddButton :disabled="!allFieldsFullFelt" @proceed="proceed">Create Pizza</AddButton>
       </div>
 
     </div>
@@ -205,7 +207,7 @@
     pastryTypes: [],
     itemPrices: [],
     itemSizes: [],
-    ingredientIds: [],
+    ingredientsIds: [],
     description: '',
     nutrition: {
       protein: 0,
@@ -219,6 +221,7 @@
     const preloadedImage = localStorage.getItem('preloadedImage')
     if (preloadedImage) {
       dashboardStore.setPreloadedImage(preloadedImage);
+      pizzaModel.img = localStorage.getItem('imageFile')
     }
     dashboardStore.fetchPizzaSizes()
     // Todo: current implementation doesn't suppose that preloaded file itself is kept while reloading
@@ -235,13 +238,14 @@
     if (file) {
       dashboardStore.preUploadImage(file[0])
       pizzaModel.img = file[0]
+      localStorage.setItem('imageFile', file[0])
     }
   }
   const replaceImage = () => {
     uploadInput.value.click();
   }
   const proceed = () => {
-
+    dashboardStore.createPizza(pizzaModel)
     clearData()
   }
   const sizeOptions = computed(() => {
@@ -266,7 +270,7 @@
     pizzaModel.itemPrices = []
   }
   const sizeAndPriceConditions = computed((): boolean => {
-    return pizzaModel.itemSizes.length === pizzaModel.itemPrices.length && pizzaModel.itemSizes.length > 0
+    return pizzaModel.itemPrices.length > 0 && pizzaModel.itemPrices.every((item) => !!item.value)
   })
   const isSizeAndPriceSet = computed(() => {
     return sizeAndPriceConditions.value ? 'success' : 'warning'
@@ -284,17 +288,23 @@
     const existedSize = pizzaModel.itemSizes.find((elem) => elem.value === size.value)
     if (!existedSize) {
       pizzaModel.itemSizes.push(size)
+      pizzaModel.itemPrices.push({ id: size.id, value: null})
     }
   }
   const setPrice = (data: {id: number, value: number}) => {
-    pizzaModel.itemPrices[data.id-1] = data;
+    const item = pizzaModel.itemPrices.find((item) => item.id === data.id);
+    item.value = data.value;
   }
-  // method works incorrect because of index is a key, itemPrices and itemSizes has to be an object wi
+  const resetOnlyPrice = (id) => {
+    const item = pizzaModel.itemPrices.find((item) => item.id === id)
+    item.value = null
+  }
   const removeSizeAndPrice = (id: number) => {
-    pizzaModel.itemPrices = pizzaModel.itemPrices.filter((el, ind) => {
-      return ind !== (id -1)
-    })
-    pizzaModel.itemSizes = pizzaModel.itemSizes.filter((el, ind) =>  ind !== (id -1))
+    pizzaModel.itemSizes = pizzaModel.itemSizes.filter((el) =>  el.id !== id)
+    pizzaModel.itemPrices = pizzaModel.itemPrices.filter((el) => el.id !== id)
+  }
+  const showSizePrice = (id: number) => {
+    return pizzaModel.itemPrices.find((item) => item.id === id).value
   }
   const changeType = (data: TTogglerDataTypes) => {
     if (typeof data === 'string') {
@@ -302,7 +312,7 @@
     }
   }
   const addIngredient = (id: number) => {
-    pushOrFilter(pizzaModel.ingredientIds, id)
+    pushOrFilter(pizzaModel.ingredientsIds, id)
   }
   const isNutritionModal = ref<boolean>(false)
   const isNutritionSet = computed(():boolean => {
@@ -316,8 +326,8 @@
         && isNutritionSet.value
         && isPastryTypesSet.value
         && !!pizzaModel.name
-        && !!pizzaModel.description 
-        && pizzaModel.ingredientIds.length > 0
+        && !!pizzaModel.description
+        && pizzaModel.ingredientsIds.length > 0
   })
   const closeNutritionModal = () => {
     isNutritionModal.value = false
@@ -353,6 +363,7 @@
   const showList = ref(false)
   const clearData = () => {
     localStorage.setItem('preloadedImage', '')
+    localStorage.setItem('imageFile', null)
     // Todo: clear uploads folder after adding or redaction a new pizza
   }
   // Todo: add method for getting sizes list. for the option component where
@@ -376,7 +387,7 @@
         width: 100%;
         height: 100%;
         border: 2px solid #d3d3d3;
-        background-image: url("/public/default_pizza.svg");
+        background-image: url("/default_pizza.svg");
         background-size: 70px;
         background-repeat: no-repeat;
         background-position: 8px 20px;

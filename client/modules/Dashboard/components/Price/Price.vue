@@ -4,10 +4,11 @@
       :id="size.id"
       type="number"
       placeholder="enter price"
-      :disabled="confirmed"
+      :disabled="confirmed || previousPrice"
+      :value="previouslySetPrice"
   />
   <AddButton
-      v-if="!confirmed"
+      v-if="!confirmed && !previousPrice"
       @proceed="confirm"
   >
     Confirm
@@ -15,7 +16,7 @@
   <Button
       v-else
       type="warning"
-      @click="confirmed = false"
+      @click="resetPrice"
   >
     Redact
   </Button>
@@ -25,7 +26,7 @@
 <script lang="ts" setup>
   import Input from "~/components/Input/Input.vue";
   import AddButton from "~/components/AddButton/AddButton.vue";
-  import {PropType, ref, watch} from "vue";
+  import {computed, PropType, ref, watch} from "vue";
   import RemoveButton from "~/components/RemoveButton/RemoveButton.vue";
   import {IOptions} from "~/components/types";
 
@@ -33,21 +34,31 @@
     size: {
       type: Object as PropType<IOptions>,
       required: true
+    },
+    previousPrice: {
+      type: [Number]
     }
   })
-  const emit = defineEmits(['confirm', 'remove'])
+  const emit = defineEmits(['confirm', 'remove', 'reset'])
   const confirmed = ref(false)
-  const price = ref<number | null>(null)
+  const price = ref<number>()
+  const previouslySetPrice = computed(() => {
+    return props.previousPrice ? props.previousPrice : 0
+  })
   const confirm = () => {
     const priceObj = {
       id: props.size.id,
-      price: Number(price.value)
+      value: Number(price.value)
     }
     emit('confirm', priceObj)
     confirmed.value = true
   }
   const removeItem = (id) => {
     emit('remove', id)
+  }
+  const resetPrice = () => {
+    confirmed.value = false
+    emit('reset', props.size.id)
   }
   watch(price, (newVal) => {
     if (newVal) {
