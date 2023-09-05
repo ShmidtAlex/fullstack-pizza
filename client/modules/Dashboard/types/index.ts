@@ -32,7 +32,7 @@ export interface IPizzaModel extends Partial<IIngredientModel>{
   pastryTypes: string[]
   description: string
   nutrition: INutrition
-  ingredientIds: number[]
+  ingredientsIds: number[]
   itemPrices: IPrice[]
   itemSizes: IOptions[]
 }

@@ -4,8 +4,10 @@
     <div class="price__item">{{ size.label }}</div>
     <Price
         :size="size"
+        :previous-price="findRelatedPrice(size.id)"
         @confirm="confirm"
         @remove="removeSizeAndPrice"
+        @reset="reset"
     />
   </div>
 </template>
@@ -15,6 +17,7 @@
   import { PropType } from "vue";
   import Price from "../Price/Price.vue";
   import {IOptions} from "~/components/types";
+import {IPrice} from "../../types";
 
   const props = defineProps({
     sizes: {
@@ -24,15 +27,25 @@
     label: {
       type: String,
       default: ''
+    },
+    prices: {
+      type: Array as PropType<IPrice[]>,
+      default: () => []
     }
   })
-  const emit = defineEmits(['confirm', 'remove'])
+  const findRelatedPrice = (id) => {
+    return props.prices.length ? props.prices.find((item) => item.id === id).value : 0
+  }
+  const emit = defineEmits(['confirm', 'remove', 'reset'])
   // const currentPrice
   const confirm = (data) => {
     emit('confirm', data)
   }
   const removeSizeAndPrice = (id) => {
     emit('remove', Number(id))
+  }
+  const reset = (id: number) => {
+    emit('reset', id)
   }
 
 </script>

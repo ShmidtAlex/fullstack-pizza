@@ -68,8 +68,10 @@
                   v-if="pizzaModel.itemSizes.length"
                   label="Set price"
                   :sizes="pizzaModel.itemSizes"
+                  :prices="pizzaModel.itemPrices"
                   @confirm="setPrice"
                   @remove="removeSizeAndPrice"
+                  @reset="resetOnlyPrice"
               />
             </div>
           </div>
@@ -205,7 +207,7 @@
     pastryTypes: [],
     itemPrices: [],
     itemSizes: [],
-    ingredientIds: [],
+    ingredientsIds: [],
     description: '',
     nutrition: {
       protein: 0,
@@ -290,8 +292,12 @@
     }
   }
   const setPrice = (data: {id: number, value: number}) => {
-    let item = pizzaModel.itemPrices.find((item) => item.id === data.id);
+    const item = pizzaModel.itemPrices.find((item) => item.id === data.id);
     item.value = data.value;
+  }
+  const resetOnlyPrice = (id) => {
+    const item = pizzaModel.itemPrices.find((item) => item.id === id)
+    item.value = null
   }
   const removeSizeAndPrice = (id: number) => {
     pizzaModel.itemSizes = pizzaModel.itemSizes.filter((el) =>  el.id !== id)
@@ -306,7 +312,7 @@
     }
   }
   const addIngredient = (id: number) => {
-    pushOrFilter(pizzaModel.ingredientIds, id)
+    pushOrFilter(pizzaModel.ingredientsIds, id)
   }
   const isNutritionModal = ref<boolean>(false)
   const isNutritionSet = computed(():boolean => {
@@ -321,7 +327,7 @@
         && isPastryTypesSet.value
         && !!pizzaModel.name
         && !!pizzaModel.description
-        && pizzaModel.ingredientIds.length > 0
+        && pizzaModel.ingredientsIds.length > 0
   })
   const closeNutritionModal = () => {
     isNutritionModal.value = false
@@ -381,7 +387,7 @@
         width: 100%;
         height: 100%;
         border: 2px solid #d3d3d3;
-        background-image: url("/public/default_pizza.svg");
+        background-image: url("/default_pizza.svg");
         background-size: 70px;
         background-repeat: no-repeat;
         background-position: 8px 20px;

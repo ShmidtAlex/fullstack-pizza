@@ -35,16 +35,17 @@ export default class PizzaService extends BaseHttpService<IAxiosConfig> {
     return data
   }
   async createNewPizza(payload: IPizzaModel): Promise<AxiosResponse> {
-    const { name, img, pastryTypes, itemPrices, itemSizes, ingredients, description, nutrition } = payload
+    const { name, img, pastryTypes, itemPrices, itemSizes, ingredientsIds, description, nutrition } = payload
     const formData = new FormData()
+    console.log(img)
     formData.append('name', name)
     formData.append('img', img)
     formData.append('pastryTypes', JSON.stringify(pastryTypes))
-    formData.append('pastryTypes', JSON.stringify(itemPrices))
-    formData.append('pastryTypes', JSON.stringify(itemSizes))
-    formData.append('pastryTypes', ingredients)
-    formData.append('pastryTypes', description)
-    formData.append('pastryTypes', JSON.stringify(nutrition))
+    formData.append('itemPrices', JSON.stringify(itemPrices))
+    formData.append('itemSizes', JSON.stringify(itemSizes))
+    formData.append('ingredients', JSON.stringify(ingredientsIds))
+    formData.append('description', description)
+    formData.append('nutrition', JSON.stringify(nutrition))
     const {data} = await this.axiosClient.post('api/pizza', formData, {
       headers: {
         'Content-Type': 'multipart/form-data',
