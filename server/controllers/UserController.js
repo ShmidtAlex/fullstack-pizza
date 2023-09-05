@@ -19,11 +19,14 @@ class UserController {
         return next(ApiError.badRequest('Validation error', errors.array()));
       }
       const {email, password, role} = req.body;
+
       if (!email || !password) {
         return next(ApiError.badRequest('Wrong email or password'));
       }
+      console.log('DATA:::', email, password, role)
       const candidate = await User.findOne({ where: {email} });
-      if (candidate.id) {
+      console.log('CANDIDATE', candidate)
+      if (candidate && candidate.id) {
         next(ApiError.badRequest('User with such email already exists'));
       }
 
@@ -37,7 +40,7 @@ class UserController {
       return res.json(userData);
 
     } catch (error) {
-      return next(ApiError.internal(`An error occurred during registration: ${error.message}`));
+      return next(ApiError.internal(`An error occurred during registration: ${error}`));
     }
   }
   async login(req, res, next) {

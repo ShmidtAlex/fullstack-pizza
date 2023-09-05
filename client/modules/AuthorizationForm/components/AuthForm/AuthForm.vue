@@ -135,5 +135,8 @@ import {computed, ref} from "vue";
   button {
     cursor: pointer;
   }
+  button[type="submit"] {
+    background-color: #12b488;
+  }
 }
 </style>

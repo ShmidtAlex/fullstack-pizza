@@ -139,6 +139,7 @@
             @close="closePastryTypesModal"
         >
           <div class="modal__content">
+<!--            Todo: we have to receive these types from db, as they are only existed ones -->
             <Toggler value="Thin" data-type="string" @toggle="changeType" />
             <Toggler value="Traditional" data-type="string" @toggle="changeType"/>
           </div>
