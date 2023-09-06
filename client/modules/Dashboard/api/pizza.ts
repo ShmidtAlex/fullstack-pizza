@@ -15,15 +15,19 @@ export default class PizzaService extends BaseHttpService<IAxiosConfig> {
   async uploadImage(payload: File): Promise<AxiosResponse> {
     const formData = new FormData();
     formData.append('image', payload);
-    const response = await this.axiosClient.post('api/upload', formData, { headers: {
+    const { data } = await this.axiosClient.post('api/upload', formData, { headers: {
         'Content-Type': 'multipart/form-data',
         'Authorization': `Bearer ${localStorage.getItem('token')}`
       }})
-    return response
+    return data
   }
   async fetchUploadedImage(fileName: string): Promise<AxiosResponse> {
     const { data } = await this.axiosClient.get(`api/upload/${fileName}`)
     return data
+  }
+  async removeUploadedImage(fileName: string): Promise<AxiosResponse> {
+    const response = await this.axiosClient.delete(`api/upload/${fileName}`)
+    return response
   }
   // in order not to add the own size, but only choose from existed ones
   async fetchSizes(): Promise<AxiosResponse> {
@@ -49,12 +53,12 @@ export default class PizzaService extends BaseHttpService<IAxiosConfig> {
     formData.append('ingredientsIds', JSON.stringify(ingredientsIds))
     formData.append('description', description)
     formData.append('nutrition', JSON.stringify(nutrition))
-    const {data} = await this.axiosClient.post('api/pizza', formData, {
+    const response = await this.axiosClient.post('api/pizza', formData, {
       headers: {
         'Content-Type': 'multipart/form-data',
         'Authorization': `Bearer ${localStorage.getItem('token')}`
       }
     })
-    return data
+    return response
   }
 }

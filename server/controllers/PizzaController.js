@@ -21,7 +21,11 @@ class PizzaController {
       const { img } = req.files
       let fileName = `${uuid.v4()}.jpg`
       await img.mv(path.resolve(__dirname, '..', 'static', fileName))
+      const isExist = await Pizza.findOne({ where: { name }})
 
+      if (isExist) {
+        return next(ApiError.badRequest('Pizza with such name already exists'))
+      }
       const pizza = await Pizza.create({ name, img: fileName, description })
 
       if (itemSizes && itemPrices) {

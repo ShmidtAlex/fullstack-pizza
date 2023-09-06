@@ -1,6 +1,7 @@
 import { $api } from '~/plugins/api'
 import { defineStore } from "pinia";
 import {IIngredientModel, IIngredientUpdates, IPizzaModel} from "~/modules/Dashboard/types";
+import {renderSync} from "sass";
 
 export const useDashboardStore = defineStore("dashboard", {
   state: () => ({
@@ -8,14 +9,16 @@ export const useDashboardStore = defineStore("dashboard", {
     _removalResult: <boolean>false,
     _preUploadedImageSrc: '',
     _sizesList: [],
+    _pizzaData: null,
     loaders: {
       _ingredientUpdateLoader: false,
       _ingredientCreateLoader: false,
-      _ingredientRemoveLoader: false
+      _ingredientRemoveLoader: false,
+      _pizzaAdditionLoader: false
     },
   }),
   getters: {
-    ingredients: (store) => {
+    ingredients(store) {
       return store._ingredients
     },
     isRemovalSuccess(store) {
@@ -29,6 +32,9 @@ export const useDashboardStore = defineStore("dashboard", {
     },
     ingredientRemoveLoader(store) {
       return store.loaders._ingredientRemoveLoader
+    },
+    pizzaAdditionLoader(store) {
+      return store.loaders._pizzaAdditionLoader
     },
     uploadedImgSrc(store) {
       return store._preUploadedImageSrc
@@ -49,12 +55,15 @@ export const useDashboardStore = defineStore("dashboard", {
       this.loaders[loaderName] = state
     },
     setPreloadedImage(img):void {
-      this._preUploadedImageSrc = `uploads/${img}`
+      this._preUploadedImageSrc = img
     },
     setSizes(data: any):void {
       this._sizesList = data
     },
-    async addNewIngredient(payload):void {
+    setPizzaData(pizza): void {
+      this._pizzaData = pizza
+    },
+    async addNewIngredient(payload):Promise<void> {
       this.toggleLoader('_ingredientCreateLoader', true)
       await $api.ingredients.addIngredient(payload).then((response) => {
         if (response.id) {
@@ -76,7 +85,7 @@ export const useDashboardStore = defineStore("dashboard", {
       const response = await $api.ingredients.getAllIngredients()
       this.setIngredients(response)
     },
-    async removeIngredientFromList(id):void {
+    async removeIngredientFromList(id):Promise<void> {
       this.toggleLoader('_ingredientRemoveLoader', true)
       const response = await $api.ingredients.removeIngredient(id)
       if (response.status === 200) {
@@ -84,32 +93,45 @@ export const useDashboardStore = defineStore("dashboard", {
       }
       this.toggleLoader('_ingredientRemoveLoader', false)
     },
-    async preUploadImage(payload: File):void {
+    async preUploadImage(payload: File):Promise<void> {
       try {
         const sendingResult = await $api.pizza.uploadImage(payload);
-        this.setPreloadedImage(sendingResult.imageUrl);
+        this.setPreloadedImage(`uploads/${sendingResult.imageUrl}`);
         localStorage.setItem('preloadedImage', sendingResult.imageUrl);
       } catch (error) {
         console.error('Error in preUploadImage:', error);
       }
     },
-    async fetchPreloadedImage(payload: string): void {
+    async fetchPreloadedImage(payload: string) {
       return await $api.pizza.fetchUploadedImage(payload);
     },
-    async fetchPizzaSizes():void {
+    async fetchPizzaSizes():Promise<void> {
       // Todo: add logic for filtering only unique files
       const sizes = await $api.pizza.fetchSizes()
-      this.setSizes(sizes)
+      let uniqueSizes
+      if (sizes) {
+        uniqueSizes = sizes.filter((a, i) => sizes.findIndex((s) => a.value === s.value) === i)
+      }
+      
+      this.setSizes(uniqueSizes)
     },
-    async createSize(payload: { value: number }):void {
+    async createSize(payload: { value: number }):Promise<void> {
       await $api.pizza.createSize(payload).then((response) => {
         if (response.data.size)
         this.fetchPizzaSizes()
       })
     },
-    async createPizza(payload: IPizzaModel): void {
+    async createPizza(payload: IPizzaModel):Promise<void> {
+      this.toggleLoader('_pizzaAdditionLoader', true)
       const pizza = await $api.pizza.createNewPizza(payload)
-      return pizza
+      
+      if (pizza.status === 200) {
+        this.setPizzaData(pizza.data)
+        const fileName = this.uploadedImgSrc.split('/')[1]
+        await $api.pizza.removeUploadedImage(fileName)
+      }
+      
+      this.toggleLoader('_pizzaAdditionLoader', false)
     }
   }
 });

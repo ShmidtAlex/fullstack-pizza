@@ -5,4 +5,5 @@ const checkRoleMiddleware = require("../middleware/checkRoleMiddleware");
 
 router.post('/', checkRoleMiddleware(['SUPERADMIN', 'ADMIN']), uploadsController.uploadPhoto);
 router.get('/:fileName', uploadsController.downloadPhoto);
+router.delete('/:fileName', uploadsController.removePhoto)
 module.exports = router;
