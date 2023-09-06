@@ -1,6 +1,7 @@
 <template>
   <DashboardSection
       title="Pizza"
+      :is-loading="pizzaCreating"
   >
     <div class="pizza__content" >
       <div class="pizza__content__image">
@@ -24,6 +25,7 @@
         <div v-if="!src" class="tip">download image</div>
       </div>
       <div class="pizza__content__data">
+<!--        TODO: resolve values in two inputs below do not update after removal -->
         <Input
             v-model="pizzaModel.name"
             id="pizza-name"
@@ -183,7 +185,7 @@
 
 <script lang="ts" setup>
   import {useRuntimeConfig} from "#app";
-  import {computed, onMounted, reactive, ref} from "vue";
+  import {computed, onMounted, reactive, ref, watch} from "vue";
   import {useDashboardStore} from "~/modules/Dashboard/store/DashbordStore";
   import {IPizzaModel} from "~/modules/Dashboard/types";
   import AddButton from "~/components/AddButton/AddButton.vue";
@@ -222,12 +224,9 @@
     const preloadedImage = localStorage.getItem('preloadedImage')
     if (preloadedImage) {
       dashboardStore.setPreloadedImage(preloadedImage);
-
       const response = await dashboardStore.fetchPreloadedImage(preloadedImage);
-
       const blob = new Blob([response], {type: 'image/png'});
-      const serverFile = new File([blob], preloadedImage, {type: blob.type});
-
+      const serverFile = new File([blob], preloadedImage, { type: blob.type });
       pizzaModel.img = serverFile;
     }
     dashboardStore.fetchPizzaSizes()
@@ -249,10 +248,18 @@
   const replaceImage = () => {
     uploadInput.value.click();
   }
-  const proceed = () => {
-    dashboardStore.createPizza(pizzaModel)
-    clearData()
+  const pizzaCreating = computed(() => {
+    return dashboardStore.pizzaAdditionLoader
+  })
+  const proceed = async () => {
+    // Todo: check why values are not reset after successful addition
+    await dashboardStore.createPizza(pizzaModel)
   }
+  watch(pizzaCreating, (newValue) => {
+    if (newValue === false) {
+      clearData()
+    }
+  })
   const sizeOptions = computed(() => {
     return dashboardStore.sizes.map((size) => {
       return {
@@ -368,10 +375,16 @@
   const showList = ref(false)
   const clearData = () => {
     localStorage.setItem('preloadedImage', '')
-    // Todo: clear uploads folder after adding or redaction a new pizza
+    dashboardStore.setPreloadedImage("")
+    clearPastryTypes()
+    clearNutritionData()
+    clearSizesAndPricesData()
+    pizzaModel.name = ''
+    pizzaModel.description = ''
+    pizzaModel.img = null
+    pizzaModel.ingredientsIds = []
+    showList.value = false
   }
-  // Todo: add method for getting sizes list. for the option component where
-  // Todo: each size in that component should have a pair price option
 </script>
 
 <style lang="scss" scoped>
