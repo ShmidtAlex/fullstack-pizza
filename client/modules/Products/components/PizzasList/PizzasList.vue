@@ -15,7 +15,6 @@ const config = useRuntimeConfig();
 
 // Todo: make a plug for empty pizzas list
 const { data } = await useFetch(`${config.public.API_BASE_URL}/pizza`);
-
 </script>
 <style scoped>
 .pizzas-list-container {

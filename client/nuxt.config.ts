@@ -14,12 +14,12 @@ export default defineNuxtConfig({
     // './modules/UserAccount',
     "./modules/AuthorizationForm",
   ],
-  plugins: ['~/plugins/api'],
-  css: ["bootstrap/dist/css/bootstrap.min.css", '~/assets/css/buttons.scss'],
+  plugins: ["~/plugins/api"],
+  css: ["bootstrap/dist/css/bootstrap.min.css", "~/assets/css/buttons.scss"],
   build: { transpile: ["@vee-validate/rules"] },
   server: {
-    host: 'localhost',
-    port: 3000
+    host: "localhost",
+    port: 3000,
   },
   runtimeConfig: {
     public: {

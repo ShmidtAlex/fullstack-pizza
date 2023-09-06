@@ -2,18 +2,22 @@
   <div class="select">
     <div class="select__title">{{ label }}</div>
     <div class="select__body" @blur="open = false">
-      <div class="select__body--selected" :class="{ open: open }" @click="open = !open">
+      <div
+        class="select__body--selected"
+        :class="{ open: open }"
+        @click="open = !open"
+      >
         {{ selectedSize }}
       </div>
       <div class="select__body__items" :class="{ selectHide: !open }">
         <div
-            v-for="option of options"
-            :key="option.value"
-            @click="
-          selectedSize = option.label;
-          open = false;
-          $emit('input', option);
-        "
+          v-for="option of options"
+          :key="option.value"
+          @click="
+            selectedSize = option.label;
+            open = false;
+            $emit('input', option);
+          "
         >
           {{ option.label }}
         </div>
@@ -24,38 +28,38 @@
 
 <script lang="ts" setup>
 // Todo: add multiple choice for items
-import { IOptions } from "~/components/types";
 import { PropType, ref } from "vue";
- const props = defineProps({
-   label: {
-     type: String,
-     default: ''
-   },
-   selectName: {
-     type: String,
-     required: true
-   },
-   options: {
-     type: Array as PropType<IOptions[]>,
-     required: true,
-     default: () => []
-   },
-   multiple: {
-     type: Boolean,
-     default: false
-   }
- })
-  const emit = defineEmits(['input'])
-  const open = ref(false);
-  const selectedSize = ref<string | number>('')
+import { IOptions } from "~/components/types";
+const props = defineProps({
+  label: {
+    type: String,
+    default: "",
+  },
+  selectName: {
+    type: String,
+    required: true,
+  },
+  options: {
+    type: Array as PropType<IOptions[]>,
+    required: true,
+    default: () => [],
+  },
+  multiple: {
+    type: Boolean,
+    default: false,
+  },
+});
+const emit = defineEmits(["input"]);
+const open = ref(false);
+const selectedSize = ref<string | number>("");
 
-  const closeDropdown = () => {
-    open.value = false
-  }
-  // in order to make component methods available on composition API
-  defineExpose({
-    closeDropdown
-  })
+const closeDropdown = () => {
+  open.value = false;
+};
+// in order to make component methods available on composition API
+defineExpose({
+  closeDropdown,
+});
 </script>
 
 <style lang="scss" scoped>
@@ -76,7 +80,7 @@ import { PropType, ref } from "vue";
     margin-bottom: 16px;
     border-radius: 8px;
     box-shadow: 1px 1px 1px 1px rgba(0, 0, 0, 0.3);
-    transition: height .6s ease-in-out;
+    transition: height 0.6s ease-in-out;
     &--selected {
       height: 100%;
       background-color: white;
@@ -103,7 +107,7 @@ import { PropType, ref } from "vue";
         border-top: none;
         border-left: none;
         transform: rotate(45deg);
-        transition: transform .6s ease-in-out, top .6s ease-in-out;
+        transition: transform 0.6s ease-in-out, top 0.6s ease-in-out;
         margin-left: 5px;
       }
     }
@@ -118,7 +122,7 @@ import { PropType, ref } from "vue";
       right: 0;
       margin-top: 2px;
       box-shadow: 1px 1px 1px 1px rgba(0, 0, 0, 0.3);
-      transition: visibility .6s ease-in-out;
+      transition: visibility 0.6s ease-in-out;
       z-index: 1;
       div {
         color: black;

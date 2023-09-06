@@ -1,15 +1,7 @@
 <template>
-  <DashboardSection
-      title="New product"
-  >
-
-  </DashboardSection>
+  <DashboardSection title="New product"> </DashboardSection>
 </template>
 
-<script lang="ts" setup>
+<script lang="ts" setup></script>
 
-</script>
-
-<style scoped>
-
-</style>
+<style scoped></style>

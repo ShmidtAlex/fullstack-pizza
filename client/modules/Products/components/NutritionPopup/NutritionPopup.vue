@@ -18,9 +18,7 @@
     </div>
     <div class="nutrition-popup__item">
       <span>energy:</span>
-      <span
-        >{{ props.nutrition.energy }}</span
-      >
+      <span>{{ props.nutrition.energy }}</span>
     </div>
   </div>
 </template>

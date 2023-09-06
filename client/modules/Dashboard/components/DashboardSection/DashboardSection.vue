@@ -11,23 +11,25 @@
 </template>
 
 <script lang="ts" setup>
-  import { computed } from "vue";
-  import { useAuthStore } from "~/modules/AuthorizationForm/store/AuthStore";
+import { computed } from "vue";
+import { useAuthStore } from "~/modules/AuthorizationForm/store/AuthStore";
 
-  const props = defineProps({
-    title: {
-      type: String,
-      required: true
-    },
-    isLoading: {
-      type: Boolean,
-      default: false
-    }
-  })
-  const authStore = useAuthStore()
-  const localTitle = computed(() => {
-    return authStore.isAdmin ? `${props.title} addition and updating` : `${props.title} updating`
-  })
+const props = defineProps({
+  title: {
+    type: String,
+    required: true,
+  },
+  isLoading: {
+    type: Boolean,
+    default: false,
+  },
+});
+const authStore = useAuthStore();
+const localTitle = computed(() => {
+  return authStore.isAdmin
+    ? `${props.title} addition and updating`
+    : `${props.title} updating`;
+});
 </script>
 
 <style lang="scss" scoped>
@@ -62,5 +64,4 @@
     margin-bottom: 24px;
   }
 }
-
 </style>
