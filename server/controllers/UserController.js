@@ -15,7 +15,6 @@ class UserController {
     try {
       const errors = validationResult(req)
       if (!errors.isEmpty()) {
-        // Todo: badRequest has to accept an array
         return next(ApiError.badRequest('Validation error', errors.array()));
       }
       const {email, password, role} = req.body;
@@ -23,9 +22,9 @@ class UserController {
       if (!email || !password) {
         return next(ApiError.badRequest('Wrong email or password'));
       }
-      console.log('DATA:::', email, password, role)
+
       const candidate = await User.findOne({ where: {email} });
-      console.log('CANDIDATE', candidate)
+
       if (candidate && candidate.id) {
         next(ApiError.badRequest('User with such email already exists'));
       }
@@ -40,7 +39,7 @@ class UserController {
       return res.json(userData);
 
     } catch (error) {
-      return next(ApiError.internal(`An error occurred during registration: ${error}`));
+      return next(ApiError.internalServerError(`An error occurred during registration: ${error}`));
     }
   }
   async login(req, res, next) {
@@ -48,7 +47,6 @@ class UserController {
       const { email, password } = req.body
       const errors = validationResult(req)
       if (!errors.isEmpty()) {
-        // Todo: badRequest has to accept an array
         return next(ApiError.badRequest('Validation error', errors.array()));
       }
       const userData = await userService.login(email, password);
@@ -56,7 +54,7 @@ class UserController {
       res.cookie('refreshToken', userData.refreshToken, { maxAge: 30*24*60*60*1000, httpOnly: true });
       return res.json(userData);
     } catch (error) {
-      return next(ApiError.internal(`An error occurred during login: ${error.message}`));
+      return next(ApiError.internalServerError(`An error occurred during login: ${error.message}`));
     }
   }
   async checkIsAuth(req, res, next) {
@@ -64,7 +62,7 @@ class UserController {
       const token = generateJWT(req.user.id, req.user.email, req.user.role)
       return res.json({ token })
     } catch(error) {
-      return next(ApiError.internal(`An error occurred during check authentication: ${error.message}`));
+      return next(ApiError.internalServerError(`An error occurred during check authentication: ${error.message}`));
     }
   }
   async activate(req, res, next) {
@@ -74,7 +72,7 @@ class UserController {
       return res.redirect(process.env.CLIENT_URL);
 
     } catch (error) {
-      throw ApiError.internal(`An error occurred during activation: ${error.message}`);
+      throw ApiError.internalServerError(`An error occurred during activation: ${error.message}`);
     }
   }
   async logout(req, res, next) {
@@ -85,7 +83,7 @@ class UserController {
       res.clearCookie('refreshToken');
       return res.json(token)
     } catch (error) {
-      return next(ApiError.internal(`An error occurred during logout: ${error.message}`));
+      return next(ApiError.internalServerError(`An error occurred during logout: ${error.message}`));
     }
   }
   async refresh(req, res, next) {
@@ -97,21 +95,21 @@ class UserController {
       res.cookie('refreshToken', userData.refreshToken, { maxAge: 30*24*60*60*1000, httpOnly: true });
       return res.json(userData);
     } catch (error) {
-      return next(ApiError.internal(`An error occurred during refresh token: ${error.message}`));
+      return next(ApiError.internalServerError(`An error occurred during refresh token: ${error.message}`));
     }
   }
   async updateUser(req, res, next) {
     try {
 
     } catch (error) {
-      return next(ApiError.internal(`An error occurred during updating user: ${error.message}`));
+      return next(ApiError.internalServerError(`An error occurred during updating user: ${error.message}`));
     }
   }
   async deleteUser(req, res, next) {
     try {
 
     } catch (error) {
-      return next(ApiError.internal(`An error occurred during deleting user: ${error.message}`));
+      return next(ApiError.internalServerError(`An error occurred during deleting user: ${error.message}`));
     }
   }
   // for business purposes only
@@ -120,14 +118,14 @@ class UserController {
       const users = await userService.getAllUsers();
       return res.json(users)
     } catch (error) {
-      return next(ApiError.internal(`An error occurred during getting the list of users: ${error.message}`));
+      return next(ApiError.internalServerError(`An error occurred during getting the list of users: ${error.message}`));
     }
   }
   async updateUserData(req, res, next) {
     try {
      // todo: add method's content for updating user's personal data
     } catch (error) {
-      return next(ApiError.internal(`An error occurred during updating personal user's data: ${error.message}`));
+      return next(ApiError.internalServerError(`An error occurred during updating personal user's data: ${error.message}`));
     }
   }
 }

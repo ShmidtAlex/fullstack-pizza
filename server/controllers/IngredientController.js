@@ -30,7 +30,7 @@ class IngredientController {
         return next(ApiError.badRequest('Ingredient with this name already exists'));
       }
     } catch (error) {
-      return next(ApiError.internal(`An error occurred during ingredient creation: ${error.message}`));
+      return next(ApiError.internalServerError(`An error occurred during ingredient creation: ${error.message}`));
     }
   }
   async removeIngredient(req, res, next) {
@@ -39,7 +39,7 @@ class IngredientController {
       const existedIngredient = await Ingredient.findByPk(id)
 
       if (!existedIngredient) {
-        return next(ApiError.badRequest('Ingredient with this id does not exist'));
+        return next(ApiError.notFound('Ingredient with this id does not exist'));
       }
 
       const imagePath = path.resolve(__dirname, '..', 'static', existedIngredient.img);
@@ -50,7 +50,7 @@ class IngredientController {
       await existedIngredient.destroy();
       return res.status(200).json({ isSuccess: true })
     } catch (error) {
-      return next(ApiError.internal(`An error occurred during deleting ingredient: ${error.message}`));
+      return next(ApiError.internalServerError(`An error occurred during deleting ingredient: ${error.message}`));
     }
   }
   async updateIngredient(req, res, next) {
@@ -74,12 +74,12 @@ class IngredientController {
       const ingredient = await Ingredient.findByPk(id)
 
       if (!ingredient) {
-        return next(ApiError.badRequest('There is no ingredient with such id'));
+        return next(ApiError.notFound('There is no ingredient with such id'));
       }
       await ingredient.update(update,{ where: { id }})
       return res.status(200).json({ message: 'Ingredient updated successfully' });
     } catch (error) {
-      return next(ApiError.internal(`An error occurred during ingredient update: ${error.message}`));
+      return next(ApiError.internalServerError(`An error occurred during ingredient update: ${error.message}`));
     }
   }
   async getIngredient(req, res) {
@@ -91,7 +91,7 @@ class IngredientController {
 
       return res.json(ingredients)
     } catch(error) {
-      return next(ApiError.internal(`An error occurred during get all ingredients: ${error.message}`));
+      return next(ApiError.internalServerError(`An error occurred during get all ingredients: ${error.message}`));
     }
   }
 }

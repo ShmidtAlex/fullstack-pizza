@@ -97,7 +97,7 @@ class PizzaController {
       }
       res.json(pizza)
     } catch(e) {
-      next(ApiError.badRequest(e.message))
+      next(ApiError.internalServerError(e.message))
     }
   }
   async removePizza(req, res) {
@@ -121,7 +121,7 @@ class PizzaController {
 
       res.json(pizza);
     } catch (error) {
-      next(ApiError.internal(error.message));
+      next(ApiError.internalServerError(error.message));
     }
   }
 

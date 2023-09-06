@@ -25,7 +25,7 @@ class OrderController {
 
       res.json(order);
     } catch (error) {
-      next(ApiError.internal(error.message));
+      next(ApiError.internalServerError(error.message));
     }
   }
 
@@ -47,7 +47,7 @@ class OrderController {
 
       res.json(user.carts.map(cart => cart.orders));
     } catch (error) {
-      next(ApiError.internal(error.message));
+      next(ApiError.internalServerError(error.message));
     }
   }
 }

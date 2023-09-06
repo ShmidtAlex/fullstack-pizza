@@ -33,22 +33,21 @@ class UserService {
     try {
       const user = await User.findOne({ where: {activationLink} })
       if (!user) {
-        return ApiError.internal(`User with such activation link does not exist`)
+        return ApiError.internalServerError(`User with such activation link does not exist`)
       }
       user.isActivated = true;
       await user.save();
       return 'Activation successful';
     } catch (error) {
-      throw ApiError.internal(`An error occurred during activation: ${error.message}`);
+      throw ApiError.internalServerError(`An error occurred during activation: ${error.message}`);
     }
   }
   async login(email, password) {
     try {
       const userData = await User.findOne({ where: { email }})
-      // todo: check, why does only general error handler works, but not these two:
-      //  the answer is because of throw keyword, it should be replaced with return
+
       if (!userData) {
-        return ApiError.badRequest('No user with such an email');
+        return ApiError.notFound('No user with such an email');
       }
       let comparePassword = bcrypt.compareSync(password, userData.password);
       if (!comparePassword) {
@@ -64,7 +63,7 @@ class UserService {
         user: userDto
       };
     } catch(error) {
-      throw ApiError.badRequest('Error during login process', error);
+      throw ApiError.internalServerError('Error during login process', error);
     }
   }
   async logout(refreshToken) {
@@ -72,22 +71,20 @@ class UserService {
       const token = await tokenService.removeToken(refreshToken);
       return token;
     } catch(error) {
-      throw ApiError.badRequest('Error during logout process', error)
+      throw ApiError.internalServerError('Error during logout process', error)
     }
   }
   async refresh(refreshToken) {
     try {
       if (!refreshToken) {
-        // Todo: better to name ApiError method unauthorizedRequest
-        return ApiError.notFound('There is not valid or empty token');
+        return ApiError.unauthorized('There is not valid or empty token');
       }
       const userData = await tokenService.validateRefreshToken(refreshToken);
 
       const tokenFromDb = await tokenService.findToken(refreshToken);
 
       if (!userData || !tokenFromDb) {
-        // Todo: better to name ApiError method unauthorizedRequest
-        return ApiError.forbidden('Refresh token has not been found or not valid');
+        return ApiError.unauthorized('Refresh token has not been found or not valid');
       }
       const user = await User.findOne({ where: {id: userData.id} });
 
@@ -97,7 +94,7 @@ class UserService {
       await tokenService.saveToken(userDto.id, tokens.refreshToken);
       return { ...tokens, user: userDto };
     } catch(error) {
-      throw ApiError.badRequest('Error during refresh token of user', error);
+      throw ApiError.internalServerError('Error during refresh token of user', error);
     }
   }
   async getAllUsers() {
