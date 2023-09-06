@@ -5,7 +5,8 @@
     <div class="pizza__content" >
       <div class="pizza__content__image">
 
-<!--        Todo: if we left as is, after reloading page image won't be sent to server, but still visible on the page -->
+<!--        Todo: if we left as is, after reloading page image won't be sent to server,
+              and after changes, data type is still not appropriate but still visible on the page -->
         <label for="uploadImage" @change="uploadImage">
           <input
               ref="uploadInput"
@@ -139,7 +140,6 @@
             @close="closePastryTypesModal"
         >
           <div class="modal__content">
-<!--            Todo: we have to receive these types from db, as they are only existed ones -->
             <Toggler value="Thin" data-type="string" @toggle="changeType" />
             <Toggler value="Traditional" data-type="string" @toggle="changeType"/>
           </div>
@@ -218,14 +218,19 @@
     },
   })
   const emit = defineEmits(['upload'])
-  onMounted(() => {
+  onMounted(async () => {
     const preloadedImage = localStorage.getItem('preloadedImage')
     if (preloadedImage) {
       dashboardStore.setPreloadedImage(preloadedImage);
-      pizzaModel.img = localStorage.getItem('imageFile')
+
+      const response = await dashboardStore.fetchPreloadedImage(preloadedImage);
+
+      const blob = new Blob([response], {type: 'image/png'});
+      const serverFile = new File([blob], preloadedImage, {type: blob.type});
+
+      pizzaModel.img = serverFile;
     }
     dashboardStore.fetchPizzaSizes()
-    // Todo: current implementation doesn't suppose that preloaded file itself is kept while reloading
   })
   const uploadInput = ref(null);
   const src = computed((): string => {
@@ -239,7 +244,6 @@
     if (file) {
       dashboardStore.preUploadImage(file[0])
       pizzaModel.img = file[0]
-      localStorage.setItem('imageFile', file[0])
     }
   }
   const replaceImage = () => {
@@ -364,7 +368,6 @@
   const showList = ref(false)
   const clearData = () => {
     localStorage.setItem('preloadedImage', '')
-    localStorage.setItem('imageFile', null)
     // Todo: clear uploads folder after adding or redaction a new pizza
   }
   // Todo: add method for getting sizes list. for the option component where
