@@ -1,5 +1,5 @@
 import path from "path";
-import { defineNuxtModule, addComponentsDir, useNuxt } from "@nuxt/kit";
+import { defineNuxtModule } from "@nuxt/kit";
 
 export default defineNuxtModule({
   // Default configuration options for your module

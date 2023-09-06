@@ -23,7 +23,7 @@
         @upload="uploadImage"
       />
       <div class="ingredient__redact__name">
-        <Input
+        <BaseInput
           :id="`${data.id}-name`"
           type="text"
           :value="data.name"
@@ -31,7 +31,7 @@
         />
       </div>
       <div class="ingredient__redact__price">
-        <Input
+        <BaseInput
           :id="`${data.id}-value`"
           type="number"
           :value="data.price"
@@ -58,7 +58,7 @@
         Apply changes
       </Button>
       <div v-if="redactMode" class="ingredient__actions__close">
-        <RemoveButton @removeItem="redactMode = false" />
+        <RemoveButton @remove-item="redactMode = false" />
       </div>
     </div>
     <!-- Todo: create custom checkbox in order to style better -->
@@ -114,7 +114,7 @@ const redactedIngredient = reactive<Partial<IIngredientModel>>({
   price: "",
   img: null,
 });
-const emit = defineEmits(["redact"]);
+const emit = defineEmits(["redact", "remove"]);
 
 const uploadImage = (files: any) => {
   if (files.length) {

@@ -2,7 +2,7 @@
   <div class="auth">
     <h4>User {{ label }} form</h4>
     <div class="auth__form-items">
-      <Input
+      <BaseInput
         v-if="byPhone"
         id="phone-registration"
         v-model="phone"
@@ -10,7 +10,7 @@
         type="phone"
         placeholder="enter phone number"
       />
-      <Input
+      <BaseInput
         v-else
         id="email"
         v-model="email"
@@ -18,7 +18,7 @@
         type="email"
         placeholder="enter email"
       />
-      <Input
+      <BaseInput
         id="password-registration"
         v-model="password"
         label="Password"
@@ -51,7 +51,7 @@
 <script lang="ts" setup>
 import { useRouter } from "vue-router";
 import { computed, ref } from "vue";
-import Input from "~/components/Input/Input.vue";
+import BaseInput from "~/components/BaseInput/BaseInput.vue";
 
 import { navigateTo, useNuxtApp } from "#app";
 import { useAuthStore } from "~/modules/AuthorizationForm/store/AuthStore";

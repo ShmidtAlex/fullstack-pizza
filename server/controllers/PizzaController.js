@@ -6,7 +6,6 @@ const {
   Price,
   Nutrition,
   Pastry,
-  Ingredient,
   PizzaSizePrice,
   PizzaSize,
   PastryPizza,

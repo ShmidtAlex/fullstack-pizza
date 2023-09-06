@@ -17,14 +17,14 @@
       </div>
       <div class="pizza__content__data">
         <!--        TODO: resolve values in two inputs below do not update after removal -->
-        <Input
+        <BaseInput
           id="pizza-name"
           v-model="pizzaModel.name"
           label="Name"
           placeholder="Enter pizza name"
           type="text"
         />
-        <Input
+        <BaseInput
           id="pizza-description"
           v-model="pizzaModel.description"
           label="Description"
@@ -34,10 +34,10 @@
       </div>
       <!--      -->
       <div class="pizza__content__data">
-        <Button
+        <BaseButton
           :type="isSizeAndPriceSet"
-          @proceedAction="isSizesAndPricesModal = true"
-          >Set Sizes and Prices</Button
+          @proceed-action="isSizesAndPricesModal = true"
+          >Set Sizes and Prices</BaseButton
         >
         <div v-if="sizeAndPriceConditions" class="pizza__content__data__result">
           <div class="pizza__content__data__result__label">
@@ -51,7 +51,7 @@
             {{ itemSize.value }} cm {{ showSizePrice(itemSize.id) }} $
           </div>
         </div>
-        <Modal
+        <ModalContainer
           v-if="isSizesAndPricesModal"
           title="Set price for each size"
           :is-footer="false"
@@ -59,7 +59,7 @@
           @click="closeDropdown"
         >
           <div class="modal__content">
-            <Select
+            <BaseSelect
               ref="dropdownComponent"
               label="Choose a size"
               select-name="pizzaSizes"
@@ -79,19 +79,19 @@
               />
             </div>
           </div>
-          <Button
+          <BaseButton
             type="success"
             :disabled="!sizeAndPriceConditions"
-            @proceedAction="showSizeAndPriceResult"
-            >Apply</Button
+            @proceed-action="showSizeAndPriceResult"
+            >Apply</BaseButton
           >
-        </Modal>
+        </ModalContainer>
       </div>
       <!--  Todo: this block should be shown in pizza's redact mode as we only able to add size to existed pizza -->
       <!--      <div  class="pizza__content__data">-->
       <!--        <div class="modal__content">-->
       <!--          <div v-if="sizeCreationMode" class="pizza__content__data&#45;&#45;addition">-->
-      <!--            <Input type="text" v-model="newSize" placeholder="add brand new size" />-->
+      <!--            <BaseInput type="text" v-model="newSize" placeholder="add brand new size" />-->
       <!--            <div class="pizza__content__data&#45;&#45;off">-->
       <!--              <AddButton :disabled="!newSize" @proceed="addBrandNewSize">Create</AddButton>-->
       <!--              <RemoveButton @close="sizeCreationMode = false"/>-->
@@ -101,8 +101,10 @@
       <!--        </div>-->
       <!--      </div>-->
       <div class="pizza__content__data">
-        <Button :type="allNutrition" @proceedAction="isNutritionModal = true"
-          >Set nutrition</Button
+        <BaseButton
+          :type="allNutrition"
+          @proceed-action="isNutritionModal = true"
+          >Set nutrition</BaseButton
         >
         <div v-if="isNutritionSet" class="pizza__content__data__result">
           <div class="pizza__content__data__result__label">
@@ -116,35 +118,35 @@
             {{ key }}: {{ nutritionItem }}
           </div>
         </div>
-        <Modal
+        <ModalContainer
           v-if="isNutritionModal"
           title="Set nutrition details"
           :is-footer="false"
           @close="closeNutritionModal"
         >
           <div class="modal__content">
-            <Input
+            <BaseInput
               id="protein"
               v-model="pizzaModel.nutrition.protein"
               label="Proteins:"
               type="number"
               placeholder="enter protein amount"
             />
-            <Input
+            <BaseInput
               id="fats"
               v-model="pizzaModel.nutrition.fats"
               label="Fats:"
               type="number"
               placeholder="enter fats amount"
             />
-            <Input
+            <BaseInput
               id="carbohydrates"
               v-model="pizzaModel.nutrition.carbohydrates"
               label="Carbohydrates:"
               type="number"
               placeholder="enter carbohydrates amount"
             />
-            <Input
+            <BaseInput
               id="energy"
               v-model="pizzaModel.nutrition.energy"
               label="Energy:"
@@ -153,19 +155,19 @@
             />
           </div>
 
-          <Button
+          <BaseButton
             type="success"
             :disabled="!isNutritionSet"
-            @proceedAction="isNutritionModal = false"
-            >Apply</Button
+            @proceed-action="isNutritionModal = false"
+            >Apply</BaseButton
           >
-        </Modal>
+        </ModalContainer>
       </div>
       <div class="pizza__content__data">
-        <Button
+        <BaseButton
           :type="pastryTypeCondition"
-          @proceedAction="isPastryTypesModal = true"
-          >Set Pastry Types</Button
+          @proceed-action="isPastryTypesModal = true"
+          >Set Pastry Types</BaseButton
         >
         <div v-if="isPastryTypesSet" class="pizza__content__data__result">
           <div class="pizza__content__data__result__label">
@@ -179,7 +181,7 @@
             {{ type }}
           </div>
         </div>
-        <Modal
+        <ModalContainer
           v-if="isPastryTypesModal"
           title="Set Pastry Types"
           :is-footer="false"
@@ -193,18 +195,18 @@
               @toggle="changeType"
             />
           </div>
-          <Button
+          <BaseButton
             type="success"
             :disabled="!isPastryTypesSet"
-            @proceedAction="isPastryTypesModal = false"
-            >Apply</Button
+            @proceed-action="isPastryTypesModal = false"
+            >Apply</BaseButton
           >
-        </Modal>
+        </ModalContainer>
       </div>
       <List
         title="Ingredients available for addition"
         :expand="showList"
-        @toggleList="showList = !showList"
+        @toggle-list="showList = !showList"
       >
         <template v-if="ingredients.length">
           <Ingredient
@@ -234,19 +236,19 @@
 import { computed, onMounted, reactive, ref, watch } from "vue";
 import { storeToRefs } from "pinia";
 import SizeAndPrice from "../SizeAndPrice/SizeAndPrice.vue";
-import { TButtonsTypes } from "../../../../components/Button/Button.vue";
+import { TButtonsTypes } from "../../../../components/BaseButton/BaseButton.vue";
+import Toggler from "../../../../components/ValueToggler/ValueToggler.vue";
 import { useRuntimeConfig } from "#app";
 import { useDashboardStore } from "~/modules/Dashboard/store/DashbordStore";
 import { IPizzaModel } from "~/modules/Dashboard/types";
 import AddButton from "~/components/AddButton/AddButton.vue";
-import Input from "~/components/Input/Input.vue";
+import BaseInput from "~/components/BaseInput/BaseInput.vue";
 import RemoveButton from "~/components/RemoveButton/RemoveButton.vue";
 import { IOptions, TTogglerDataTypes } from "~/components/types";
-import Toggler from "~/components/Toggler/Toggler.vue";
 import { pushOrFilter } from "~/helpers";
 import EmptyData from "~/components/EmptyDataPlug/EmptyData.vue";
-import Button from "~/components/Button/Button.vue";
-import Modal from "~/components/Modal/Modal.vue";
+import BaseButton from "~/components/BaseButton/BaseButton.vue";
+import BaseModal from "~/components/ModalContainer/ModalContainer.vue";
 
 const { ingredients } = storeToRefs(useDashboardStore());
 const dashboardStore = useDashboardStore();
@@ -266,7 +268,7 @@ const pizzaModel = reactive<IPizzaModel>({
     energy: 0,
   },
 });
-const emit = defineEmits(["upload"]);
+// const emit = defineEmits(["upload"]);
 onMounted(async () => {
   const preloadedImage = localStorage.getItem("preloadedImage");
   if (preloadedImage) {

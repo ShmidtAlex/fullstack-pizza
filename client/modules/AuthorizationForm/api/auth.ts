@@ -34,13 +34,12 @@ export default class AuthorizationService extends BaseHttpService<IAxiosConfig> 
   }
 
   async logout(): Promise<void> {
-    const { data } = await this.axiosClient.post(`api/user/logout`);
+    await this.axiosClient.post(`api/user/logout`);
     localStorage.removeItem("token");
-    // return jwt_decode(data.accessToken)
   }
 
   async check(): Promise<AxiosResponse> {
-    const { data } = this.axiosClient.get(`api/user/auth`);
+    const { data } = await this.axiosClient.get(`api/user/auth`);
     localStorage.setItem("token", data.accessToken);
     return jwt_decode(data.accessToken);
   }

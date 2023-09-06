@@ -1,5 +1,5 @@
 <template>
-  <Input
+  <BaseInput
     :id="size.id"
     v-model="price"
     type="number"
@@ -11,12 +11,12 @@
     Confirm
   </AddButton>
   <Button v-else type="warning" @click="resetPrice"> Redact </Button>
-  <RemoveButton :elem-id="size.id" @removeItem="removeItem" />
+  <RemoveButton :elem-id="size.id" @remove-item="removeItem" />
 </template>
 
 <script lang="ts" setup>
 import { computed, PropType, ref, watch } from "vue";
-import Input from "~/components/Input/Input.vue";
+import BaseInput from "~/components/BaseInput/BaseInput.vue";
 import AddButton from "~/components/AddButton/AddButton.vue";
 import RemoveButton from "~/components/RemoveButton/RemoveButton.vue";
 import { IOptions } from "~/components/types";
@@ -27,7 +27,8 @@ const props = defineProps({
     required: true,
   },
   previousPrice: {
-    type: [Number],
+    type: [Number, null],
+    default: null,
   },
 });
 const emit = defineEmits(["confirm", "remove", "reset"]);

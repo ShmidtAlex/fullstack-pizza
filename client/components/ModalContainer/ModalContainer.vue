@@ -2,7 +2,7 @@
   <div class="modal">
     <div class="modal__header">
       {{ title }}
-      <RemoveButton @removeItem="emit('close')"></RemoveButton>
+      <RemoveButton @remove-item="emit('close')"></RemoveButton>
     </div>
     <div class="modal__body" :class="{ 'modal__body--with-footer': isFooter }">
       <slot></slot>

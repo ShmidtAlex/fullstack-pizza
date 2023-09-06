@@ -25,7 +25,7 @@ const props = defineProps({
   },
   title: {
     type: String,
-    default: "Elements List",
+    default: "Elements ItemsList",
   },
   isLoading: {
     type: Boolean,
