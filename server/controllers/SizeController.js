@@ -13,7 +13,7 @@ class SizeController {
       const createdSize = await Size.create({ value })
       return res.json(createdSize)
     } catch (e) {
-      return next(ApiError.internal(`An error occurred during creation of a new size: ${e.message}`));
+      return next(ApiError.internalServerError(`An error occurred during creation of a new size: ${e.message}`));
     }
   }
   async updateSize(req, res) {
@@ -30,7 +30,7 @@ class SizeController {
       const sizes = await Size.findAll()
       return res.json(sizes)
     } catch (e) {
-      return next(ApiError.internal(`An error occurred during get list of sizes: ${e.message}`));
+      return next(ApiError.internalServerError(`An error occurred during get list of sizes: ${e.message}`));
     }
   }
 }

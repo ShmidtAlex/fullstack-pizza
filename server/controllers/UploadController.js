@@ -18,7 +18,7 @@ class UploadsController {
         res.json({ imageUrl: image.name });
       });
     } catch (e) {
-      return next(ApiError.internal(e.message));
+      return next(ApiError.internalServerError(e.message));
     }
   }
   async downloadPhoto(req, res, next) {
@@ -41,7 +41,7 @@ class UploadsController {
         return next(ApiError.notFound('File not found'))
       }
     } catch (e) {
-      return next(ApiError.internal('Deleting file error'))
+      return next(ApiError.internalServerError('Deleting file error'))
     }
   }
 }

@@ -4,7 +4,7 @@
     :class="{ 'nutrition-shown': props.isNutritionShown }"
   >
     <div class="nutrition-popup__title">
-      <h4>Nutrition information per 100g</h4>
+      <h6>Nutrition information per 100g</h6>
     </div>
     <div class="nutrition-popup__item">
       <span>protein: </span><span>{{ props.nutrition.protein }}</span>
@@ -19,7 +19,7 @@
     <div class="nutrition-popup__item">
       <span>energy:</span>
       <span
-        >{{ props.nutrition.energy[0] }}/{{ props.nutrition.energy[1] }}</span
+        >{{ props.nutrition.energy }}</span
       >
     </div>
   </div>

@@ -2,9 +2,13 @@ const { Nutrition } = require("../models");
 
 class NutritionController {
   async createNutrition(req, res) {
-    const { value } = req.body
-    const nutrition = await Nutrition.create({ value })
-    return res.json(nutrition)
+    try {
+      const { value } = req.body
+      const nutrition = await Nutrition.create({ value })
+      return res.json(nutrition)
+    } catch (e) {
+
+    }
   }
   async removeNutrition(req, res) {
 

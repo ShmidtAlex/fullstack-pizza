@@ -34,8 +34,6 @@ export default {
 .combos-list-container {
   width: 100%;
   height: 100%;
-  min-height: -webkit-fit-content;
-  min-height: -moz-fit-content;
   min-height: fit-content;
   display: flex;
   flex-direction: row;

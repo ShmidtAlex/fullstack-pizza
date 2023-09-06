@@ -6,16 +6,23 @@ class ApiError extends Error {
   }
   // Todo: check all types of errors by postman
   static forbidden(message) {
-    return new ApiError(403, message)
+    return new ApiError(403, message);
   }
+
   static badRequest(message) {
-    return new ApiError(404, message)
+    return new ApiError(400, message);
   }
-  static internal(message) {
-    return new ApiError(500, message)
+
+  static internalServerError(message) {
+    return new ApiError(500, message);
   }
+
+  static unauthorized(message) {
+    return new ApiError(401, message);
+  }
+
   static notFound(message) {
-    return new ApiError(401, message)
+    return new ApiError(404, message);
   }
 }
 

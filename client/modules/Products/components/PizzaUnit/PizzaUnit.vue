@@ -53,7 +53,7 @@
         <Slider
           :data="pizzaData.itemSizes"
           :unit-key="sizeKeyValue"
-          unit-of-measure="sm"
+          unit-of-measure="cm"
           @change-option="changeSize"
         />
         <PizzaPrices
