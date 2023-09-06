@@ -15,10 +15,14 @@ export default class PizzaService extends BaseHttpService<IAxiosConfig> {
   async uploadImage(payload: File): Promise<AxiosResponse> {
     const formData = new FormData();
     formData.append('image', payload);
-    const { data } = await this.axiosClient.post('api/upload', formData, { headers: {
+    const response = await this.axiosClient.post('api/upload', formData, { headers: {
         'Content-Type': 'multipart/form-data',
         'Authorization': `Bearer ${localStorage.getItem('token')}`
       }})
+    return response
+  }
+  async fetchUploadedImage(fileName: string): Promise<AxiosResponse> {
+    const { data } = await this.axiosClient.get(`api/upload/${fileName}`)
     return data
   }
   // in order not to add the own size, but only choose from existed ones
@@ -37,7 +41,6 @@ export default class PizzaService extends BaseHttpService<IAxiosConfig> {
   async createNewPizza(payload: IPizzaModel): Promise<AxiosResponse> {
     const { name, img, pastryTypes, itemPrices, itemSizes, ingredientsIds, description, nutrition } = payload
     const formData = new FormData()
-    console.log(img)
     formData.append('name', name)
     formData.append('img', img)
     formData.append('pastryTypes', JSON.stringify(pastryTypes))

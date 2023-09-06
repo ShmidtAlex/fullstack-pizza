@@ -14,6 +14,7 @@
 
 <script lang="ts" setup>
 // Todo: instead of prevent user click event on button, add validation
+// Todo: make components draggable !important
   import { PropType } from "vue";
   import Price from "../Price/Price.vue";
   import {IOptions} from "~/components/types";

@@ -93,7 +93,11 @@ export const useDashboardStore = defineStore("dashboard", {
         console.error('Error in preUploadImage:', error);
       }
     },
+    async fetchPreloadedImage(payload: string): void {
+      return await $api.pizza.fetchUploadedImage(payload);
+    },
     async fetchPizzaSizes():void {
+      // Todo: add logic for filtering only unique files
       const sizes = await $api.pizza.fetchSizes()
       this.setSizes(sizes)
     },
@@ -105,7 +109,6 @@ export const useDashboardStore = defineStore("dashboard", {
     },
     async createPizza(payload: IPizzaModel): void {
       const pizza = await $api.pizza.createNewPizza(payload)
-      console.log(pizza)
       return pizza
     }
   }

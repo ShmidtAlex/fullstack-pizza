@@ -20,6 +20,16 @@ class UploadsController {
       return next(ApiError.internal(e.message));
     }
   }
+  async downloadPhoto(req, res, next) {
+    const fileName = req.params.fileName;
+
+    const filePath = path.join(__dirname, '../uploads/', fileName);
+
+    if (!filePath) {
+      return res.status(404).send('File not found');
+    }
+    res.sendFile(filePath);
+  }
 }
 
 module.exports = new UploadsController()
