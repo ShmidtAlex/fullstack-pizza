@@ -2,9 +2,9 @@
   <div class="upload">
     <label :for="id" class="upload__icon" @change="uploadDocument">
       <input
+        :id="id"
         type="file"
         name="uploadFile"
-        :id="id"
         class="upload__icon_hidden-input"
       />
     </label>
@@ -12,20 +12,20 @@
 </template>
 
 <script lang="ts" setup>
-  const props = defineProps({
-    id: {
-      type: [String, Number],
-      required: true
-    },
-    mode: {
-      type: String,
-      default: 'create'
-    }
-  })
-  const emit = defineEmits(['upload', 'redactIngredientImage'])
-  const uploadDocument = (e) => {
-    emit('upload', e.target.files)
-  }
+const props = defineProps({
+  id: {
+    type: [String, Number],
+    required: true,
+  },
+  mode: {
+    type: String,
+    default: "create",
+  },
+});
+const emit = defineEmits(["upload", "redactIngredientImage"]);
+const uploadDocument = (e) => {
+  emit("upload", e.target.files);
+};
 </script>
 
 <style lang="scss" scoped>
@@ -35,7 +35,7 @@
   align-items: center;
   width: 40px;
   height: 40px;
-  background-color: rgba(0,128,0, 0.1);
+  background-color: rgba(0, 128, 0, 0.1);
   padding: 9px;
   border-radius: 10px;
   border: none;

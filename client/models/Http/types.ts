@@ -1,30 +1,30 @@
-import { AxiosInstance } from 'axios'
+import { AxiosInstance } from "axios";
 
 export interface IHttpService {
-  axiosConfig?: IAxiosConfig
-  axiosClient: AxiosInstance
-  wrap: Function
+  axiosConfig?: IAxiosConfig;
+  axiosClient: AxiosInstance;
+  wrap: Function;
 }
 
 export interface IAxiosHeaders {
-  'Cache-Control'?: 'no-cache'
-  'x-api-version'?: string
-  Authorization?: string
+  "Cache-Control"?: "no-cache";
+  "x-api-version"?: string;
+  Authorization?: string;
 }
 
 export interface IAxiosConfig {
-  baseURL?: string
-  headers?: IAxiosHeaders
+  baseURL?: string;
+  headers?: IAxiosHeaders;
 }
 
 export interface IErrorData {
-  Code: string
-  Details: IError[]
+  Code: string;
+  Details: IError[];
 }
 
 export interface IError {
-  Message: string
-  Target: string
+  Message: string;
+  Target: string;
 }
 
 export enum IErrorStatuses {

@@ -39,7 +39,7 @@
 </template>
 <script lang="ts" setup>
 // Todo: add tests
-import {onMounted, PropType, ref} from "vue";
+import { onMounted, PropType, ref } from "vue";
 import CloseButton from "../CloseButton/CloseButton.vue";
 import AddonElement from "./AddonElement.vue";
 import { IPizzaSubObjectsArray, IOptedAddons } from "~/modules/Products/types";

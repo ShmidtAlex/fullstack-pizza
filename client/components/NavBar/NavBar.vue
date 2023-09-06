@@ -12,12 +12,12 @@
       <li class="navbar-container__menu-item font-bold">
         <NuxtLink to="/products">Pizza</NuxtLink>
       </li>
-<!--      <li class="navbar-container__menu-item font-bold"><NuxtLink to="/combo">Combo</NuxtLink></li>-->
-<!--      <li class="navbar-container__menu-item font-bold"><NuxtLink to="/snacks">Snacks</NuxtLink></li>-->
-<!--      <li class="navbar-container__menu-item font-bold"> <NuxtLink to="/salads">Salads</NuxtLink></li>-->
-<!--      <li class="navbar-container__menu-item font-bold"><NuxtLink to="/desserts">Desserts</NuxtLink></li>-->
-<!--      <li class="navbar-container__menu-item font-bold"><NuxtLink to="/souses">Sauces</NuxtLink></li>-->
-<!--      <li class="navbar-container__menu-item font-bold"><NuxtLink to="/hot-meals">Hot meals</NuxtLink></li>-->
+      <!--      <li class="navbar-container__menu-item font-bold"><NuxtLink to="/combo">Combo</NuxtLink></li>-->
+      <!--      <li class="navbar-container__menu-item font-bold"><NuxtLink to="/snacks">Snacks</NuxtLink></li>-->
+      <!--      <li class="navbar-container__menu-item font-bold"> <NuxtLink to="/salads">Salads</NuxtLink></li>-->
+      <!--      <li class="navbar-container__menu-item font-bold"><NuxtLink to="/desserts">Desserts</NuxtLink></li>-->
+      <!--      <li class="navbar-container__menu-item font-bold"><NuxtLink to="/souses">Sauces</NuxtLink></li>-->
+      <!--      <li class="navbar-container__menu-item font-bold"><NuxtLink to="/hot-meals">Hot meals</NuxtLink></li>-->
     </ul>
     <div v-else class="main-view">
       <div class="city_block">
@@ -45,7 +45,12 @@
       <NuxtLink v-if="!authStore.isAuth && !isLoading" to="/auth">
         <Button :type="loginType">LogIn</Button>
       </NuxtLink>
-      <Button type="base" v-else-if="authStore.isAuth && !isLoading" @click="logOut">LogOut</Button>
+      <Button
+        v-else-if="authStore.isAuth && !isLoading"
+        type="base"
+        @click="logOut"
+        >LogOut</Button
+      >
       <NuxtLink v-if="!authStore.isAuth && !isLoading" to="/registration">
         <Button :type="registrationType">Registration</Button>
       </NuxtLink>
@@ -56,50 +61,48 @@
   </div>
 </template>
 <script lang="ts" setup>
-
 import { useRouter } from "vue-router";
+import { computed, ref, onMounted } from "vue";
 import { useAuthStore } from "~/modules/AuthorizationForm/store/AuthStore";
 import { navigateTo, useNuxtApp } from "#app";
-import { computed, ref, onMounted } from "vue";
-import Button from '~/components/Button/Button.vue'
+import Button from "~/components/Button/Button.vue";
 
-  // Todo: show user icon in the very right corner of navbar (as well as ability to go to user page)
-  // Todo: while reload, dashboard disappears for a second and appeared login/registration buttons and then dashboard appears again
+// Todo: show user icon in the very right corner of navbar (as well as ability to go to user page)
+// Todo: while reload, dashboard disappears for a second and appeared login/registration buttons and then dashboard appears again
 
-  const context = useNuxtApp()
-  const router = new useRouter()
-  const authStore = useAuthStore()
-  const isLoading = ref(true);
-   onMounted(async () => {
-    await authStore.checkAuth()
-     isLoading.value = false
-  })
-  const isSignInPage = computed(() => {
-    return router.currentRoute.value.name === 'auth'
-  })
-  const isRegistrationPage = computed(() => {
-    return router.currentRoute.value.name === 'registration'
-  })
-  const registrationType = computed(() => {
-    return isRegistrationPage.value ? 'base' : 'neutral'
-  })
-  const loginType = computed(() => {
-    return isSignInPage.value ? 'base' : 'success'
-  })
-  const props = defineProps({
-    showMenu: {
-      type: Boolean,
-      default: true,
-    }
-  })
-  const city = ref("Munich");
-  const change = ref(false);
-  const logOut = async () => {
-    await context.$api.auth.logout()
-    await navigateTo({ path: '/products' })
-    authStore.setIsAuth(false)
-  }
-
+const context = useNuxtApp();
+const router = new useRouter();
+const authStore = useAuthStore();
+const isLoading = ref(true);
+onMounted(async () => {
+  await authStore.checkAuth();
+  isLoading.value = false;
+});
+const isSignInPage = computed(() => {
+  return router.currentRoute.value.name === "auth";
+});
+const isRegistrationPage = computed(() => {
+  return router.currentRoute.value.name === "registration";
+});
+const registrationType = computed(() => {
+  return isRegistrationPage.value ? "base" : "neutral";
+});
+const loginType = computed(() => {
+  return isSignInPage.value ? "base" : "success";
+});
+const props = defineProps({
+  showMenu: {
+    type: Boolean,
+    default: true,
+  },
+});
+const city = ref("Munich");
+const change = ref(false);
+const logOut = async () => {
+  await context.$api.auth.logout();
+  await navigateTo({ path: "/products" });
+  authStore.setIsAuth(false);
+};
 </script>
 <style lang="scss">
 .navbar-container {

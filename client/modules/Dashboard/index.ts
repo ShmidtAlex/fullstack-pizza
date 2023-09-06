@@ -7,15 +7,13 @@ export default defineNuxtModule({
   hooks: {
     // ROUTES
     "pages:extend"(pages) {
-      pages.push(
-        {
-          name: "dashboard",
-          path: "/dashboard",
-          file: path.resolve(__dirname, "./pages/Dashboard.vue"),
-        },
-      );
+      pages.push({
+        name: "dashboard",
+        path: "/dashboard",
+        file: path.resolve(__dirname, "./pages/Dashboard.vue"),
+      });
     },
-    
+
     // COMPONENTS
     "components:dirs"(dirs) {
       // Add ./components dir to the list
@@ -23,7 +21,7 @@ export default defineNuxtModule({
         path: path.resolve(__dirname, "./components"),
       });
     },
-    
+
     // COMPOSABLES
     // "autoImports:dirs"(dirs) {
     //   dirs.push(path.resolve(__dirname, "./composables"));

@@ -1,10 +1,7 @@
 <template>
-  <div>
-    user's account
-  </div>
+  <div>user's account</div>
 </template>
 <script>
-
 export default {
   props: {
     isActive: {

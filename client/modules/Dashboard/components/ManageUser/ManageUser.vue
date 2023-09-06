@@ -1,15 +1,7 @@
 <template>
-  <DashboardSection
-      title="Users accesses"
-  >
-
-  </DashboardSection>
+  <DashboardSection title="Users accesses"> </DashboardSection>
 </template>
 
-<script lang="ts" setup>
+<script lang="ts" setup></script>
 
-</script>
-
-<style scoped>
-
-</style>
+<style scoped></style>

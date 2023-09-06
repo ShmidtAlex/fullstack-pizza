@@ -1,7 +1,7 @@
 // Todo: move BaseHttpService to general api folder in the root of the project
-import BaseHttpService from '~/modules/AuthorizationForm/api/base'
-import { IAxiosConfig } from '~/models/Http/types'
-import { AxiosResponse } from 'axios'
+import { AxiosResponse } from "axios";
+import BaseHttpService from "~/modules/AuthorizationForm/api/base";
+import { IAxiosConfig } from "~/models/Http/types";
 
 export default class PersonalAccountService extends BaseHttpService<IAxiosConfig> {
   constructor(
@@ -10,11 +10,14 @@ export default class PersonalAccountService extends BaseHttpService<IAxiosConfig
       headers: {},
     }
   ) {
-    super(config)
+    super(config);
   }
+
   async updateUser(user): Promise<AxiosResponse> {
-    
-    const { data } = await this.axiosClient.patch(`api/user/update-account/${user.id}`, user)
-    return data
+    const { data } = await this.axiosClient.patch(
+      `api/user/update-account/${user.id}`,
+      user
+    );
+    return data;
   }
 }

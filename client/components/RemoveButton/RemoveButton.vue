@@ -16,13 +16,13 @@
 </template>
 
 <script lang="ts" setup>
-import {PropType} from "vue";
+import { PropType } from "vue";
 
-type TIds = number | string | null
+type TIds = number | string | null;
 const emits = defineEmits(["removeItem"]);
 const props = defineProps({
   elemId: {
-    type:  [Number, String] as PropType<TIds>,
+    type: [Number, String] as PropType<TIds>,
     default: "",
   },
 });

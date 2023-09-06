@@ -1,13 +1,13 @@
 <template>
   <div v-if="isShown" class="form-input">
     <label>{{ label }}</label>
-      <input
-        v-model="text"
-        :name="name"
-        :type="type"
-        class="form-input__item"
-        :placeholder="placeholder"
-      />
+    <input
+      v-model="text"
+      :name="name"
+      :type="type"
+      class="form-input__item"
+      :placeholder="placeholder"
+    />
   </div>
 </template>
 
@@ -29,10 +29,10 @@ const props = defineProps({
   },
   placeholder: {
     type: String,
-    default: 'enter your'
-  }
+    default: "enter your",
+  },
 });
-  const text = ref('')
+const text = ref("");
 </script>
 
 <style lang="scss" scoped>
