@@ -1,5 +1,5 @@
 <template>
-  <Modal
+  <ModalContainer
     v-if="removalConfirmation"
     title="Ingredient Removal"
     :is-footer="false"
@@ -10,18 +10,18 @@
       @cancel="close"
       @confirm="removeIngredient"
     />
-  </Modal>
+  </ModalContainer>
   <DashboardSection title="Pizza's ingredients" :is-loading="isLoading">
     <!--    Todo: despite after ingredient addition ingredientModel resets, value in fields stays unchanged, that could be misleading -->
     <div v-if="authStore.isAdmin" class="ingredient-container">
-      <Input
+      <BaseInput
         id="ingredient-name"
         v-model="ingredientModel.name"
         type="text"
         placeholder="Enter ingredient name"
         label="Name"
       />
-      <Input
+      <BaseInput
         id="ingredient-price"
         v-model="ingredientModel.price"
         type="number"
@@ -31,13 +31,13 @@
       <UploadButton id="up-load" @upload="uploadImage" />
       <AddButton :disabled="isDisabled" @proceed="proceed">Add +</AddButton>
     </div>
-    <List
+    <ItemsList
       title="Show available ingredients"
       :expand="showList"
-      @toggleList="showList = !showList"
+      @toggle-list="showList = !showList"
     >
       <template v-if="ingredients.length">
-        <Ingredient
+        <DPizzaIngredient
           v-for="ingredient in ingredients"
           :key="ingredient.id"
           :data="ingredient"
@@ -48,7 +48,7 @@
       <template v-else>
         <EmptyData item-name="ingredients" />
       </template>
-    </List>
+    </ItemsList>
   </DashboardSection>
 </template>
 
@@ -56,22 +56,21 @@
 import { computed, onMounted, ref, watch } from "vue";
 import { storeToRefs } from "pinia";
 import DashboardSection from "../DashboardSection/DashboardSection.vue";
-import Ingredient from "../Ingredient/Ingredient.vue";
-import { useNuxtApp } from "#app";
+import DPizzaIngredient from "../DPizzaIngredient/DPizzaIngredient.vue";
+
+import Modal from "../../../../components/ModalContainer/ModalContainer.vue";
 import { useDashboardStore } from "~/modules/Dashboard/store/DashbordStore";
 import { useAuthStore } from "~/modules/AuthorizationForm/store/AuthStore";
 
 import UploadButton from "~/components/UploadButton/UploadButton.vue";
 import AddButton from "~/components/AddButton/AddButton.vue";
-import List from "~/components/List/List.vue";
+import ItemsList from "~/components/ItemsList/ItemsList.vue";
 import {
   IIngredientModel,
   IIngredientUpdates,
 } from "~/modules/Dashboard/types";
 import EmptyData from "~/components/EmptyDataPlug/EmptyData.vue";
-import Modal from "~/components/Modal/Modal.vue";
 import ActionConfirmation from "~/components/ActionConfirmation/ActionConfirmation.vue";
-const context = useNuxtApp();
 const dashboardStore = useDashboardStore();
 const { ingredients, isRemovalSuccess } = storeToRefs(useDashboardStore());
 
@@ -104,7 +103,9 @@ const uploadImage = (files: any[]): void => {
   }
 };
 const proceed = async () => {
-  dashboardStore.addNewIngredient(ingredientModel.value as IIngredientModel);
+  await dashboardStore.addNewIngredient(
+    ingredientModel.value as IIngredientModel
+  );
   resetIngredientModel();
 };
 const removalConfirmation = ref<boolean>(false);

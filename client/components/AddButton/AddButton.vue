@@ -6,7 +6,7 @@
 
 <script lang="ts" setup>
 import { computed } from "vue";
-import Button from "~/components/Button/Button.vue";
+import Button from "../BaseButton/BaseButton.vue";
 
 const props = defineProps({
   disabled: {

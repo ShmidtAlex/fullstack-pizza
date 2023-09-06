@@ -1,4 +1,3 @@
-import exp from "constants";
 import { IOptions } from "~/components/types";
 
 export interface IIngredientModel {

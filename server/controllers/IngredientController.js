@@ -27,7 +27,7 @@ class IngredientController {
         });
         return res.json(existingIngredient)
       } else {
-        return next(ApiError.badRequest('Ingredient with this name already exists'));
+        return next(ApiError.badRequest('DPizzaIngredient with this name already exists'));
       }
     } catch (error) {
       return next(ApiError.internalServerError(`An error occurred during ingredient creation: ${error.message}`));
@@ -39,7 +39,7 @@ class IngredientController {
       const existedIngredient = await Ingredient.findByPk(id)
 
       if (!existedIngredient) {
-        return next(ApiError.notFound('Ingredient with this id does not exist'));
+        return next(ApiError.notFound('DPizzaIngredient with this id does not exist'));
       }
 
       const imagePath = path.resolve(__dirname, '..', 'static', existedIngredient.img);
@@ -77,7 +77,7 @@ class IngredientController {
         return next(ApiError.notFound('There is no ingredient with such id'));
       }
       await ingredient.update(update,{ where: { id }})
-      return res.status(200).json({ message: 'Ingredient updated successfully' });
+      return res.status(200).json({ message: 'DPizzaIngredient updated successfully' });
     } catch (error) {
       return next(ApiError.internalServerError(`An error occurred during ingredient update: ${error.message}`));
     }

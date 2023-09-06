@@ -4,8 +4,8 @@
       Are you sure you want to {{ actionName }}?
     </div>
     <div class="confirmation__action">
-      <Button @proceedAction="emit('cancel')">Cancel</Button>
-      <Button type="danger" @proceedAction="emit('confirm')"
+      <Button @proceed-action="emit('cancel')">Cancel</Button>
+      <Button type="danger" @proceed-action="emit('confirm')"
         >Still {{ actionName }}</Button
       >
     </div>

@@ -1,5 +1,4 @@
 import { defineStore } from "pinia";
-import { renderSync } from "sass";
 import { $api } from "~/plugins/api";
 import {
   IIngredientModel,

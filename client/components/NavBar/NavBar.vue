@@ -63,9 +63,9 @@
 <script lang="ts" setup>
 import { useRouter } from "vue-router";
 import { computed, ref, onMounted } from "vue";
+import Button from "../BaseButton/BaseButton.vue";
 import { useAuthStore } from "~/modules/AuthorizationForm/store/AuthStore";
 import { navigateTo, useNuxtApp } from "#app";
-import Button from "~/components/Button/Button.vue";
 
 // Todo: show user icon in the very right corner of navbar (as well as ability to go to user page)
 // Todo: while reload, dashboard disappears for a second and appeared login/registration buttons and then dashboard appears again
