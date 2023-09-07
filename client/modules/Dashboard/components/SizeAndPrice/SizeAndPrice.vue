@@ -2,7 +2,7 @@
   <div class="label">{{ label }}</div>
   <div v-for="size in sizes" :key="size.id" class="price">
     <div class="price__item">{{ size.label }}</div>
-    <Price
+    <DPizzaPrice
       :size="size"
       :previous-price="findRelatedPrice(size.id)"
       @confirm="confirm"
@@ -16,7 +16,7 @@
 // Todo: instead of prevent user click event on button, add validation
 // Todo: make components draggable !important
 import { PropType } from "vue";
-import Price from "../DPizzaPrice/DPizzaPrice.vue";
+import DPizzaPrice from "../DPizzaPrice/DPizzaPrice.vue";
 import { IPrice } from "../../types";
 import { IOptions } from "~/components/types";
 

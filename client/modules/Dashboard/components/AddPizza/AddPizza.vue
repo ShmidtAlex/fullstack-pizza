@@ -209,7 +209,7 @@
         @toggle-list="showList = !showList"
       >
         <template v-if="ingredients.length">
-          <Ingredient
+          <DPizzaIngredient
             v-for="ingredient in ingredients"
             :key="ingredient.id"
             :data="ingredient"
@@ -236,8 +236,8 @@
 import { computed, onMounted, reactive, ref, watch } from "vue";
 import { storeToRefs } from "pinia";
 import SizeAndPrice from "../SizeAndPrice/SizeAndPrice.vue";
-import { TButtonsTypes } from "../../../../components/BaseButton/BaseButton.vue";
-import Toggler from "../../../../components/ValueToggler/ValueToggler.vue";
+import { TButtonsTypes } from "~/components/BaseButton/BaseButton.vue";
+import Toggler from "~/components/ValueToggler/ValueToggler.vue";
 import { useRuntimeConfig } from "#app";
 import { useDashboardStore } from "~/modules/Dashboard/store/DashbordStore";
 import { IPizzaModel } from "~/modules/Dashboard/types";
@@ -250,6 +250,7 @@ import EmptyData from "~/components/EmptyDataPlug/EmptyData.vue";
 import BaseButton from "~/components/BaseButton/BaseButton.vue";
 import ModalContainer from "~/components/ModalContainer/ModalContainer.vue";
 import ItemsList from "~/components/ItemsList/ItemsList.vue";
+import DPizzaIngredient from "../DPizzaIngredient/DPizzaIngredient.vue"
 
 const { ingredients } = storeToRefs(useDashboardStore());
 const dashboardStore = useDashboardStore();
@@ -270,6 +271,7 @@ const pizzaModel = reactive<IPizzaModel>({
   },
 });
 // const emit = defineEmits(["upload"]);
+
 onMounted(async () => {
   const preloadedImage = localStorage.getItem("preloadedImage");
   if (preloadedImage) {
@@ -281,6 +283,7 @@ onMounted(async () => {
   }
   dashboardStore.fetchPizzaSizes();
 });
+// IMAGE MANAGEMENT
 const uploadInput = ref(null);
 const src = computed((): string => {
   if (dashboardStore.uploadedImgSrc) {
@@ -288,6 +291,7 @@ const src = computed((): string => {
   }
   return "";
 });
+
 const uploadImage = (event: any): void => {
   const file = event.target.files;
   if (file) {
@@ -295,21 +299,27 @@ const uploadImage = (event: any): void => {
     pizzaModel.img = file[0];
   }
 };
+
 const replaceImage = () => {
   uploadInput.value.click();
 };
+
+// PIZZA CREATION
 const pizzaCreating = computed(() => {
   return dashboardStore.pizzaAdditionLoader;
 });
+
 const proceed = async () => {
-  // Todo: check why values are not reset after successful addition
   await dashboardStore.createPizza(pizzaModel);
 };
+
 watch(pizzaCreating, (newValue) => {
   if (newValue === false) {
     clearData();
   }
 });
+
+// PRICES AND SIZES
 const sizeOptions = computed(() => {
   return dashboardStore.sizes.map((size) => {
     return {
@@ -319,32 +329,39 @@ const sizeOptions = computed(() => {
     };
   });
 });
+
 const isSizesAndPricesModal = ref<boolean>(false);
 const closeSizesAndPricesModal = () => {
   isSizesAndPricesModal.value = false;
   clearSizesAndPricesData();
 };
+
 const showSizeAndPriceResult = () => {
   isSizesAndPricesModal.value = false;
 };
+
 const clearSizesAndPricesData = () => {
   pizzaModel.itemSizes = [];
   pizzaModel.itemPrices = [];
 };
+
 const sizeAndPriceConditions = computed((): boolean => {
   return (
     pizzaModel.itemPrices.length > 0 &&
     pizzaModel.itemPrices.every((item) => !!item.value)
   );
 });
+
 const isSizeAndPriceSet = computed(() => {
   return sizeAndPriceConditions.value ? "success" : "warning";
 });
+
 const sizeCreationMode = ref<boolean>(false);
 const newSize = ref<string>("");
 const turnOnCreationMode = (): void => {
   sizeCreationMode.value = true;
 };
+
 const addBrandNewSize = (): void => {
   dashboardStore.createSize({ value: newSize.value });
 };
@@ -358,36 +375,41 @@ const setSize = (size: IOptions): void => {
     pizzaModel.itemPrices.push({ id: size.id, value: null });
   }
 };
+
 const setPrice = (data: { id: number; value: number }) => {
   const item = pizzaModel.itemPrices.find((item) => item.id === data.id);
   item.value = data.value;
 };
+
 const resetOnlyPrice = (id) => {
   const item = pizzaModel.itemPrices.find((item) => item.id === id);
   item.value = null;
 };
+
 const removeSizeAndPrice = (id: number) => {
   pizzaModel.itemSizes = pizzaModel.itemSizes.filter((el) => el.id !== id);
   pizzaModel.itemPrices = pizzaModel.itemPrices.filter((el) => el.id !== id);
 };
+
 const showSizePrice = (id: number) => {
   return pizzaModel.itemPrices.find((item) => item.id === id).value;
 };
-const changeType = (data: TTogglerDataTypes) => {
-  if (typeof data === "string") {
-    pushOrFilter(pizzaModel.pastryTypes, data);
-  }
-};
+
+// INGREDIENTS
 const addIngredient = (id: number) => {
   pushOrFilter(pizzaModel.ingredientsIds, id);
 };
+
+// NUTRITION
 const isNutritionModal = ref<boolean>(false);
 const isNutritionSet = computed((): boolean => {
   return Object.values(pizzaModel.nutrition).every((item) => item > 0);
 });
+
 const allNutrition = computed((): TButtonsTypes => {
   return isNutritionSet.value ? "success" : "warning";
 });
+
 const allFieldsFullFelt = computed((): boolean => {
   return (
     sizeAndPriceConditions.value &&
@@ -398,31 +420,45 @@ const allFieldsFullFelt = computed((): boolean => {
     pizzaModel.ingredientsIds.length > 0
   );
 });
+
 const closeNutritionModal = () => {
   isNutritionModal.value = false;
   clearNutritionData();
 };
+
 const clearNutritionData = () => {
   for (const key in pizzaModel.nutrition) {
     pizzaModel.nutrition[key] = 0;
   }
 };
+
+// PASTRY TYPES
 const isPastryTypesModal = ref<boolean>(false);
 const isPastryTypesSet = computed((): boolean => {
   return pizzaModel.pastryTypes.length > 0;
 });
+
 const pastryTypeCondition = computed((): TButtonsTypes => {
   return isPastryTypesSet.value ? "success" : "warning";
 });
+
 const closePastryTypesModal = () => {
   isPastryTypesModal.value = false;
   clearPastryTypes();
 };
+
+const changeType = (data: TTogglerDataTypes) => {
+  if (typeof data === "string") {
+    pushOrFilter(pizzaModel.pastryTypes, data);
+  }
+};
+
 const clearPastryTypes = () => {
   pizzaModel.pastryTypes = [];
 };
-const dropdownComponent = ref(null);
 
+// OUTSIDE CLICK
+const dropdownComponent = ref(null);
 const closeDropdown = () => {
   if (dropdownComponent.value) {
     dropdownComponent.value.closeDropdown();
@@ -430,6 +466,7 @@ const closeDropdown = () => {
 };
 
 const showList = ref(false);
+// DATA CLEARING
 const clearData = () => {
   localStorage.setItem("preloadedImage", "");
   dashboardStore.setPreloadedImage("");

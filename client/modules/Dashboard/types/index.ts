@@ -25,7 +25,7 @@ export interface INutrition {
 
 export interface IPrice {
   id: number;
-  value: number;
+  value: number | null;
 }
 export interface IPizzaModel extends Partial<IIngredientModel> {
   pastryTypes: string[];
