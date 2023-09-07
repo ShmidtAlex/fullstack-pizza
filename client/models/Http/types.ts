@@ -17,15 +17,16 @@ export interface IHttpService {
   wrap: Function;
 }
 
+export interface IError {
+  Message: string;
+  Target: string;
+}
+
 export interface IErrorData {
   Code: string;
   Details: IError[];
 }
 
-export interface IError {
-  Message: string;
-  Target: string;
-}
 // Todo: wtf???
 export enum IErrorStatuses {
   BadRequest = 400,

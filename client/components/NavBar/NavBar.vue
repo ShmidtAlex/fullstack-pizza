@@ -43,19 +43,19 @@
 
     <div class="navbar-container__actions">
       <NuxtLink v-if="!authStore.isAuth && !isLoading" to="/auth">
-        <Button :type="loginType">LogIn</Button>
+        <BaseButton :type="loginType">LogIn</BaseButton>
       </NuxtLink>
-      <Button
+      <BaseButton
         v-else-if="authStore.isAuth && !isLoading"
         type="base"
         @click="logOut"
-        >LogOut</Button
+        >LogOut</BaseButton
       >
       <NuxtLink v-if="!authStore.isAuth && !isLoading" to="/registration">
-        <Button :type="registrationType">Registration</Button>
+        <BaseButton :type="registrationType">Registration</BaseButton>
       </NuxtLink>
       <NuxtLink v-if="authStore.isAdminOrRedactor" to="/dashboard">
-        <Button type="danger">Dashboard</Button>
+        <BaseButton type="danger">Dashboard</BaseButton>
       </NuxtLink>
     </div>
   </div>
@@ -63,7 +63,7 @@
 <script lang="ts" setup>
 import { useRouter } from "vue-router";
 import { computed, ref, onMounted } from "vue";
-import Button from "../BaseButton/BaseButton.vue";
+import BaseButton from "../BaseButton/BaseButton.vue";
 import { useAuthStore } from "~/modules/AuthorizationForm/store/AuthStore";
 import { navigateTo, useNuxtApp } from "#app";
 

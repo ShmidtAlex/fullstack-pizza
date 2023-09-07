@@ -203,7 +203,7 @@
           >
         </ModalContainer>
       </div>
-      <List
+      <ItemsList
         title="Ingredients available for addition"
         :expand="showList"
         @toggle-list="showList = !showList"
@@ -220,7 +220,7 @@
         <template v-else>
           <EmptyData item-name="ingredients" />
         </template>
-      </List>
+      </ItemsList>
       <!-- Todo: add a section for showing existed pizzas list
             and modal popup with the same AddPizza component but with existed pizza's data in order to redact it -->
       <div class="pizza__content__data">
@@ -248,7 +248,8 @@ import { IOptions, TTogglerDataTypes } from "~/components/types";
 import { pushOrFilter } from "~/helpers";
 import EmptyData from "~/components/EmptyDataPlug/EmptyData.vue";
 import BaseButton from "~/components/BaseButton/BaseButton.vue";
-import BaseModal from "~/components/ModalContainer/ModalContainer.vue";
+import ModalContainer from "~/components/ModalContainer/ModalContainer.vue";
+import ItemsList from "~/components/ItemsList/ItemsList.vue";
 
 const { ingredients } = storeToRefs(useDashboardStore());
 const dashboardStore = useDashboardStore();

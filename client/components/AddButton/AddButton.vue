@@ -1,12 +1,16 @@
 <template>
-  <Button :type="type" class="add-button" :disabled="disabled" @click="proceed"
+  <BaseButton
+    :type="type"
+    class="add-button"
+    :disabled="disabled"
+    @click="proceed"
     ><slot></slot
-  ></Button>
+  ></BaseButton>
 </template>
 
 <script lang="ts" setup>
 import { computed } from "vue";
-import Button from "../BaseButton/BaseButton.vue";
+import BaseButton from "../BaseButton/BaseButton.vue";
 
 const props = defineProps({
   disabled: {
