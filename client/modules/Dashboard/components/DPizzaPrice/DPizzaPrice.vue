@@ -10,7 +10,7 @@
   <AddButton v-if="!confirmed && !previousPrice" @proceed="confirm">
     Confirm
   </AddButton>
-  <Button v-else type="warning" @click="resetPrice"> Redact </Button>
+  <BaseButton v-else type="warning" @click="resetPrice"> Redact </BaseButton>
   <RemoveButton :elem-id="size.id" @remove-item="removeItem" />
 </template>
 

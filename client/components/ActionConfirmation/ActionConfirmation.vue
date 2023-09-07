@@ -4,15 +4,16 @@
       Are you sure you want to {{ actionName }}?
     </div>
     <div class="confirmation__action">
-      <Button @proceed-action="emit('cancel')">Cancel</Button>
-      <Button type="danger" @proceed-action="emit('confirm')"
-        >Still {{ actionName }}</Button
+      <BaseButton @proceed-action="emit('cancel')">Cancel</BaseButton>
+      <BaseButton type="danger" @proceed-action="emit('confirm')"
+        >Still {{ actionName }}</BaseButton
       >
     </div>
   </div>
 </template>
 
 <script lang="ts" setup>
+import BaseButton from "~/components/BaseButton/BaseButton.vue";
 const props = defineProps({
   actionName: {
     type: String,

@@ -12,13 +12,13 @@
 </template>
 
 <script lang="ts" setup>
-import { isVue3 } from "nuxt/app";
 const props = defineProps({
   title: {
     type: String,
     default: "",
   },
   isFooter: {
+    type: Boolean,
     default: true,
   },
 });

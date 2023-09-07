@@ -40,23 +40,23 @@
       </div>
     </div>
     <div v-if="!selectionMode" class="ingredient__actions">
-      <Button v-if="isAdmin" type="danger" @click="remove">
+      <BaseButton v-if="isAdmin" type="danger" @click="remove">
         Remove ingredient
-      </Button>
-      <Button
+      </BaseButton>
+      <BaseButton
         v-if="!redactMode && isAdminOrRedactor"
         type="warning"
         @click="redactMode = true"
       >
         Change ingredient
-      </Button>
-      <Button
+      </BaseButton>
+      <BaseButton
         v-if="redactMode && isAdminOrRedactor"
         type="warning"
         @click="redact"
       >
         Apply changes
-      </Button>
+      </BaseButton>
       <div v-if="redactMode" class="ingredient__actions__close">
         <RemoveButton @remove-item="redactMode = false" />
       </div>
@@ -82,7 +82,7 @@ import { useAuthStore } from "~/modules/AuthorizationForm/store/AuthStore";
 import { DASHBOARD_ACCESS_ROLES, DASHBOARD_ADMIN_ROLES } from "~/constants";
 import UploadButton from "~/components/UploadButton/UploadButton.vue";
 import RemoveButton from "~/components/RemoveButton/RemoveButton.vue";
-
+import BaseButton from "~/components/BaseButton/BaseButton.vue";
 const redactMode = ref<boolean>(false);
 const authStore = useAuthStore();
 const props = defineProps({

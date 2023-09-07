@@ -58,7 +58,7 @@ import { storeToRefs } from "pinia";
 import DashboardSection from "../DashboardSection/DashboardSection.vue";
 import DPizzaIngredient from "../DPizzaIngredient/DPizzaIngredient.vue";
 
-import Modal from "../../../../components/ModalContainer/ModalContainer.vue";
+import ModalContainer from "~/components/ModalContainer/ModalContainer.vue";
 import { useDashboardStore } from "~/modules/Dashboard/store/DashbordStore";
 import { useAuthStore } from "~/modules/AuthorizationForm/store/AuthStore";
 

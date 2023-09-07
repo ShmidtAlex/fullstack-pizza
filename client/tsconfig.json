@@ -9,6 +9,20 @@
     "jsx": "preserve",
     "isCustomElement": true
   },
-  "include": ["src/**/*.ts", "src/**/*.d.ts", "src/**/*.tsx", "src/**/*.vue"],
+  "include": [
+    "components/**/*.ts",
+    "components/**/*.d.ts",
+    "components/**/*.tsx",
+    "components/**/*.vue",
+    "modules/**/*.ts",
+    "modules/**/*.d.ts",
+    "modules/**/*.tsx",
+    "modules/**/*.vue",
+    "layouts/**/*.ts",
+    "layouts/**/*.d.ts",
+    "layouts/**/*.tsx",
+    "layouts/**/*.vue",
+    "plugins/**/*.ts"
+  ],
   "exclude": ["node_modules"]
 }
