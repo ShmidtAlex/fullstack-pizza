@@ -42,7 +42,6 @@ const props = defineProps({
   options: {
     type: Array as PropType<IOptions[]>,
     required: true,
-    default: () => [],
   },
   multiple: {
     type: Boolean,

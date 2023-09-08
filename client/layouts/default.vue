@@ -20,5 +20,6 @@
   justify-content: center;
   width: 100%;
   padding: 100px 2%;
+  background-color: rgba(197, 208, 230, .2);
 }
 </style>

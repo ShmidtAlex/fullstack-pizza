@@ -1,74 +1,72 @@
 <template>
-  <DashboardSection title="Pizza" :is-loading="pizzaCreating">
-    <div class="pizza__content">
-      <div class="pizza__content__image">
-        <!--        Todo: if we left as is, after reloading page image won't be sent to server,
-              and after changes, data type is still not appropriate but still visible on the page -->
-        <label for="uploadImage" @change="uploadImage">
-          <input id="uploadImage" ref="uploadInput" type="file" name="image" />
-        </label>
-        <img
+  <div class="pizza__content">
+    <div class="pizza__content__image">
+      <label for="uploadImage" @change="uploadImage">
+        <input id="uploadImage" ref="uploadInput" type="file" name="image" />
+      </label>
+      <img
           v-if="src"
           :src="src"
           alt="Opted image for created or redacted pizza"
           @click="replaceImage"
-        />
-        <div v-if="!src" class="tip">download image</div>
-      </div>
-      <div class="pizza__content__data">
-        <!--        TODO: resolve values in two inputs below do not update after removal -->
-        <BaseInput
-          id="pizza-name"
+      />
+      <div v-if="!src" class="tip">download image</div>
+    </div>
+    <div class="pizza__content__data">
+      <!--        TODO: resolve values in two inputs below do not update after removal -->
+      <BaseInput
+          :id="`pizza-name-${id}`"
           v-model="pizzaModel.name"
           label="Name"
           placeholder="Enter pizza name"
           type="text"
-        />
-        <BaseInput
-          id="pizza-description"
+          :value="pizzaModel.name"
+      />
+      <BaseInput
+          :id="`pizza-description-${id}`"
           v-model="pizzaModel.description"
           label="Description"
           placeholder="Enter description"
           type="text"
-        />
-      </div>
-      <!--      -->
-      <div class="pizza__content__data">
-        <BaseButton
+          :value="pizzaModel.description"
+      />
+    </div>
+    <div class="pizza__content__data">
+      <BaseButton
           :type="isSizeAndPriceSet"
           @proceed-action="isSizesAndPricesModal = true"
-          >Set Sizes and Prices</BaseButton
-        >
-        <div v-if="sizeAndPriceConditions" class="pizza__content__data__result">
-          <div class="pizza__content__data__result__label">
-            Opted sizes and prices
-          </div>
-          <div
+      >Set Sizes and Prices</BaseButton
+      >
+      <div v-if="sizeAndPriceConditions" class="pizza__content__data__result">
+        <div class="pizza__content__data__result__label">
+          Opted sizes and prices
+        </div>
+        <div
             v-for="itemSize in pizzaModel.itemSizes"
             :key="itemSize.id"
             class="pizza__content__data__result_item"
-          >
-            {{ itemSize.value }} cm {{ showSizePrice(itemSize.id) }} $
-          </div>
+        >
+          {{ itemSize.value }} cm {{ showSizePrice(itemSize.id) }} $
         </div>
-        <ModalContainer
+      </div>
+      <ModalContainer
           v-if="isSizesAndPricesModal"
           title="Set price for each size"
           :is-footer="false"
           @close="closeSizesAndPricesModal"
           @click="closeDropdown"
-        >
-          <div class="modal__content">
-            <BaseSelect
+      >
+        <div class="modal__content">
+          <BaseSelect
               ref="dropdownComponent"
               label="Choose a size"
               select-name="pizzaSizes"
               :options="sizeOptions"
               @input="setSize"
               @click.stop
-            />
-            <div class="modal__content__settings">
-              <SizeAndPrice
+          />
+          <div class="modal__content__settings">
+            <SizeAndPrice
                 v-if="pizzaModel.itemSizes.length"
                 label="Set price"
                 :sizes="pizzaModel.itemSizes"
@@ -76,164 +74,149 @@
                 @confirm="setPrice"
                 @remove="removeSizeAndPrice"
                 @reset="resetOnlyPrice"
-              />
-            </div>
+            />
           </div>
-          <BaseButton
+        </div>
+        <BaseButton
             type="success"
             :disabled="!sizeAndPriceConditions"
             @proceed-action="showSizeAndPriceResult"
-            >Apply</BaseButton
-          >
-        </ModalContainer>
-      </div>
-      <!--  Todo: this block should be shown in pizza's redact mode as we only able to add size to existed pizza -->
-      <!--      <div  class="pizza__content__data">-->
-      <!--        <div class="modal__content">-->
-      <!--          <div v-if="sizeCreationMode" class="pizza__content__data&#45;&#45;addition">-->
-      <!--            <BaseInput type="text" v-model="newSize" placeholder="add brand new size" />-->
-      <!--            <div class="pizza__content__data&#45;&#45;off">-->
-      <!--              <AddButton :disabled="!newSize" @proceed="addBrandNewSize">Create</AddButton>-->
-      <!--              <RemoveButton @close="sizeCreationMode = false"/>-->
-      <!--            </div>-->
-      <!--          </div>-->
-      <!--          <AddButton v-if="!sizeCreationMode" @proceed="turnOnCreationMode">Add new size</AddButton>-->
-      <!--        </div>-->
-      <!--      </div>-->
-      <div class="pizza__content__data">
-        <BaseButton
+        >Apply</BaseButton
+        >
+      </ModalContainer>
+    </div>
+    <div class="pizza__content__data">
+      <BaseButton
           :type="allNutrition"
           @proceed-action="isNutritionModal = true"
-          >Set nutrition</BaseButton
-        >
-        <div v-if="isNutritionSet" class="pizza__content__data__result">
-          <div class="pizza__content__data__result__label">
-            Opted nutrition g
-          </div>
-          <div
+      >Set nutrition</BaseButton
+      >
+      <div v-if="isNutritionSet" class="pizza__content__data__result">
+        <div class="pizza__content__data__result__label">
+          Opted nutrition g
+        </div>
+        <div
             v-for="(nutritionItem, key) in pizzaModel.nutrition"
             :key="key"
             class="pizza__content__data__result_item"
-          >
-            {{ key }}: {{ nutritionItem }}
-          </div>
+        >
+          {{ key }}: {{ nutritionItem }}
         </div>
-        <ModalContainer
+      </div>
+      <ModalContainer
           v-if="isNutritionModal"
           title="Set nutrition details"
           :is-footer="false"
           @close="closeNutritionModal"
-        >
-          <div class="modal__content">
-            <BaseInput
+      >
+        <div class="modal__content">
+          <BaseInput
               id="protein"
               v-model="pizzaModel.nutrition.protein"
               label="Proteins:"
               type="number"
               placeholder="enter protein amount"
-            />
-            <BaseInput
+          />
+          <BaseInput
               id="fats"
               v-model="pizzaModel.nutrition.fats"
               label="Fats:"
               type="number"
               placeholder="enter fats amount"
-            />
-            <BaseInput
+          />
+          <BaseInput
               id="carbohydrates"
               v-model="pizzaModel.nutrition.carbohydrates"
               label="Carbohydrates:"
               type="number"
               placeholder="enter carbohydrates amount"
-            />
-            <BaseInput
+          />
+          <BaseInput
               id="energy"
               v-model="pizzaModel.nutrition.energy"
               label="Energy:"
               type="number"
               placeholder="enter energy amount"
-            />
-          </div>
-
-          <BaseButton
+          />
+        </div>
+        <BaseButton
             type="success"
             :disabled="!isNutritionSet"
             @proceed-action="isNutritionModal = false"
-            >Apply</BaseButton
-          >
-        </ModalContainer>
-      </div>
-      <div class="pizza__content__data">
-        <BaseButton
+        >Apply</BaseButton
+        >
+      </ModalContainer>
+    </div>
+    <div class="pizza__content__data">
+      <BaseButton
           :type="pastryTypeCondition"
           @proceed-action="isPastryTypesModal = true"
-          >Set Pastry Types</BaseButton
-        >
-        <div v-if="isPastryTypesSet" class="pizza__content__data__result">
-          <div class="pizza__content__data__result__label">
-            Opted pastry types
-          </div>
-          <div
+      >Set Pastry Types</BaseButton
+      >
+      <div v-if="isPastryTypesSet" class="pizza__content__data__result">
+        <div class="pizza__content__data__result__label">
+          Opted pastry types
+        </div>
+        <div
             v-for="type in pizzaModel.pastryTypes"
             :key="type"
             class="pizza__content__data__result_item"
-          >
-            {{ type }}
-          </div>
+        >
+          {{ type }}
         </div>
-        <ModalContainer
+      </div>
+      <ModalContainer
           v-if="isPastryTypesModal"
           title="Set Pastry Types"
           :is-footer="false"
           @close="closePastryTypesModal"
-        >
-          <div class="modal__content">
-            <Toggler value="Thin" data-type="string" @toggle="changeType" />
-            <Toggler
+      >
+        <div class="modal__content">
+          <Toggler value="Thin" data-type="string" @toggle="changeType" />
+          <Toggler
               value="Traditional"
               data-type="string"
               @toggle="changeType"
-            />
-          </div>
-          <BaseButton
+          />
+        </div>
+        <BaseButton
             type="success"
             :disabled="!isPastryTypesSet"
             @proceed-action="isPastryTypesModal = false"
-            >Apply</BaseButton
-          >
-        </ModalContainer>
-      </div>
-      <ItemsList
+        >Apply</BaseButton
+        >
+      </ModalContainer>
+    </div>
+    <ItemsList
         title="Ingredients available for addition"
-        :expand="showList"
-        @toggle-list="showList = !showList"
-      >
-        <template v-if="ingredients.length">
-          <DPizzaIngredient
+        :expand="showIngredients"
+        @toggle-list="showIngredients = !showIngredients"
+    >
+      <template v-if="ingredients.length">
+        <DPizzaIngredient
             v-for="ingredient in ingredients"
             :key="ingredient.id"
             :data="ingredient"
-            selection-mode
+            :selection-mode="ingredientSelectMode"
+            :selected="checkIngredientSelection(ingredient.id)"
             @select="addIngredient"
-          />
-        </template>
-        <template v-else>
-          <EmptyData item-name="ingredients" />
-        </template>
-      </ItemsList>
-      <!-- Todo: add a section for showing existed pizzas list
-            and modal popup with the same AddPizza component but with existed pizza's data in order to redact it -->
-      <div class="pizza__content__data">
-        <AddButton :disabled="!allFieldsFullFelt" @proceed="proceed"
-          >Create Pizza</AddButton
-        >
-      </div>
+        />
+      </template>
+      <template v-else>
+        <EmptyData item-name="ingredients" />
+      </template>
+    </ItemsList>
+    <div class="pizza__content__data">
+      <AddButton :disabled="!allFieldsFullFelt" @proceed="proceed"
+      >{{ actionName }}</AddButton
+      >
     </div>
-  </DashboardSection>
+  </div>
 </template>
 
 <script lang="ts" setup>
-import { computed, onMounted, reactive, ref, watch } from "vue";
+// Todo: depends on mode (update/create) component accepts props
+import {computed, onMounted, PropType, reactive, ref, watch} from "vue";
 import { storeToRefs } from "pinia";
 import SizeAndPrice from "../SizeAndPrice/SizeAndPrice.vue";
 import { TButtonsTypes } from "~/components/BaseButton/BaseButton.vue";
@@ -250,11 +233,35 @@ import EmptyData from "~/components/EmptyDataPlug/EmptyData.vue";
 import BaseButton from "~/components/BaseButton/BaseButton.vue";
 import ModalContainer from "~/components/ModalContainer/ModalContainer.vue";
 import ItemsList from "~/components/ItemsList/ItemsList.vue";
-import DPizzaIngredient from "../DPizzaIngredient/DPizzaIngredient.vue"
+import DPizzaIngredient from "../DPizzaIngredient/DPizzaIngredient.vue";
 
 const { ingredients } = storeToRefs(useDashboardStore());
 const dashboardStore = useDashboardStore();
 const config = useRuntimeConfig();
+type TMode = 'creation' | 'update'
+const props = defineProps({
+  pizzaCreating: {
+    type: Boolean,
+    default: false
+  },
+  mode: {
+    type: String as PropType<TMode>,
+    default: 'creation'
+  },
+  pizza: {
+    type: Object as PropType<IPizzaModel>,
+    default: () => {}
+  },
+  id: {
+    type: [String, Number],
+    default: 'creation'
+  },
+  ingredientSelectMode: {
+    type: Boolean,
+    default: false
+  }
+})
+
 const pizzaModel = reactive<IPizzaModel>({
   name: "",
   img: null,
@@ -277,20 +284,52 @@ onMounted(async () => {
   if (preloadedImage) {
     dashboardStore.setPreloadedImage(preloadedImage);
     const response = await dashboardStore.fetchPreloadedImage(preloadedImage);
-    const blob = new Blob([response], { type: "image/png" });
-    const serverFile = new File([blob], preloadedImage, { type: blob.type });
-    pizzaModel.img = serverFile;
+    assignBlob(response, preloadedImage)
+  }
+  if (props.mode === 'update') {
+    const response = await dashboardStore.fetchImage(props.pizza?.img);
+    assignBlob(response, props.pizza?.img)
+    setPizzaModel()
   }
   dashboardStore.fetchPizzaSizes();
+  dashboardStore.fetchPizzasList();
 });
 // IMAGE MANAGEMENT
 const uploadInput = ref(null);
-const src = computed((): string => {
+const uploadedImageSrc = computed((): string => {
   if (dashboardStore.uploadedImgSrc) {
-    return `${config.public.NUXT_ENV_BASE_URL}${dashboardStore.uploadedImgSrc}`;
+    return `${config.public.NUXT_ENV_BASE_URL}uploads/${dashboardStore.uploadedImgSrc}`;
   }
   return "";
 });
+
+const assignBlob = (response: any, image: string) => {
+  const blob = new Blob([response], { type: "image/png" });
+  const serverFile = new File([blob], image, { type: blob.type });
+  pizzaModel.img = serverFile;
+}
+
+const setPizzaModel = () => {
+  if (props.pizza) {
+    for (let key in props.pizza) {
+      if (key !== 'img') {
+        pizzaModel[key] = props.pizza[key]
+      }
+    }
+  }
+}
+const checkIngredientSelection = (id: number) => {
+  return pizzaModel.ingredientsIds.includes(id)
+}
+const originalImage = computed(() => {
+  if (props.pizza?.img) {
+    return `${config.public.NUXT_ENV_BASE_URL}static/${props.pizza.img}`
+  }
+})
+
+const src = computed(() => {
+  return props.mode === 'update' ? originalImage.value  : uploadedImageSrc.value
+})
 
 const uploadImage = (event: any): void => {
   const file = event.target.files;
@@ -305,19 +344,15 @@ const replaceImage = () => {
 };
 
 // PIZZA CREATION
-const pizzaCreating = computed(() => {
-  return dashboardStore.pizzaAdditionLoader;
-});
+watch(() => props.pizzaCreating, (newValue) => {
+  if (newValue === false) {
+    clearData();
+  }
+}, { deep: true });
 
 const proceed = async () => {
   await dashboardStore.createPizza(pizzaModel);
 };
-
-watch(pizzaCreating, (newValue) => {
-  if (newValue === false) {
-    clearData();
-  }
-});
 
 // PRICES AND SIZES
 const sizeOptions = computed(() => {
@@ -465,7 +500,7 @@ const closeDropdown = () => {
   }
 };
 
-const showList = ref(false);
+const showIngredients = ref(false);
 // DATA CLEARING
 const clearData = () => {
   localStorage.setItem("preloadedImage", "");
@@ -477,14 +512,23 @@ const clearData = () => {
   pizzaModel.description = "";
   pizzaModel.img = null;
   pizzaModel.ingredientsIds = [];
-  showList.value = false;
+  showIngredients.value = false;
 };
+// PIZZA UPDATE
+
+const updatePizza = () => {
+
+}
+const actionName = computed(() => {
+  return props.mode === 'creation' ? 'Create Pizza' : 'Update Pizza'
+})
 </script>
 
 <style lang="scss" scoped>
 .pizza__content {
   display: flex;
   flex-wrap: wrap;
+  margin-top: 16px;
   &__image {
     display: flex;
     justify-content: flex-start;

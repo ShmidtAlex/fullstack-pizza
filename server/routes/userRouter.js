@@ -19,7 +19,7 @@ router.get('/users', checkRoleMiddleware(['SUPERADMIN', 'ADMIN']), userControlle
 router.delete('/delete/:id', checkRoleMiddleware(['SUPERADMIN']), userController.deleteUser);
 // meaning roles, passwords, emails or other registration data
 router.patch('/update/:id', checkRoleMiddleware(['SUPERADMIN']), userController.updateUser);
-// Todo: seems like we need another route to redact users' data by themselves. I mean phones, emails and etc.
-router.patch('/update-account/:id', checkRoleMiddleware(['SUPERADMIN', 'ADMIN', 'REDACTOR', 'USER']), userController.updateUserData);
+// Update personal data in account
+router.patch('/update-account/:id', checkRoleMiddleware(['SUPERADMIN', 'ADMIN', 'REDACTOR', 'USER']), userController.updateAccountData);
 
 module.exports = router

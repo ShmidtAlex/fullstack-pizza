@@ -113,7 +113,7 @@ const close = () => {
   removalConfirmation.value = false;
 };
 const removedIngredientId = ref<number | string>("");
-const confirmRemoval = (value) => {
+const confirmRemoval = (value: string | number) => {
   removedIngredientId.value = value;
   removalConfirmation.value = true;
 };

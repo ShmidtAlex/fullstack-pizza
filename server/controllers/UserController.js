@@ -26,7 +26,7 @@ class UserController {
       const candidate = await User.findOne({ where: {email} });
 
       if (candidate && candidate.id) {
-        next(ApiError.badRequest('User with such email already exists'));
+        next(ApiError.badRequest('DUser with such email already exists'));
       }
 
       const userData = await userService.registration(email, password, role)
@@ -121,7 +121,7 @@ class UserController {
       return next(ApiError.internalServerError(`An error occurred during getting the list of users: ${error.message}`));
     }
   }
-  async updateUserData(req, res, next) {
+  async updateAccountData(req, res, next) {
     try {
      // todo: add method's content for updating user's personal data
     } catch (error) {
