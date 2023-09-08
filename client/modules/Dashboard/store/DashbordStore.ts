@@ -3,8 +3,9 @@ import { $api } from "~/plugins/api";
 import {
   IIngredientModel,
   IIngredientUpdates,
-  IPizzaModel,
+  IPizzaModel, IUser,
 } from "~/modules/Dashboard/types";
+import {IIsSuccess} from "~/components/types";
 
 export const useDashboardStore = defineStore("dashboard", {
   state: () => ({
@@ -13,11 +14,16 @@ export const useDashboardStore = defineStore("dashboard", {
     _preUploadedImageSrc: "",
     _sizesList: [],
     _pizzaData: null,
+    _usersList: <IUser>[],
+    _pizzasList: <IPizzaModel>[],
     loaders: {
       _ingredientUpdateLoader: false,
       _ingredientCreateLoader: false,
       _ingredientRemoveLoader: false,
       _pizzaAdditionLoader: false,
+      _fetchUsersLoader: false,
+      _fetchPizzasLoader: false,
+      _updatePizzaLoader: false,
     },
   }),
   getters: {
@@ -39,34 +45,55 @@ export const useDashboardStore = defineStore("dashboard", {
     pizzaAdditionLoader(store) {
       return store.loaders._pizzaAdditionLoader;
     },
+    fetchUsersLoader(store) {
+      return store.loaders._fetchUsersLoader;
+    },
+    pizzasListLoader(store) {
+      return store.loaders._fetchPizzasLoader;
+    },
+    pizzaUpdateLoader(store) {
+      return store.loaders._updatePizzaLoader;
+    },
     uploadedImgSrc(store) {
       return store._preUploadedImageSrc;
     },
     sizes(store) {
       return store._sizesList;
     },
+    users(store) {
+      return store._usersList;
+    },
+    pizzas(store) {
+      return store._pizzasList;
+    }
   },
 
   actions: {
-    setIngredients(ingredientsList): void {
+    setIngredients(ingredientsList: IIngredientModel[]): void {
       this._ingredients = ingredientsList;
     },
-    setRemovalResult(result): void {
+    setRemovalResult(result: IIsSuccess): void {
       this._removalResult = result;
     },
-    toggleLoader(loaderName, state): void {
+    toggleLoader(loaderName: string, state): void {
       this.loaders[loaderName] = state;
     },
-    setPreloadedImage(img): void {
+    setPreloadedImage(img: string): void {
       this._preUploadedImageSrc = img;
     },
     setSizes(data: any): void {
       this._sizesList = data;
     },
-    setPizzaData(pizza): void {
+    setPizzaData(pizza: IPizzaModel): void {
       this._pizzaData = pizza;
     },
-    async addNewIngredient(payload): Promise<void> {
+    setUserList(users: IUser[]): void {
+      this._usersList = users;
+    },
+    setPizzasList(pizzas: IPizzaModel[]): void {
+      this._pizzasList = pizzas
+    },
+    async addNewIngredient(payload: IIngredientModel): Promise<void> {
       this.toggleLoader("_ingredientCreateLoader", true);
       await $api.ingredients.addIngredient(payload).then((response) => {
         if (response.id) {
@@ -91,7 +118,7 @@ export const useDashboardStore = defineStore("dashboard", {
       const response = await $api.ingredients.getAllIngredients();
       this.setIngredients(response);
     },
-    async removeIngredientFromList(id): Promise<void> {
+    async removeIngredientFromList(id: number): Promise<void> {
       this.toggleLoader("_ingredientRemoveLoader", true);
       const response = await $api.ingredients.removeIngredient(id);
       if (response.status === 200) {
@@ -111,8 +138,10 @@ export const useDashboardStore = defineStore("dashboard", {
     async fetchPreloadedImage(payload: string) {
       return await $api.pizza.fetchUploadedImage(payload);
     },
+    async fetchImage(payload: string) {
+      return await $api.pizza.fetchImage(payload)
+    },
     async fetchPizzaSizes(): Promise<void> {
-      // Todo: add logic for filtering only unique files
       const sizes = await $api.pizza.fetchSizes();
       let uniqueSizes;
       if (sizes) {
@@ -140,5 +169,23 @@ export const useDashboardStore = defineStore("dashboard", {
 
       this.toggleLoader("_pizzaAdditionLoader", false);
     },
+    async fetchPizzasList(): Promise<void> {
+      this.toggleLoader("_pizzasListLoader", true);
+      const result = await $api.pizza.fetchPizzasList();
+      const mapped = result.map((pizza) => {
+        return {
+          ...pizza,
+          ingredientsIds: pizza.ingredients.map((ingredient) => ingredient.id)
+        }
+      })
+      this.setPizzasList(mapped)
+      this.toggleLoader("_pizzasListLoader", false);
+    },
+    async fetchUserList(): Promise<void> {
+      this.toggleLoader("_fetchUsersLoader", true)
+      const result = await $api.user.getAllUsers()
+      this.setUserList(result)
+      this.toggleLoader("_fetchUsersLoader", false)
+    }
   },
 });

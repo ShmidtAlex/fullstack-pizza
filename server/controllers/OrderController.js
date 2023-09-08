@@ -42,7 +42,7 @@ class OrderController {
       });
 
       if (!user) {
-        return next(ApiError.notFound('User not found'));
+        return next(ApiError.notFound('DUser not found'));
       }
 
       res.json(user.carts.map(cart => cart.orders));

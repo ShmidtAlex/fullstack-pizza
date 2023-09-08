@@ -4,3 +4,7 @@ export interface IOptions {
   label?: string;
 }
 export type TTogglerDataTypes = boolean | string;
+
+export interface IIsSuccess {
+  isSuccess: boolean
+}

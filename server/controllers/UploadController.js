@@ -21,10 +21,17 @@ class UploadsController {
       return next(ApiError.internalServerError(e.message));
     }
   }
-  async downloadPhoto(req, res, next) {
+  async downloadPreloadedPhoto(req, res, next) {
     const { fileName } = req.params;
     const filePath = path.join(__dirname, '../uploads/', fileName);
-
+    if (!filePath) {
+      return res.status(404).send('File not found');
+    }
+    res.sendFile(filePath);
+  }
+  async downloadPhoto(req, res, next) {
+    const { fileName } = req.params;
+    const filePath = path.join(__dirname, '../static/', fileName);
     if (!filePath) {
       return res.status(404).send('File not found');
     }

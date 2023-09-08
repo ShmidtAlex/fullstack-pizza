@@ -68,6 +68,7 @@
         type="checkbox"
         :name="data.name"
         :value="data.id"
+        :checked="selected"
         @change="emit('select', data.id)"
       />
     </div>
@@ -94,6 +95,10 @@ const props = defineProps({
     type: Boolean,
     default: false,
   },
+  selected: {
+    type: Boolean,
+    default: false
+  }
 });
 const config = useRuntimeConfig();
 const isAdmin = computed(() => {
@@ -150,9 +155,13 @@ const redact = () => {
   width: fit-content;
   min-width: 550px;
   padding: 8px;
-  margin-bottom: 16px;
-  border-radius: 8px;
-  box-shadow: 1px 1px 1px 1px rgba(0, 0, 0, 0.3);
+  //margin-bottom: 16px;
+  //border-radius: 8px;
+  //box-shadow: 1px 1px 1px 1px rgba(0, 0, 0, 0.3);
+  border-bottom: 1px solid lightgrey;
+  &:last-child {
+    border-bottom: none;
+  }
   &__info {
     display: flex;
     flex-direction: row;

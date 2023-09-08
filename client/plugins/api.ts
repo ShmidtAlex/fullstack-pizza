@@ -2,6 +2,9 @@ import { AxiosError } from "axios";
 import AuthorizationService from "~/modules/AuthorizationForm/api/auth";
 import IngredientsService from "~/modules/Dashboard/api/ingredients";
 import PizzaService from "~/modules/Dashboard/api/pizza";
+import PersonalAccountService from "~/modules/UserAccount/api/personal-account";
+import UsersService from "~/modules/Dashboard/api/users";
+
 import { IHttpService } from "~/models/Http/types";
 import { useNuxtApp, defineNuxtPlugin } from "#app";
 
@@ -9,6 +12,8 @@ export interface IApi {
   auth: AuthorizationService;
   ingredients: IngredientsService;
   pizza: PizzaService;
+  account: PersonalAccountService;
+  user: UsersService;
 }
 
 let $api: IApi;
@@ -38,6 +43,8 @@ export default defineNuxtPlugin(() => {
     auth: new AuthorizationService(),
     ingredients: new IngredientsService(),
     pizza: new PizzaService(),
+    account: new PersonalAccountService(),
+    user: new UsersService()
   };
 
   // Inject $api but in nuxt 3 manner
@@ -48,6 +55,8 @@ export default defineNuxtPlugin(() => {
     auth: new AuthorizationService(),
     ingredients: new IngredientsService(),
     pizza: new PizzaService(),
+    account: new PersonalAccountService(),
+    user: new UsersService()
   };
 });
 

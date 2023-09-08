@@ -21,7 +21,6 @@ const props = defineProps({
   expand: {
     required: true,
     type: Boolean,
-    default: false,
   },
   title: {
     type: String,
@@ -94,7 +93,10 @@ const toggleList = () => {
     transition: opacity 1s ease-in-out;
     min-width: fit-content;
     &--expanded {
+      padding: 16px 16px;
       opacity: 1;
+      border-radius: 8px;
+      box-shadow: 1px 1px 1px 1px rgba(0, 0, 0, 0.3);
     }
   }
   &--expanded {

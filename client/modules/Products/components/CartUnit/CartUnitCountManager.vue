@@ -27,6 +27,7 @@
 
 <script lang="ts" setup>
 import { IFinalObjectForCart, TAddonsForCart } from "~/modules/Products/types";
+import {PropType} from "vue";
 
 const props = defineProps({
   unit: {

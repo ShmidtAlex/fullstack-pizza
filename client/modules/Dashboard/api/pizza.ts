@@ -26,7 +26,11 @@ export default class PizzaService extends BaseHttpService<IAxiosConfig> {
   }
 
   async fetchUploadedImage(fileName: string): Promise<AxiosResponse> {
-    const { data } = await this.axiosClient.get(`api/upload/${fileName}`);
+    const { data } = await this.axiosClient.get(`api/upload/uploads/${fileName}`);
+    return data;
+  }
+  async fetchImage(fileName: string): Promise<AxiosResponse> {
+    const { data } = await this.axiosClient.get(`api/upload/static/${fileName}`);
     return data;
   }
 
@@ -62,6 +66,7 @@ export default class PizzaService extends BaseHttpService<IAxiosConfig> {
       nutrition,
     } = payload;
     const formData = new FormData();
+    // Todo:
     formData.append("name", name);
     formData.append("img", img);
     formData.append("pastryTypes", JSON.stringify(pastryTypes));
@@ -77,5 +82,9 @@ export default class PizzaService extends BaseHttpService<IAxiosConfig> {
       },
     });
     return response;
+  }
+  async fetchPizzasList(): Promise<AxiosResponse> {
+    const { data } = await this.axiosClient.get('api/pizza')
+    return data;
   }
 }

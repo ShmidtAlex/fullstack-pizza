@@ -15,17 +15,29 @@ export default class UsersService extends BaseHttpService<IAxiosConfig> {
 
   // Todo: add api call to dashboard in order to get all users data and add types for AxiosResponse
   async getAllUsers(): Promise<AxiosResponse> {
-    const { data } = await this.axiosClient.get(`api/user/users`);
+    const { data } = await this.axiosClient.get(`api/user/users`, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+      },
+    });
     return data;
   }
 
-  async deleteUser(userId): Promise<AxiosResponse> {
-    const { data } = await this.axiosClient.delete(`api/user/users`, userId);
+  async deleteUser(userId:number): Promise<AxiosResponse> {
+    const { data } = await this.axiosClient.delete(`api/user/${userId}`, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+      },
+    });
     return data;
   }
 
   async updateUser(userId): Promise<AxiosResponse> {
-    const { data } = await this.axiosClient.delete(`api/user/users`, userId);
+    const { data } = await this.axiosClient.patch(`api/user/users`, userId, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+      },
+    });
     return data;
   }
 }

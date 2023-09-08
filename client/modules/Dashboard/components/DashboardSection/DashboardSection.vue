@@ -46,6 +46,7 @@ const localTitle = computed(() => {
   padding: 16px;
   margin: 16px;
   position: relative;
+  background-color: white;
   &:hover {
     box-shadow: 2px 2px 2px 2px rgba(0, 0, 0, 0.3);
   }

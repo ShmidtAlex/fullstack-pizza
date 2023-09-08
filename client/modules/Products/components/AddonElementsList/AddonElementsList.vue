@@ -51,8 +51,7 @@ const props = defineProps({
   },
   previouslyOpted: {
     type: Object,
-    required: true,
-    default: () => {},
+    required: true
   },
 });
 const optedAddons = ref<Array<IOptedAddons>>([]);

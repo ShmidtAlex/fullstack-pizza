@@ -35,3 +35,12 @@ export interface IPizzaModel extends Partial<IIngredientModel> {
   itemPrices: IPrice[];
   itemSizes: IOptions[];
 }
+export type TUserRoles = 'ADMIN' | 'USER' | 'VISITOR' | 'REDACTOR' | 'SUPERADMIN'
+export interface IUser {
+  id: number
+  email: string
+  password: string
+  isActivated: boolean
+  activationLink?: string
+  role: TUserRoles
+}
