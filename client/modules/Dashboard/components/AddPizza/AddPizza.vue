@@ -77,20 +77,25 @@
             />
           </div>
         </div>
-        <BaseButton
-            type="success"
-            :disabled="!sizeAndPriceConditions"
-            @proceed-action="showSizeAndPriceResult"
-        >Apply</BaseButton
-        >
+        <div class="modal__actions">
+          <BaseButton
+              type="success"
+              :disabled="!sizeAndPriceConditions"
+              @proceed-action="showSizeAndPriceResult"
+          >Apply</BaseButton>
+          <BaseButton
+              type="danger"
+              :disabled="!sizeAndPriceConditions"
+              @proceed-action="clearSizesAndPricesData"
+          >Clear</BaseButton>
+        </div>
       </ModalContainer>
     </div>
     <div class="pizza__content__data">
       <BaseButton
           :type="allNutrition"
           @proceed-action="isNutritionModal = true"
-      >Set nutrition</BaseButton
-      >
+      >Set nutrition</BaseButton>
       <div v-if="isNutritionSet" class="pizza__content__data__result">
         <div class="pizza__content__data__result__label">
           Opted nutrition g
@@ -113,6 +118,7 @@
           <BaseInput
               id="protein"
               v-model="pizzaModel.nutrition.protein"
+              :value="pizzaModel.nutrition.protein"
               label="Proteins:"
               type="number"
               placeholder="enter protein amount"
@@ -120,6 +126,7 @@
           <BaseInput
               id="fats"
               v-model="pizzaModel.nutrition.fats"
+              :value="pizzaModel.nutrition.fats"
               label="Fats:"
               type="number"
               placeholder="enter fats amount"
@@ -127,6 +134,7 @@
           <BaseInput
               id="carbohydrates"
               v-model="pizzaModel.nutrition.carbohydrates"
+              :value="pizzaModel.nutrition.carbohydrates"
               label="Carbohydrates:"
               type="number"
               placeholder="enter carbohydrates amount"
@@ -134,17 +142,24 @@
           <BaseInput
               id="energy"
               v-model="pizzaModel.nutrition.energy"
+              :value="pizzaModel.nutrition.energy"
               label="Energy:"
               type="number"
               placeholder="enter energy amount"
           />
         </div>
-        <BaseButton
-            type="success"
-            :disabled="!isNutritionSet"
-            @proceed-action="isNutritionModal = false"
-        >Apply</BaseButton
-        >
+        <div class="modal__actions">
+          <BaseButton
+              type="success"
+              :disabled="!isNutritionSet"
+              @proceed-action="isNutritionModal = false"
+          >Apply</BaseButton>
+          <BaseButton
+              type="danger"
+              :disabled="!isNutritionSet"
+              @proceed-action="clearNutritionData"
+          >Clear</BaseButton>
+        </div>
       </ModalContainer>
     </div>
     <div class="pizza__content__data">
@@ -179,12 +194,18 @@
               @toggle="changeType"
           />
         </div>
-        <BaseButton
-            type="success"
-            :disabled="!isPastryTypesSet"
-            @proceed-action="isPastryTypesModal = false"
-        >Apply</BaseButton
-        >
+        <div class="modal__actions">
+          <BaseButton
+              type="success"
+              :disabled="!isPastryTypesSet"
+              @proceed-action="isPastryTypesModal = false"
+          >Apply</BaseButton>
+          <BaseButton
+              type="danger"
+              :disabled="!isPastryTypesSet"
+              @proceed-action="clearPastryTypes"
+          >Clear</BaseButton>
+        </div>
       </ModalContainer>
     </div>
     <ItemsList
@@ -226,7 +247,6 @@ import { useDashboardStore } from "~/modules/Dashboard/store/DashbordStore";
 import { IPizzaModel } from "~/modules/Dashboard/types";
 import AddButton from "~/components/AddButton/AddButton.vue";
 import BaseInput from "~/components/BaseInput/BaseInput.vue";
-import RemoveButton from "~/components/RemoveButton/RemoveButton.vue";
 import { IOptions, TTogglerDataTypes } from "~/components/types";
 import { pushOrFilter } from "~/helpers";
 import EmptyData from "~/components/EmptyDataPlug/EmptyData.vue";
@@ -268,7 +288,7 @@ const pizzaModel = reactive<IPizzaModel>({
   pastryTypes: [],
   itemPrices: [],
   itemSizes: [],
-  ingredientsIds: [],
+  ingredients: [],
   description: "",
   nutrition: {
     protein: 0,
@@ -288,6 +308,7 @@ onMounted(async () => {
   }
   if (props.mode === 'update') {
     const response = await dashboardStore.fetchImage(props.pizza?.img);
+    // todo: check how to replace second argument
     assignBlob(response, props.pizza?.img)
     setPizzaModel()
   }
@@ -319,7 +340,7 @@ const setPizzaModel = () => {
   }
 }
 const checkIngredientSelection = (id: number) => {
-  return pizzaModel.ingredientsIds.includes(id)
+  return pizzaModel.ingredients.includes(id)
 }
 const originalImage = computed(() => {
   if (props.pizza?.img) {
@@ -368,7 +389,7 @@ const sizeOptions = computed(() => {
 const isSizesAndPricesModal = ref<boolean>(false);
 const closeSizesAndPricesModal = () => {
   isSizesAndPricesModal.value = false;
-  clearSizesAndPricesData();
+  // clearSizesAndPricesData();
 };
 
 const showSizeAndPriceResult = () => {
@@ -432,14 +453,14 @@ const showSizePrice = (id: number) => {
 
 // INGREDIENTS
 const addIngredient = (id: number) => {
-  pushOrFilter(pizzaModel.ingredientsIds, id);
+  pushOrFilter(pizzaModel.ingredients, id);
 };
 
 // NUTRITION
 const isNutritionModal = ref<boolean>(false);
 const isNutritionSet = computed((): boolean => {
-  return Object.values(pizzaModel.nutrition).every((item) => item > 0);
-});
+  return Object.values(pizzaModel.nutrition).every((item) => item);
+})
 
 const allNutrition = computed((): TButtonsTypes => {
   return isNutritionSet.value ? "success" : "warning";
@@ -452,13 +473,12 @@ const allFieldsFullFelt = computed((): boolean => {
     isPastryTypesSet.value &&
     !!pizzaModel.name &&
     !!pizzaModel.description &&
-    pizzaModel.ingredientsIds.length > 0
+    pizzaModel.ingredients.length > 0
   );
 });
 
 const closeNutritionModal = () => {
   isNutritionModal.value = false;
-  clearNutritionData();
 };
 
 const clearNutritionData = () => {
@@ -511,7 +531,7 @@ const clearData = () => {
   pizzaModel.name = "";
   pizzaModel.description = "";
   pizzaModel.img = null;
-  pizzaModel.ingredientsIds = [];
+  pizzaModel.ingredients = [];
   showIngredients.value = false;
 };
 // PIZZA UPDATE
@@ -580,7 +600,7 @@ const actionName = computed(() => {
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
-    padding: 0px 16px 16px;
+    padding: 3px 16px 16px;
     min-width: fit-content;
     margin-bottom: 16px;
     &__result {
@@ -617,5 +637,11 @@ const actionName = computed(() => {
     width: 100%;
     height: fit-content;
   }
+}
+.modal__actions {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
 }
 </style>

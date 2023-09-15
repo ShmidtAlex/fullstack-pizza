@@ -26,7 +26,7 @@ class UserController {
       const candidate = await User.findOne({ where: {email} });
 
       if (candidate && candidate.id) {
-        next(ApiError.badRequest('DUser with such email already exists'));
+        next(ApiError.badRequest('User with such email already exists'));
       }
 
       const userData = await userService.registration(email, password, role)

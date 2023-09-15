@@ -5,7 +5,7 @@ async function isValidUserRole(userId, role) {
     const user = await User.findByPk(userId);
 
     if (!user) {
-      // DUser not found, role is not valid
+      // User not found, role is not valid
       return false;
     }
     if (Array.isArray(role)) {

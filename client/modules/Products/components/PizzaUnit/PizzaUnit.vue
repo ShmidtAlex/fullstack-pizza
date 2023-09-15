@@ -127,9 +127,9 @@ const finalObject = reactive<IFinalObjectForCart>({
 
 const cTotalPrice = computed((): number | string => {
   return finalObject.extraPrice
-    ? Number(props.pizzaData.prices[priceKeyValue.value].value) +
+    ? Number(props.pizzaData.itemPrices[priceKeyValue.value].value) +
         finalObject.extraPrice
-    : props.pizzaData.prices[priceKeyValue.value].value;
+    : props.pizzaData.itemPrices[priceKeyValue.value].value;
 });
 
 const showAddonInUnit = (): void => {
@@ -155,7 +155,7 @@ const showNutrition = (): void => {
 };
 
 const changePrice = (sizeKey: number): void => {
-  const obj = props.pizzaData.prices.find(
+  const obj = props.pizzaData.itemPrices.find(
     (elem: IPizzaSubObjectUnit, index: number) => {
       return index === sizeKey;
     }
@@ -199,7 +199,7 @@ const nestOptedAddons = (value: IOptedAddons[]): void => {
   );
   finalObject.totalPrice =
     finalObject.extraPrice +
-    Number(props.pizzaData.prices[priceKeyValue.value].value);
+    Number(props.pizzaData.itemPrices[priceKeyValue.value].value);
 };
 
 /** resetting finalObject has to be only after making order

@@ -21,14 +21,14 @@ module.exports = function(roles) {
 
       const isValidRole = await isValidUserRole(decoded.id, decoded.role);
       if (!isValidRole) {
-        // DUser's role has been changed, invalidate the token and log out
+        // User's role has been changed, invalidate the token and log out
         // You can blacklist the token or use a token version mechanism
         return next(ApiError.unauthorized("Role changed, please log in again"));
       }
       req.user = decoded;
       next()
     } catch (e) {
-      return next(ApiError.unauthorized("DUser is not authorized"));
+      return next(ApiError.unauthorized("User is not authorized"));
     }
   };
 }

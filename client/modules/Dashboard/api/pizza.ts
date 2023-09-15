@@ -61,7 +61,7 @@ export default class PizzaService extends BaseHttpService<IAxiosConfig> {
       pastryTypes,
       itemPrices,
       itemSizes,
-      ingredientsIds,
+      ingredients,
       description,
       nutrition,
     } = payload;
@@ -72,7 +72,7 @@ export default class PizzaService extends BaseHttpService<IAxiosConfig> {
     formData.append("pastryTypes", JSON.stringify(pastryTypes));
     formData.append("itemPrices", JSON.stringify(itemPrices));
     formData.append("itemSizes", JSON.stringify(itemSizes));
-    formData.append("ingredientsIds", JSON.stringify(ingredientsIds));
+    formData.append("ingredients", JSON.stringify(ingredients));
     formData.append("description", description);
     formData.append("nutrition", JSON.stringify(nutrition));
     const response = await this.axiosClient.post("api/pizza", formData, {

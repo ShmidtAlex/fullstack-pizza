@@ -1,6 +1,6 @@
 <template>
-  <div :class="localType">
-    <button @click="emit('proceedAction')">
+  <div :class="localType" @click="emit('proceedAction')">
+    <button>
       <slot></slot>
     </button>
   </div>

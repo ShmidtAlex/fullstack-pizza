@@ -16,7 +16,7 @@ const ApiError = require('../error/ApiError');
 class PizzaController {
   async createPizza(req, res, next) {
     try {
-      let { name, itemSizes, itemPrices, pastryTypes, nutrition, ingredientsIds, description } = req.body
+      let { name, itemSizes, itemPrices, pastryTypes, nutrition, ingredients, description } = req.body
       const { img } = req.files
       let fileName = `${uuid.v4()}.jpg`
       await img.mv(path.resolve(__dirname, '..', 'static', fileName))
@@ -83,9 +83,9 @@ class PizzaController {
           pizzaId: pizza.id
         })
       }
-      if (ingredientsIds.length > 0) {
-        ingredientsIds = JSON.parse(ingredientsIds);
-        for (const id of ingredientsIds) {
+      if (ingredients.length > 0) {
+        ingredients = JSON.parse(ingredients);
+        for (const id of ingredients) {
           await PizzaIngredient.create({
             pizzaId: pizza.id,
             ingredientId: id,
