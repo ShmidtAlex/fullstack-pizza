@@ -11,7 +11,7 @@
       @toggle-list="showPizzasList = !showPizzasList"
     >
       <DPizzaItem
-          v-for="pizza in dashboardStore.pizzas"
+          v-for="pizza in handledPizzas"
           :pizza-updating="pizzaUpdate"
           :data="pizza"
       />
@@ -36,7 +36,36 @@
   const pizzaUpdate = computed(() => {
     return dashboardStore.pizzaUpdateLoader;
   })
+  const handledPizzas = computed(() => {
+    return dashboardStore.pizzas.map((pizza) => {
+      const handledPizza = {
+        pastryTypes: pizza.pastryTypes.map((pastry) => pastry.value),
+        ingredients: pizza.ingredients.map((ingredient) => ingredient.id),
+        itemPrices: pizza.prices.map((price) => {
+          return {
+            id: price.id,
+            value: price.value
+          }
+        }),
+        nutrition: {
+          id: pizza.nutrition.id,
+          protein: pizza.nutrition.protein,
+          fats: pizza.nutrition.fats,
+          carbohydrates: pizza.nutrition.carbohydrates,
+          energy: pizza.nutrition.energy
+        },
+        itemSizes: pizza.itemSizes.map((size) => {
+          return {
+            value: size.value,
+            label: `${size.value} cm`,
+            id: size.id
+          }
+        })
+      }
 
+      return Object.assign(pizza, handledPizza)
+    })
+  })
 </script>
 
 <style scoped>

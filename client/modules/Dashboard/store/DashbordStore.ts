@@ -172,13 +172,8 @@ export const useDashboardStore = defineStore("dashboard", {
     async fetchPizzasList(): Promise<void> {
       this.toggleLoader("_pizzasListLoader", true);
       const result = await $api.pizza.fetchPizzasList();
-      const mapped = result.map((pizza) => {
-        return {
-          ...pizza,
-          ingredientsIds: pizza.ingredients.map((ingredient) => ingredient.id)
-        }
-      })
-      this.setPizzasList(mapped)
+      
+      this.setPizzasList(result)
       this.toggleLoader("_pizzasListLoader", false);
     },
     async fetchUserList(): Promise<void> {

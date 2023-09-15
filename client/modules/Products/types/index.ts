@@ -58,7 +58,7 @@ export interface IPizzaData {
   nutrition: INutrition;
   types: IPizzaSubObjectUnit[];
   sizes: IPizzaSubObjectUnit[];
-  prices: IPizzaSubObjectUnit[];
+  itemPrices: IPizzaSubObjectUnit[];
   img: string;
 }
 export interface IFinalObjectForCart {
