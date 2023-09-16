@@ -27,15 +27,7 @@ export interface IPrice {
   id: number;
   value: number | null;
 }
-export interface IPizzaModel extends Partial<IIngredientModel> {
-  pastryTypes: string[]
-  description: string
-  nutrition: INutrition
-  ingredients: number[]
-  itemPrices: IPrice[]
-  itemSizes: IOptions[]
-  img: File | null
-}
+
 export type TUserRoles = 'ADMIN' | 'USER' | 'VISITOR' | 'REDACTOR' | 'SUPERADMIN'
 export interface IUser {
   id: number

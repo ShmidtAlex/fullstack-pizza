@@ -4,6 +4,7 @@ import IngredientsService from "~/modules/Dashboard/api/ingredients";
 import PizzaService from "~/modules/Dashboard/api/pizza";
 import PersonalAccountService from "~/modules/UserAccount/api/personal-account";
 import UsersService from "~/modules/Dashboard/api/users";
+import ProductsService from "~/modules/Products/api/pizzas";
 
 import { IHttpService } from "~/models/Http/types";
 import { useNuxtApp, defineNuxtPlugin } from "#app";
@@ -14,6 +15,7 @@ export interface IApi {
   pizza: PizzaService;
   account: PersonalAccountService;
   user: UsersService;
+  products: ProductsService;
 }
 
 let $api: IApi;
@@ -44,7 +46,8 @@ export default defineNuxtPlugin(() => {
     ingredients: new IngredientsService(),
     pizza: new PizzaService(),
     account: new PersonalAccountService(),
-    user: new UsersService()
+    user: new UsersService(),
+    products: new ProductsService(),
   };
 
   // Inject $api but in nuxt 3 manner
@@ -56,7 +59,8 @@ export default defineNuxtPlugin(() => {
     ingredients: new IngredientsService(),
     pizza: new PizzaService(),
     account: new PersonalAccountService(),
-    user: new UsersService()
+    user: new UsersService(),
+    products: new ProductsService(),
   };
 });
 

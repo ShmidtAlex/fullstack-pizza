@@ -1,6 +1,6 @@
 <template>
   <div id="pizzas" class="pizzas-list-container">
-    <div v-for="pizza in data" :key="pizza.id" class="pizza-sort">
+    <div v-for="pizza in productStore.pizzasList" :key="pizza.id" class="pizza-sort">
       <PizzaUnit :pizza-data="pizza" @collapse-section="collapse" />
     </div>
   </div>
@@ -9,12 +9,18 @@
 import PizzaUnit from "../PizzaUnit/PizzaUnit.vue";
 import { useProductsStore } from "~/modules/Products/store/ProductsStore";
 import { useFetch, useRuntimeConfig } from "#app";
+import {onMounted} from "vue";
 
-const { collapse } = useProductsStore();
-const config = useRuntimeConfig();
+  const { collapse } = useProductsStore();
+  const productStore = useProductsStore();
 
-// Todo: make a plug for empty pizzas list
-const { data } = await useFetch(`${config.public.API_BASE_URL}/pizza`);
+  const config = useRuntimeConfig();
+
+  // Todo: make a plug for empty pizzas list
+  onMounted(async () => {
+    await productStore.fetchPizzas()
+  })
+
 </script>
 <style scoped>
 .pizzas-list-container {

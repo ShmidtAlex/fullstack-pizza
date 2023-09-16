@@ -1,19 +1,27 @@
 import { defineNuxtModule } from "@nuxt/kit";
+import path from "path";
 export default defineNuxtModule({
-  meta: {
-    // Usually  npm package name of your module
-    name: "@nuxtjs/user",
-    // The key in `nuxt.config` that holds your module options
-    configKey: "sample",
-    // Compatibility constraints
-    compatibility: {
-      // Semver version of supported nuxt versions
-      nuxt: "^3.0.0",
-    },
-  },
+ 
   // Default configuration options for your module
   defaults: {},
-  hooks: {},
+  hooks: {
+    // ROUTES
+    "pages:extend"(pages) {
+      pages.push({
+        name: "account",
+        path: "/account",
+        file: path.resolve(__dirname, "./pages/UserAccount.vue"),
+      });
+    },
+  
+    // COMPONENTS
+    "components:dirs"(dirs) {
+      // Add ./components dir to the list
+      dirs.push({
+        path: path.resolve(__dirname, "./components"),
+      });
+    },
+  },
   async setup(moduleOptions, nuxt) {
     console.log(moduleOptions);
     // -- Add your module logic here --
