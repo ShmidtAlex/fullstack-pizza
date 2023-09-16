@@ -1,5 +1,5 @@
 import { AxiosResponse } from "axios";
-import { IPizzaModel } from "../types";
+import { IPizzaModel } from "~/components/types";
 import BaseHttpService from "~/modules/Dashboard/api/base";
 import { IAxiosConfig } from "~/models/Http/types";
 

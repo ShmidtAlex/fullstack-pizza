@@ -244,7 +244,7 @@ import { TButtonsTypes } from "~/components/BaseButton/BaseButton.vue";
 import Toggler from "~/components/ValueToggler/ValueToggler.vue";
 import { useRuntimeConfig } from "#app";
 import { useDashboardStore } from "~/modules/Dashboard/store/DashbordStore";
-import { IPizzaModel } from "~/modules/Dashboard/types";
+import { IPizzaModel } from "~/components/types";
 import AddButton from "~/components/AddButton/AddButton.vue";
 import BaseInput from "~/components/BaseInput/BaseInput.vue";
 import { IOptions, TTogglerDataTypes } from "~/components/types";

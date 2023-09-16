@@ -11,7 +11,7 @@
 
 <script lang="ts" setup>
   import {PropType} from "vue";
-  import {IPizzaModel} from "~/modules/Dashboard/types";
+  import {IPizzaModel} from "~/components/types";
 
   const props = defineProps({
     data: {

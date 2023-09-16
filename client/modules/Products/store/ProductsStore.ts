@@ -1,10 +1,13 @@
 import { defineStore } from "pinia";
 import { IFinalObjectForCart, IIncreaseable } from "~/modules/Products/types";
+import {$api} from "~/plugins/api";
+import {IPizzaModel} from "~/components/types";
 const maxAddons = 2;
 export const useProductsStore = defineStore("ProductsStore", {
   state: () => ({
     order: [] as IFinalObjectForCart[],
     collapsed: false,
+    pizzasList: [] as IPizzaModel[]
   }),
   getters: {
     totalCost: (state) => {
@@ -65,5 +68,13 @@ export const useProductsStore = defineStore("ProductsStore", {
         goal.quantity--;
       }
     },
+    setPizzasList(list) {
+      console.log(list)
+      this.pizzasList = list
+    },
+    async fetchPizzas() {
+      const result = await $api.pizza.fetchPizzasList()
+      this.setPizzasList(result)
+    }
   },
 });

@@ -13,20 +13,18 @@
   </div>
 </template>
 
-<script>
+<script lang="ts" setup>
 // depending on the user's choice this page displays whether pizzas, combos, juice etc. Todo: insert other components
 import { storeToRefs } from "pinia";
 import PizzasList from "../components/PizzasList/PizzasList.vue";
 import ProductCart from "../components/ProductCart/ProductCart.vue";
 import { useProductsStore } from "../store/ProductsStore.ts";
-export default {
-  name: "ProductsPage",
-  components: [PizzasList, ProductCart],
-  setup() {
-    const { collapsed } = storeToRefs(useProductsStore());
-    return { collapsed };
-  },
-};
+
+
+  const { collapsed } = storeToRefs(useProductsStore());
+  const productStore = useProductsStore()
+
+
 </script>
 
 <style lang="scss" scoped>

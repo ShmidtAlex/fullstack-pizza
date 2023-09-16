@@ -94,6 +94,7 @@ import {
   ISliderOutput,
 } from "~/modules/Products/types";
 import { useRuntimeConfig } from "#app";
+import {IPizzaModel} from "~/components/types";
 
 const { addToOrder } = useProductsStore();
 
@@ -101,7 +102,7 @@ const config = useRuntimeConfig();
 
 const props = defineProps({
   pizzaData: {
-    type: Object as PropType<IPizzaData>,
+    type: Object as PropType<IPizzaModel>,
     required: true,
   },
 });
@@ -116,7 +117,7 @@ const priceKeyValue = ref<number>(0);
 const finalObject = reactive<IFinalObjectForCart>({
   pizzaName: props.pizzaData?.name,
   pizzaSize: props.pizzaData?.itemSizes[0].value as number,
-  pizzaType: props.pizzaData?.itemSizes[0].value as string,
+  pizzaType: props.pizzaData?.pastryTypes[0] as string,
   extraAddons: {},
   excludedIngredients: [],
   quantity: 1,
@@ -127,9 +128,9 @@ const finalObject = reactive<IFinalObjectForCart>({
 
 const cTotalPrice = computed((): number | string => {
   return finalObject.extraPrice
-    ? Number(props.pizzaData.itemPrices[priceKeyValue.value].value) +
+    ? Number(props.pizzaData.prices[priceKeyValue.value].value) +
         finalObject.extraPrice
-    : props.pizzaData.itemPrices[priceKeyValue.value].value;
+    : props.pizzaData.prices[priceKeyValue.value].value;
 });
 
 const showAddonInUnit = (): void => {

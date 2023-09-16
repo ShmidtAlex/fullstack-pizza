@@ -23,16 +23,15 @@
       <div class="city_block">
         <label for="city-option">{{ city }}</label>
         <select id="city-option" v-model="city" name="city" class="region">
-          <option value="Munich">Munich</option>
+          <option value="London">London</option>
           <option value="Berlin">Berlin</option>
-          <option value="Frankfurt">Frankfurt</option>
+          <option value="Rome">Rome</option>
         </select>
       </div>
 
       <div class="menu-list">
         <ul>
           <NuxtLink class="font-bold" href=""><li>Menu</li></NuxtLink>
-          <!-- what anchor if we are in the other component???-->
           <NuxtLink class="font-bold" href=""><li>Promotions</li></NuxtLink>
           <NuxtLink class="font-bold" href=""><li>Bonuses</li></NuxtLink>
           <NuxtLink class="font-bold" href=""><li>Contact us</li></NuxtLink>
@@ -42,6 +41,12 @@
     </div>
 
     <div class="navbar-container__actions">
+<!--     :to="`/account/${authStore.user.id}`" -->
+      <NuxtLink v-if="authStore.isAuth" >
+        <div class="navbar-container__actions__account">
+          <img src="../../static/icons/user_default.svg" alt="user's profile icon">
+        </div>
+      </NuxtLink>
       <NuxtLink v-if="!authStore.isAuth && !isLoading" to="/auth">
         <BaseButton :type="loginType">LogIn</BaseButton>
       </NuxtLink>
@@ -67,8 +72,7 @@ import BaseButton from "../BaseButton/BaseButton.vue";
 import { useAuthStore } from "~/modules/AuthorizationForm/store/AuthStore";
 import { navigateTo, useNuxtApp } from "#app";
 
-// Todo: show user icon in the very right corner of navbar (as well as ability to go to user page)
-// Todo: while reload, dashboard disappears for a second and appeared login/registration buttons and then dashboard appears again
+// Todo: show user icon in the very right corner of navbar (as well as ability to go to user page)en dashboard appears again
 
 const context = useNuxtApp();
 const router = new useRouter();
@@ -146,6 +150,22 @@ const logOut = async () => {
     justify-content: flex-end;
     align-items: center;
     width: 30%;
+    &__account {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 50px;
+      height: 50px;
+      margin-right: 16px;
+      border-radius: 8px;
+      cursor: pointer;
+      img {
+        width: 90%;
+        height: 90%;
+        border-radius: 50%;
+        background-color: #E8EDF2;
+      }
+    }
   }
 }
 .logo img {
