@@ -9,8 +9,8 @@ export default defineNuxtModule({
     "pages:extend"(pages) {
       pages.push({
         name: "account",
-        path: "/account",
-        file: path.resolve(__dirname, "./pages/UserAccount.vue"),
+        path: "/account/:id",
+        file: path.resolve(__dirname, "./pages/_id/index.vue"),
       });
     },
   

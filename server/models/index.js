@@ -14,6 +14,29 @@ const User = sequelize.define('user', {
     defaultValue: 'VISITOR',
   }
 })
+const UserAccount = sequelize.define('user_account', {
+  id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
+  img: { type: DataTypes.STRING, allowNull: false },
+  firstName: { type: DataTypes.STRING, allowedNull: false },
+  lastName: { type: DataTypes.STRING, allowedNull: false },
+  deliveryAddressIds: { type: DataTypes.STRING, allowedNull: false }, // Todo: it should be an array of favorite addresses in entity UserDeliveryAddresses
+  paymentMethodsIds: { type: DataTypes.STRING, allowedNull: false }, // Todo: assign (or not) UserPaymentMethods
+  contactPhone: { type: DataTypes.STRING, allowedNull: false }
+})
+
+const UserDeliveryAddress = sequelize.define('delivery_addresses', {
+  city: { type: DataTypes.STRING, allowedNull: false },
+  string: { type: DataTypes.STRING, allowedNull: false },
+  building: { type: DataTypes.INTEGER, allowedNull: true },
+  apartments: { type: DataTypes.STRING, allowedNull: true }
+})
+
+const UserPaymentMethod = sequelize.define('payment_methods', {
+  id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
+  name: { type: DataTypes.STRING, allowedNull: false },
+  paymentData: { type: DataTypes.STRING, allowedNull: false } // Todo: develop according to common practice
+})
+
 // for keeping refresh token, IP address, fingerPrint of browser, user id and others
 const Token = sequelize.define('token', {
   user: { type: DataTypes.INTEGER, primaryKey: true },
@@ -114,6 +137,25 @@ const PizzaIngredient = sequelize.define('pizza_ingredient', {
 
 User.hasOne(Cart)
 Cart.belongsTo(User)
+
+User.hasOne(UserAccount)
+UserAccount.belongsTo(User)
+
+UserAccount.hasMany(UserDeliveryAddress, {
+  foreignKey: 'userAccountId',
+  as: 'deliveryAddresses',
+})
+UserDeliveryAddress.belongsTo(UserAccount, {
+  foreignKey: 'userAccountId',
+})
+
+UserAccount.hasMany(UserPaymentMethod, {
+  foreignKey: 'userAccountId',
+  as: 'paymentMethods',
+})
+UserPaymentMethod.belongsTo(UserAccount, {
+  foreignKey: 'userAccountId',
+})
 
 User.hasMany(Order);
 Order.belongsTo(User);

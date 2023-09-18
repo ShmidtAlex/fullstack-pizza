@@ -40,7 +40,7 @@
 ~~41. create an admin dashboard for entering data~~ 
 25. ??? create separate route for OrderController in order to achieve microservice architecture, avoid difficulties in Domain Separation and scalability. 
 26. create Operator Dashboard and role OPERATOR in order to handle user orders 
-27. Separate PizzaUpdate section in Dashboard 
+~~27. Separate PizzaUpdate section in Dashboard~~
 28. User managing section in Dashboard 
 29. Personal user account component and api 
 30. Personal worker account modification ??? 

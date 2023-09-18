@@ -41,8 +41,7 @@
     </div>
 
     <div class="navbar-container__actions">
-<!--     :to="`/account/${authStore.user.id}`" -->
-      <NuxtLink v-if="authStore.isAuth" >
+      <NuxtLink v-if="authStore.isAuth" :to="`/account/${authStore.user.id}`">
         <div class="navbar-container__actions__account">
           <img src="../../static/icons/user_default.svg" alt="user's profile icon">
         </div>
