@@ -69,7 +69,6 @@ export const useProductsStore = defineStore("ProductsStore", {
       }
     },
     setPizzasList(list) {
-      console.log(list)
       this.pizzasList = list
     },
     async fetchPizzas() {

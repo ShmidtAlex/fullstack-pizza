@@ -22,7 +22,6 @@ import { useProductsStore } from "../store/ProductsStore.ts";
 
 
   const { collapsed } = storeToRefs(useProductsStore());
-  const productStore = useProductsStore()
 
 
 </script>
