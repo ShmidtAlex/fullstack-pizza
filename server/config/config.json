@@ -1,0 +1,26 @@
+{
+  "development": {
+    "username": "postgres",
+    "password": "Imcoding79",
+    "database": "pizza",
+    "host": "localhost",
+    "port": 5004,
+    "dialect": "postgres"
+  },
+  "test": {
+    "username": "postgres",
+    "password": "Imcoding79",
+    "database": "pizza",
+    "host": "localhost",
+    "port": 5004,
+    "dialect": "postgres"
+  },
+  "production": {
+    "username": "postgres",
+    "password": "Imcoding79",
+    "database": "pizza",
+    "host": "localhost",
+    "port": 5004,
+    "dialect": "postgres"
+  }
+}
