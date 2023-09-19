@@ -16,25 +16,28 @@ const User = sequelize.define('user', {
 })
 const UserAccount = sequelize.define('user_account', {
   id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
-  img: { type: DataTypes.STRING, allowNull: false },
-  firstName: { type: DataTypes.STRING, allowedNull: false },
-  lastName: { type: DataTypes.STRING, allowedNull: false },
-  deliveryAddressIds: { type: DataTypes.STRING, allowedNull: false }, // Todo: it should be an array of favorite addresses in entity UserDeliveryAddresses
-  paymentMethodsIds: { type: DataTypes.STRING, allowedNull: false }, // Todo: assign (or not) UserPaymentMethods
+  img: { type: DataTypes.STRING, allowNull: true },
+  firstName: { type: DataTypes.STRING, allowedNull: true },
+  lastName: { type: DataTypes.STRING, allowedNull: true },
   contactPhone: { type: DataTypes.STRING, allowedNull: false }
 })
 
 const UserDeliveryAddress = sequelize.define('delivery_addresses', {
   city: { type: DataTypes.STRING, allowedNull: false },
   string: { type: DataTypes.STRING, allowedNull: false },
-  building: { type: DataTypes.INTEGER, allowedNull: true },
+  building: { type: DataTypes.STRING, allowedNull: true },
   apartments: { type: DataTypes.STRING, allowedNull: true }
 })
 
 const UserPaymentMethod = sequelize.define('payment_methods', {
   id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
-  name: { type: DataTypes.STRING, allowedNull: false },
-  paymentData: { type: DataTypes.STRING, allowedNull: false } // Todo: develop according to common practice
+  userId: { type: DataTypes.INTEGER, allowNull: false },
+  name: { type: DataTypes.STRING, allowNull: false },
+  type: { type: DataTypes.ENUM('card', 'paypal', 'googlepay', 'amex', 'applepay'), allowNull: false },
+  cardNumber: { type: DataTypes.STRING },
+  expirationMonth: { type: DataTypes.INTEGER },
+  expirationYear: { type: DataTypes.INTEGER },
+  paypalEmail: { type: DataTypes.STRING },
 })
 
 // for keeping refresh token, IP address, fingerPrint of browser, user id and others
