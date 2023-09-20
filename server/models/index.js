@@ -16,8 +16,9 @@ const User = sequelize.define('user', {
 })
 const UserAccount = sequelize.define('user_account', {
   id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
+  userId: { type: DataTypes.INTEGER, allowNull: false },
   img: { type: DataTypes.STRING, allowNull: true },
-  firstName: { type: DataTypes.STRING, allowedNull: true },
+  firstName: { type: DataTypes.STRING, allowedNull: false },
   lastName: { type: DataTypes.STRING, allowedNull: true },
   contactPhone: { type: DataTypes.STRING, allowedNull: false }
 })

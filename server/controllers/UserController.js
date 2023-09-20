@@ -128,13 +128,6 @@ class UserController {
       return next(ApiError.internalServerError(`An error occurred during getting the list of users: ${error.message}`));
     }
   }
-  async updateAccountData(req, res, next) {
-    try {
-     // todo: add method's content for updating user's personal data
-    } catch (error) {
-      return next(ApiError.internalServerError(`An error occurred during updating personal user's data: ${error.message}`));
-    }
-  }
 }
 
 module.exports = new UserController()
