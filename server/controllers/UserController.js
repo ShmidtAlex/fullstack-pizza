@@ -5,7 +5,7 @@ const userService = require('../services/userService');
 const roleService = require('../services/roleService');
 // the second part of request's body validation:
 const { validationResult } = require('express-validator');
-const { User, Cart } = require('../models')
+const { User, Cart, UserAccount} = require('../models')
 
 const generateJWT = (payload, key, options, callback) =>{
   return jwt.sign(payload, key, options, callback)
@@ -18,13 +18,11 @@ class UserController {
         return next(ApiError.badRequest('Validation error', errors.array()));
       }
       const {email, password, role} = req.body;
-
       if (!email || !password) {
         return next(ApiError.badRequest('Wrong email or password'));
       }
 
       const candidate = await User.findOne({ where: {email} });
-
       if (candidate && candidate.id) {
         next(ApiError.badRequest('User with such email already exists'));
       }
@@ -32,7 +30,16 @@ class UserController {
       const userData = await userService.registration(email, password, role)
 
       await roleService.addRole(userData.user, role)
-      const cart = await Cart.create({userId: userData.user.id});
+
+      const cart = await Cart.create({ userId: userData.user.id });
+      if (!cart) {
+        return next(ApiError.internalServerError(`Cart is not created.`));
+      }
+
+      const account = await UserAccount.create({ userId: userData.user.id })
+      if (!account) {
+        return next(ApiError.internalServerError(`User's account is not created.`));
+      }
 
       // httpOnly prevents access to refreshToken in browser
       res.cookie('refreshToken', userData.refreshToken, { maxAge: 30*24*60*60*1000, httpOnly: true });

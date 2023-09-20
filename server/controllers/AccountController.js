@@ -29,7 +29,9 @@ class AccountController {
   }
   async createDeliveryAddress(req, res, next) {
     try {
-      // todo: add method's content for updating user's personal data
+      const { userId } = req.params
+     const {} = req.body
+
     } catch (error) {
       return next(ApiError.internalServerError(`An error occurred during updating personal account data: ${error.message}`));
     }
