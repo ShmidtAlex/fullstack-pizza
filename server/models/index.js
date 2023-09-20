@@ -16,15 +16,18 @@ const User = sequelize.define('user', {
 })
 const UserAccount = sequelize.define('user_account', {
   id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
+  userId: { type: DataTypes.INTEGER, allowNull: false },
   img: { type: DataTypes.STRING, allowNull: true },
-  firstName: { type: DataTypes.STRING, allowedNull: true },
+  firstName: { type: DataTypes.STRING, allowedNull: false },
   lastName: { type: DataTypes.STRING, allowedNull: true },
   contactPhone: { type: DataTypes.STRING, allowedNull: false }
 })
 
 const UserDeliveryAddress = sequelize.define('delivery_addresses', {
+  id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
+  userId: { type: DataTypes.INTEGER, allowNull: false },
   city: { type: DataTypes.STRING, allowedNull: false },
-  string: { type: DataTypes.STRING, allowedNull: false },
+  street: { type: DataTypes.STRING, allowedNull: false },
   building: { type: DataTypes.STRING, allowedNull: true },
   apartments: { type: DataTypes.STRING, allowedNull: true }
 })

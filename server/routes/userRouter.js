@@ -19,7 +19,5 @@ router.get('/users', checkRoleMiddleware(['SUPERADMIN', 'ADMIN']), userControlle
 router.delete('/delete/:id', checkRoleMiddleware(['SUPERADMIN']), userController.deleteUser);
 // meaning roles, passwords, emails or other registration data
 router.patch('/update/:id', checkRoleMiddleware(['SUPERADMIN']), userController.updateUser);
-// Update personal data in account
-router.patch('/update-account/:id', checkRoleMiddleware(['SUPERADMIN', 'ADMIN', 'REDACTOR', 'USER']), userController.updateAccountData);
 
 module.exports = router

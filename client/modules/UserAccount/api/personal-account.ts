@@ -5,7 +5,7 @@ import { IAxiosConfig } from "~/models/Http/types";
 
 export default class PersonalAccountService extends BaseHttpService<IAxiosConfig> {
   constructor(
-    config = {
+    config:IAxiosConfig = {
       baseURL: `http://localhost:5009/`,
       headers: {},
     }

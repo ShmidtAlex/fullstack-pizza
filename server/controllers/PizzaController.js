@@ -23,7 +23,7 @@ class PizzaController {
       const isExist = await Pizza.findOne({ where: { name }})
 
       if (isExist) {
-        return next(ApiError.badRequest('Pizza with such name already exists'))
+        return next(ApiError.badRequest('Pizza with such a name already exists'))
       }
       const pizza = await Pizza.create({ name, img: fileName, description })
 
