@@ -163,6 +163,7 @@ const logOut = async () => {
         height: 90%;
         border-radius: 50%;
         background-color: #E8EDF2;
+        padding: 4px;
       }
     }
   }
