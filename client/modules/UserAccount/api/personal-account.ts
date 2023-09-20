@@ -13,11 +13,31 @@ export default class PersonalAccountService extends BaseHttpService<IAxiosConfig
     super(config);
   }
 
-  async updateUser(user): Promise<AxiosResponse> {
-    const { data } = await this.axiosClient.patch(
-      `api/user/update-account/${user.id}`,
-      user
+  async createPaymentMethod(payload): Promise<AxiosResponse> {
+    const { userId, paymentData } = payload;
+    const { data } = await this.axiosClient.post(
+      `api/account/payment-method/${userId}`,
+      paymentData
     );
     return data;
+  }
+  async deletePaymentMethod(payload): Promise<AxiosResponse> {
+    const { userId, methodId } = payload;
+    const { data } = await this.axiosClient.delete(
+      `api/account/delete/payment-method/${userId}/method/${methodId}`
+    );
+    return data;
+  }
+  async createDeliveryAddress(payload): Promise<AxiosResponse> {
+    const { userId, addressData } = payload;
+    const { data } = await this.axiosClient.post(`api/account/address/${userId}`, addressData)
+    return data
+  }
+  async deleteDeliveryAddress(payload): Promise<AxiosResponse> {
+    const { userId, addressId } = payload;
+    const { data } = await this.axiosClient.post(
+      `api/account/delete/${userId}/address/${addressId}`
+    )
+    return data
   }
 }

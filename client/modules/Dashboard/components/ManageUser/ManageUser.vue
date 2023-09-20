@@ -28,6 +28,8 @@
   import {computed, onMounted, ref} from "vue";
   import {useDashboardStore} from "~/modules/Dashboard/store/DashbordStore";
   import DUser from "../DUser/DUser.vue"
+  import EmptyData from "~/components/EmptyDataPlug/EmptyData.vue";
+
   const dashboardStore = useDashboardStore()
   const showList = ref<boolean>(false)
 
