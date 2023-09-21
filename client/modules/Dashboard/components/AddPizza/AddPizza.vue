@@ -1,16 +1,11 @@
 <template>
   <div class="pizza__content">
     <div class="pizza__content__image">
-      <label for="uploadImage" @change="uploadImage">
-        <input id="uploadImage" ref="uploadInput" type="file" name="image" />
-      </label>
-      <img
-          v-if="src"
+      <BaseIcon
           :src="src"
-          alt="Opted image for created or redacted pizza"
-          @click="replaceImage"
-      />
-      <div v-if="!src" class="tip">download image</div>
+          icon="default_pizza.svg"
+          @uploadImage="uploadImage"
+      ></BaseIcon>
     </div>
     <div class="pizza__content__data">
       <!--        TODO: resolve values in two inputs below do not update after removal -->
@@ -243,6 +238,7 @@ import SizeAndPrice from "../SizeAndPrice/SizeAndPrice.vue";
 import { TButtonsTypes } from "~/components/BaseButton/BaseButton.vue";
 import Toggler from "~/components/ValueToggler/ValueToggler.vue";
 import { useRuntimeConfig } from "#app";
+import BaseIcon from "~/components/BaseIcon/BaseIcon.vue";
 import { useDashboardStore } from "~/modules/Dashboard/store/DashbordStore";
 import { IPizzaModel } from "~/components/types";
 import AddButton from "~/components/AddButton/AddButton.vue";
@@ -312,11 +308,11 @@ onMounted(async () => {
     assignBlob(response, props.pizza?.img)
     setPizzaModel()
   }
-  dashboardStore.fetchPizzaSizes();
-  dashboardStore.fetchPizzasList();
+  await dashboardStore.fetchPizzaSizes();
+  await dashboardStore.fetchPizzasList();
 });
 // IMAGE MANAGEMENT
-const uploadInput = ref(null);
+
 const uploadedImageSrc = computed((): string => {
   if (dashboardStore.uploadedImgSrc) {
     return `${config.public.NUXT_ENV_BASE_URL}uploads/${dashboardStore.uploadedImgSrc}`;
@@ -358,10 +354,6 @@ const uploadImage = (event: any): void => {
     dashboardStore.preUploadImage(file[0]);
     pizzaModel.img = file[0];
   }
-};
-
-const replaceImage = () => {
-  uploadInput.value.click();
 };
 
 // PIZZA CREATION
@@ -558,43 +550,6 @@ const actionName = computed(() => {
     width: 108px;
     height: 108px;
     margin: 30px 16px;
-    label {
-      width: 100%;
-      height: 100%;
-      border: 2px solid #d3d3d3;
-      background-image: url("/default_pizza.svg");
-      background-size: 70px;
-      background-repeat: no-repeat;
-      background-position: 8px 20px;
-      padding: 24px 8px 8px 8px;
-      border-radius: 4px;
-      overflow: hidden;
-      cursor: pointer;
-      input {
-        visibility: hidden;
-      }
-    }
-    img {
-      position: absolute;
-      width: 100%;
-      height: 100%;
-      border-radius: 4px;
-      box-shadow: 1px 1px 1px 1px rgba(0, 0, 0, 0.3);
-      &:hover {
-        box-shadow: 2px 2px 2px 2px rgba(0, 0, 0, 0.3);
-      }
-    }
-    .tip {
-      display: flex;
-      justify-content: center;
-      align-items: flex-start;
-      position: absolute;
-      top: 4px;
-      font-size: 10px;
-      font-weight: 800;
-      color: #d3d3d3;
-      width: 100%;
-    }
   }
   &__data {
     display: flex;
