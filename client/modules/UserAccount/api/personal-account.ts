@@ -19,9 +19,9 @@ export default class PersonalAccountService extends BaseHttpService<IAxiosConfig
     const formData = new FormData();
     formData.append("userId", userId);
     formData.append("img", img);
-    formData.append("pastryTypes", contactPhone);
-    formData.append("itemPrices", lastName);
-    formData.append("itemSizes", firstName);
+    formData.append("contactPhone", contactPhone);
+    formData.append("lastName", lastName);
+    formData.append("firstName", firstName);
     const { data } = await this.axiosClient.post('api/account/create', formData, {
       headers: {
         "Content-Type": "multipart/form-data",
@@ -37,9 +37,9 @@ export default class PersonalAccountService extends BaseHttpService<IAxiosConfig
     const formData = new FormData();
     formData.append("userId", userId);
     formData.append("img", img);
-    formData.append("pastryTypes", contactPhone);
-    formData.append("itemPrices", lastName);
-    formData.append("itemSizes", firstName);
+    formData.append("contactPhone", contactPhone);
+    formData.append("lastName", lastName);
+    formData.append("firstName", firstName);
     const { data } = await this.axiosClient.post('api/account/update', formData, {
       headers: {
         "Content-Type": "multipart/form-data",
