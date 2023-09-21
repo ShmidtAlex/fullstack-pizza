@@ -69,9 +69,7 @@ import { useRouter } from "vue-router";
 import { computed, ref, onMounted } from "vue";
 import BaseButton from "../BaseButton/BaseButton.vue";
 import { useAuthStore } from "~/modules/AuthorizationForm/store/AuthStore";
-import { navigateTo, useNuxtApp } from "#app";
-
-// Todo: show user icon in the very right corner of navbar (as well as ability to go to user page)en dashboard appears again
+import { navigateTo, useNuxtApp } from "#app"; // todo: check, is it really not available and if is, then why
 
 const context = useNuxtApp();
 const router = new useRouter();
@@ -101,6 +99,7 @@ const props = defineProps({
 });
 const city = ref("Munich");
 const change = ref(false);
+// Todo: replace with a corresponded method from store
 const logOut = async () => {
   await context.$api.auth.logout();
   await navigateTo({ path: "/products" });
