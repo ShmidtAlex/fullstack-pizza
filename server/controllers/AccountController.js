@@ -116,7 +116,9 @@ class AccountController {
   async getAccountData(req, res, next) {
     try {
       const { userId } = req.params
-      const accountData = UserAccount.findOne({ where: { id: userId }, include: { all: true }})
+
+      const accountData = await UserAccount.findOne({ where: { userId }, include: { all: true }})
+      console.log(accountData)
       return res.json(accountData)
     } catch (error) {
       return next(ApiError.internalServerError(`An error occurred during request personal account data: ${error.message}`));

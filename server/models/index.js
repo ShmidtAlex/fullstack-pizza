@@ -17,9 +17,9 @@ const User = sequelize.define('user', {
 const UserAccount = sequelize.define('user_account', {
   id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
   userId: { type: DataTypes.INTEGER, allowNull: false },
-  img: { type: DataTypes.STRING, allowNull: true },
+  img: { type: DataTypes.STRING },
   firstName: { type: DataTypes.STRING, allowedNull: false },
-  lastName: { type: DataTypes.STRING, allowedNull: true },
+  lastName: { type: DataTypes.STRING },
   contactPhone: { type: DataTypes.STRING, allowedNull: false }
 })
 
@@ -226,5 +226,8 @@ module.exports = {
   Order,
   UserRole,
   Role,
-  Token
+  Token,
+  UserAccount,
+  UserPaymentMethod,
+  UserDeliveryAddress
 }
