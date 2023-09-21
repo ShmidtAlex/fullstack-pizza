@@ -13,7 +13,9 @@ class AccountController {
       let fileName = `${uuid.v4()}.jpg`
       await img.mv(path.resolve(__dirname, '..', 'static/avatars', fileName))
       const existedAccount = await UserAccount.findOne({ where: { userId }})
+
       if (existedAccount) {
+        // Todo: check if it works
         return next(ApiError.badRequest('Account for this user already exists'))
       }
       const account = await UserAccount.create({
@@ -29,6 +31,10 @@ class AccountController {
       const { id } = req.params
       const { firstName, lastName, contactPhone } = req.body
       const { img } = req.files
+      const existedAccount = await UserAccount.findByPk(id)
+      if (!existedAccount) {
+        return next(ApiError.notFound('There is no account with such an id'));
+      }
       const update = {}
       if (firstName) {
         update.firstName = firstName
@@ -45,10 +51,7 @@ class AccountController {
         await img.mv(path.resolve(__dirname, '..', 'static/avatars', fileName))
         update.img = fileName
       }
-      const existedAccount = await UserAccount.findByPk(id)
-      if (!existedAccount) {
-        return next(ApiError.notFound('There is no account with such id'));
-      }
+
       const renewedAccount  = await existedAccount.update(update, { where: { id } })
       return res.json(renewedAccount)
 
@@ -121,7 +124,7 @@ class AccountController {
   }
   async removeAvatar(req, res, next) {
     try {
-      
+    //  Todo: develop after check avatar addition
     } catch (error) {
       return next(ApiError.internalServerError(`An error occurred during avatar removal: ${error.message}`));
     }
