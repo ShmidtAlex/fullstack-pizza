@@ -1,6 +1,6 @@
 import { AxiosResponse } from "axios";
 import { IPizzaModel } from "~/components/types";
-import BaseHttpService from "~/modules/Dashboard/api/base";
+import BaseHttpService from "./base";
 import { IAxiosConfig } from "~/models/Http/types";
 
 export default class PizzaService extends BaseHttpService<IAxiosConfig> {
