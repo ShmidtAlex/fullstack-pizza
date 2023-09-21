@@ -117,8 +117,23 @@ class AccountController {
     try {
       const { userId } = req.params
 
-      const accountData = await UserAccount.findOne({ where: { userId }, include: { all: true }})
-      console.log(accountData)
+      const accountData = await UserAccount.findOne({ where: { userId },
+        attributes: {
+        // in order to exclude unneeded fields Todo: add to all correspondent fields, maybe as a constant
+          exclude: ['createdAt', 'updatedAt'], // Exclude specific attributes
+        },
+        include: [
+        // in order to exclude other related entities data
+          {
+            model: UserDeliveryAddress,
+            as: 'deliveryAddresses',
+          },
+          {
+            model: UserPaymentMethod,
+            as: 'paymentMethods',
+          },
+        ],})
+
       return res.json(accountData)
     } catch (error) {
       return next(ApiError.internalServerError(`An error occurred during request personal account data: ${error.message}`));
