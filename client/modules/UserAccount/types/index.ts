@@ -1,6 +1,6 @@
 export interface IAccountData {
   id?: number
-  userId: number
+  userId: number | null
   firstName: string
   lastName?: string
   contactPhone: string

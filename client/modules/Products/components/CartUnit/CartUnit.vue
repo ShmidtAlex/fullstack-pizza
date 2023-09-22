@@ -3,7 +3,7 @@
     <div class="item__pic--small">
       <!--      Todo: alt matching should be moved to computed -->
       <img
-        :src="`${config.public.NUXT_ENV_BASE_URL}/${unit.smallImg}`"
+        :src="`${config.public.NUXT_ENV_BASE_URL}static/${unit.smallImg}`"
         :alt="unit.smallImg.match(/^([^.]+)/)"
       />
     </div>
@@ -16,7 +16,7 @@
         <CartUnitAddons :unit="unit" />
       </div>
       <div class="item__info_name">
-        <i>{{ unit.pizzaSize }} cm {{ unit.pizzaType }}</i>
+        <i>{{ unit.pizzaSize }} cm {{ unit.pizzaType.value }}</i>
       </div>
     </div>
     <RemoveButton :elem-id="unit.id" @remove-item="removeItem" />
@@ -50,6 +50,7 @@ const { removeItem, increaseNumber, decreaseNumber } = useProductsStore();
 const isAddons = computed(() => {
   return Object.keys(props.unit.extraAddons).length;
 });
+// Todo: replace prop chain with inject tool
 const isExcluded = computed(() => {
   return props.unit.excludedIngredients.length;
 });

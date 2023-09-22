@@ -7,7 +7,10 @@
     "moduleResolution": "node",
     "strict": true,
     "jsx": "preserve",
-    "isCustomElement": true
+    "isCustomElement": true,
+//    "paths": {
+//      "components/*": ["src/components/*"]
+//    }
   },
   "include": [
     "components/**/*.ts",

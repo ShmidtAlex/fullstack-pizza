@@ -3,11 +3,11 @@
     <div class="addon-element__options-block">
       <img
         class="addon-element__options-block--photo"
-        :alt="availableAddon.value"
-        :src="`${config.public.NUXT_ENV_BASE_URL}/${availableAddon.value}.jpg`"
+        :alt="availableAddon.name"
+        :src="`${config.public.NUXT_ENV_BASE_URL}static/${availableAddon.img}`"
       />
       <div class="addon-element__options-block--name">
-        {{ availableAddon.value }}
+        {{ availableAddon.name }}
       </div>
       <div class="addon-element__options-block--price">
         {{ availableAddon.price }}$
@@ -91,7 +91,7 @@ const decrease = (): void => {
   if (props.previouslyOpted.count + totalNumber.value > 0) {
     totalNumber.value--;
     emit("changePrice", {
-      value: props.availableAddon.value,
+      value: props.availableAddon.name,
       count: totalNumber.value,
       price: props.availableAddon.price,
     });
@@ -101,13 +101,13 @@ const increase = (): void => {
   if (totalNumber.value + props.previouslyOpted.count < 2) {
     totalNumber.value++;
     emit("changePrice", {
-      value: props.availableAddon.value,
+      value: props.availableAddon.name,
       count: totalNumber.value,
       price: props.availableAddon.price,
     });
   } else {
     showWarning.value = true;
-    emit("amountWarning", props.availableAddon.value);
+    emit("amountWarning", props.availableAddon.name);
     setTimeout(() => {
       showWarning.value = false;
     }, 1500);
