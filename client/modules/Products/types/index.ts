@@ -10,9 +10,10 @@ export type TIncreasableFields =
   | "ham"
   | "pineapples";
 export interface IPizzaSubObjectUnit {
-  id: number;
-  value: string | number;
-  price?: number;
+  id: number
+  name: string | number
+  price?: number
+  img: File | string | undefined
 }
 export interface IOptedAddons {
   value: string;

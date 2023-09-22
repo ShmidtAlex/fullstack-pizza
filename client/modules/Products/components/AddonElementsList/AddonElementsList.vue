@@ -17,7 +17,7 @@
             v-for="addon in addonsList"
             :key="addon.id"
             :available-addon="addon"
-            :previously-opted="previouslyOpted[addon.value]"
+            :previously-opted="previouslyOpted[addon.name]"
             @change-price="changePrice"
             @amount-warning="warnAboutNumbers"
           />
@@ -54,6 +54,7 @@ const props = defineProps({
     required: true
   },
 });
+// Todo: replace with reactive
 const optedAddons = ref<Array<IOptedAddons>>([]);
 const totalAddonPrice = ref<number>(0);
 const isWarn = ref<boolean>(false);
@@ -83,9 +84,11 @@ const changePrice = (obj: IOptedAddons): void => {
 
 const countPreviousPrice = (): number => {
   let result = 0;
-  for (const key in props.previouslyOpted) {
-    result +=
-      props.previouslyOpted[key].price * props.previouslyOpted[key].count;
+  if (props.previouslyOpted) {
+    for (const key in props.previouslyOpted) {
+      result +=
+          props.previouslyOpted[key].price * props.previouslyOpted[key].count;
+    }
   }
   return result;
 };

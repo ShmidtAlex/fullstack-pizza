@@ -3,7 +3,7 @@
     <div class="pizza__content__image">
       <BaseIcon
           :src="src"
-          icon="default_pizza.svg"
+          default-icon="/default_pizza.svg"
           @uploadImage="uploadImage"
       ></BaseIcon>
     </div>
@@ -240,7 +240,7 @@ import Toggler from "~/components/ValueToggler/ValueToggler.vue";
 import { useRuntimeConfig } from "#app";
 import BaseIcon from "~/components/BaseIcon/BaseIcon.vue";
 import { useDashboardStore } from "~/modules/Dashboard/store/DashbordStore";
-import { IPizzaModel } from "~/components/types";
+import { IPizzaModel } from "~/components/types/index";
 import AddButton from "~/components/AddButton/AddButton.vue";
 import BaseInput from "~/components/BaseInput/BaseInput.vue";
 import { IOptions, TTogglerDataTypes } from "~/components/types";

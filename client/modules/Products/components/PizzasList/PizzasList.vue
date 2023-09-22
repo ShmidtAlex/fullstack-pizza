@@ -8,13 +8,10 @@
 <script setup lang="ts">
 import PizzaUnit from "../PizzaUnit/PizzaUnit.vue";
 import { useProductsStore } from "~/modules/Products/store/ProductsStore";
-import { useFetch, useRuntimeConfig } from "#app";
-import {onMounted} from "vue";
+import { onMounted } from "vue";
 
   const { collapse } = useProductsStore();
   const productStore = useProductsStore();
-
-  const config = useRuntimeConfig();
 
   // Todo: make a plug for empty pizzas list
   onMounted(async () => {

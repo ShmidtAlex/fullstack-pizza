@@ -21,7 +21,7 @@ import {computed, ref} from "vue";
       type: String,
       default: ''
     },
-    icon: {
+    defaultIcon: {
       type: String,
       required: true,
     },
@@ -30,9 +30,9 @@ import {computed, ref} from "vue";
       default: ''
     }
   })
-  const emit = defineEmits(['event'])
+  const emit = defineEmits(['uploadImage'])
   const iconAddress = computed(() => {
-    return `url(${props.icon})`
+    return `url(${props.defaultIcon})`
   })
   const uploadInput = ref(null);
 

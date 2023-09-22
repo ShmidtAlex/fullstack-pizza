@@ -27,6 +27,7 @@ export default defineNuxtConfig({
     public: {
       API_BASE_URL: process.env.API_BASE_URL,
       NUXT_ENV_BASE_URL: process.env.NUXT_ENV_BASE_URL,
+      CLIENT_URL: process.env.CLIENT_URL
     },
   },
   pinia: {
