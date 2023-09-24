@@ -1,6 +1,5 @@
 <template>
-  <div v-if="value" class="input">
-    <!--    Todo: prevent negative values for input type number -->
+  <div v-if="value" class="base-input">
     <label
       v-if="label"
       :for="`value-${id}`"
@@ -13,13 +12,13 @@
       class="form-control form-control-md"
       name="a"
       :placeholder="placeholder"
+      min="0"
       :value="value"
       :disabled="disabled"
       @input="update"
     />
   </div>
-  <div v-else class="input">
-    <!--    Todo: prevent negative values for input type number -->
+  <div v-else class="base-input">
     <label
       v-if="label"
       :for="`id-${id}`"
@@ -31,6 +30,7 @@
       :type="type"
       class="form-control form-control-md"
       name="b"
+      min="0"
       :placeholder="placeholder"
       :disabled="disabled"
       @input="changeString"
@@ -64,7 +64,6 @@ const props = defineProps({
     type: Boolean,
     default: false,
   },
-  // Todo if ingredient creation works well after adding this props
   value: {
     required: false,
     type: [String, Number],
@@ -82,10 +81,11 @@ const update = (e) => {
 </script>
 
 <style lang="scss" scoped>
-.input {
+.base-input {
   margin: 0 16px 16px 0;
   min-width: fit-content;
   input {
+    background-color: white;
     &::placeholder {
       color: lightgray;
     }
